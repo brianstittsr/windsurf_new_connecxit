@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 import {
-  faImage,
   faCalendarAlt,
   faMapMarkerAlt,
   faDollarSign,
@@ -87,11 +87,14 @@ export default function NewJobPage() {
                       : 'border-gray-200 hover:border-indigo-200'
                   }`}
                 >
-                  <img
-                    src={type.icon}
-                    alt={type.title}
-                    className="w-12 h-12 object-contain"
-                  />
+                  <div className="relative w-12 h-12">
+                    <Image
+                      src={type.icon}
+                      alt={type.title}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
                   <div className="ml-4 text-left">
                     <h3 className="font-semibold text-gray-900">{type.title}</h3>
                     <p className="text-gray-500 text-sm mt-1">

@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
           <p className="text-gray-700 mb-4">
-            ConnecXit ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.
+            ConnecXit (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.
           </p>
         </section>
 

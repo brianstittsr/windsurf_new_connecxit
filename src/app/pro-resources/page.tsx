@@ -1,5 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 import {
   faBook,
   faChartLine,
@@ -226,11 +227,14 @@ export default function ProResources() {
                 </Link>
               </div>
               <div className="flex-1 text-center">
-                <img
-                  src="/images/professional-development.svg"
-                  alt="Professional Development"
-                  className="max-w-md mx-auto"
-                />
+                <div className="relative max-w-md mx-auto h-[300px]">
+                  <Image
+                    src="/images/professional-development.svg"
+                    alt="Professional Development"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -12,12 +12,13 @@ import {
   faArrowLeft,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import Link from 'next/link';
 
 interface FormStep {
   title: string;
   description: string;
-  icon: any;
+  icon: IconDefinition;
 }
 
 export default function ProSignupPage() {

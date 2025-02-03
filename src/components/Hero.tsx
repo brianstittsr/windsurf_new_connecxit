@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 
 const Hero = () => {
@@ -17,11 +17,11 @@ const Hero = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const getRandomIndex = (currentIndex: number): number => {
+  const getRandomIndex = useCallback((currentIndex: number): number => {
     const newIndex = Math.floor(Math.random() * (words.length - 1));
     // If we randomly got the same index, shift by 1 to avoid repetition
     return newIndex >= currentIndex ? newIndex + 1 : newIndex;
-  };
+  }, [words.length]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,7 +33,7 @@ const Hero = () => {
     }, 3000); // Change word every 3 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [getRandomIndex]);
 
   return (
     <div className="bg-white py-24 sm:py-32">

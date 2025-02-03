@@ -102,7 +102,7 @@ export default function PlannerCard({
           {testimonial && (
             <div className="mt-4">
               <p className="text-gray-600">
-                {testimonial.author} says, "{testimonial.text}"
+                {testimonial.author} says, &ldquo;{testimonial.text}&rdquo;
               </p>
             </div>
           )}
