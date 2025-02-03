@@ -114,7 +114,7 @@ export default function ProSignUpPage() {
                 <ul className="list-disc pl-5 space-y-1">
                   <li>be 8 to 71 characters long</li>
                   <li>not contain your name or email</li>
-                  <li>not be commonly used, easily guessed or contain any variation of the word "ConnecXit"</li>
+                  <li>not be commonly used, easily guessed or contain any variation of the word &quot;ConnecXit&quot;</li>
                 </ul>
               </div>
             </div>
@@ -129,6 +129,13 @@ export default function ProSignUpPage() {
                 Privacy Policy
               </Link>
               .
+            </div>
+
+            <div className="flex items-center">
+              <input type="checkbox" className="mr-2" required />
+              <label className="text-sm text-gray-600">
+                I agree to the Terms of Service and Privacy Policy
+              </label>
             </div>
 
             <button
@@ -181,6 +188,13 @@ export default function ProSignUpPage() {
             </div>
           </form>
         </div>
+      </div>
+
+      <div className="text-sm text-gray-600">
+        Already have an account?{' '}
+        <Link href="/signin" className="text-[#ff5722] hover:text-[#f4511e]">
+          Sign in
+        </Link>
       </div>
     </div>
   );

@@ -113,7 +113,7 @@ export default function SignUpPage() {
                 <ul className="list-disc pl-5 space-y-1">
                   <li>be 8 to 71 characters long</li>
                   <li>not contain your name or email</li>
-                  <li>not be commonly used, easily guessed or contain any variation of the word "ConnecXit"</li>
+                  <li>not be commonly used, easily guessed or contain any variation of the word &quot;ConnecXit&quot;</li>
                 </ul>
               </div>
             </div>
@@ -128,6 +128,13 @@ export default function SignUpPage() {
                 Privacy Policy
               </Link>
               .
+            </div>
+
+            <div className="flex items-center">
+              <input type="checkbox" className="mr-2" required />
+              <label className="text-sm text-gray-600">
+                I agree to the Terms of Service and Privacy Policy
+              </label>
             </div>
 
             <button
