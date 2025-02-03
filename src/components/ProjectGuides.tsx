@@ -1,89 +1,73 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
+import DefaultImage from './DefaultImage';
 
-const guides = [
+interface Guide {
+  title: string;
+  description: string;
+  href: string;
+  imageUrl: string;
+}
+
+const guides: Guide[] = [
   {
-    id: 1,
-    title: 'Live Entertainment Guide',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/guides/entertainment.jpg',
-    href: '/guides/entertainment'
+    title: 'Event Planning',
+    description: 'Learn how to plan and manage successful events.',
+    href: '/guides/event-planning',
+    imageUrl: '/images/guides/default-guide.jpg'
   },
   {
-    id: 2,
-    title: 'Transportation Services',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/guides/transportation.jpg',
-    href: '/guides/transportation'
+    title: 'Venue Management',
+    description: 'Best practices for venue management and optimization.',
+    href: '/guides/venue-management',
+    imageUrl: '/images/guides/default-guide.jpg'
   },
   {
-    id: 3,
-    title: 'Event Planning & Decor',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/guides/event-planning.jpg',
-    href: '/guides/event-planning'
+    title: 'Marketing Strategies',
+    description: 'Effective marketing strategies for your business.',
+    href: '/guides/marketing',
+    imageUrl: '/images/guides/default-guide.jpg'
   }
 ];
 
 export default function ProjectGuides() {
   return (
-    <div className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-12">
-          <h2 className="text-4xl font-bold mb-4">
-            <span className="text-[#ff5722]">ConnecXit</span> project guides.
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Sometimes, getting started is the hardest part. That&apos;s why we created Project Guides full of advice from
-            ConnecXit pros. Find out what things cost, how long they take and who you should hire.
+    <div className="bg-white py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Project Guides</h2>
+          <p className="mt-2 text-lg leading-8 text-gray-600">
+            Learn how to make the most of our platform with these comprehensive guides.
           </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-12 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {guides.map((guide) => (
-            <Link key={guide.id} href={guide.href} className="group">
-              <div className="relative h-80 rounded-lg overflow-hidden">
-                <Image
-                  src={guide.image}
-                  alt={guide.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60">
-                  <div className="absolute bottom-6 left-6 text-white">
-                    <h3 className="text-2xl font-semibold mb-2">{guide.title}</h3>
-                    <p className="text-sm text-gray-200">{guide.description}</p>
+            <article
+              key={guide.title}
+              className="flex flex-col items-start justify-between hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden"
+            >
+              <Link href={guide.href} className="w-full">
+                <div className="relative w-full h-48">
+                  <DefaultImage
+                    src={guide.imageUrl}
+                    alt={guide.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+                <div className="max-w-xl p-6">
+                  <div className="group relative">
+                    <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                      {guide.title}
+                    </h3>
+                    <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{guide.description}</p>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </article>
           ))}
-        </div>
-
-        <div className="mt-8 text-center">
-          <Link 
-            href="/guides" 
-            className="text-[#ff5722] hover:text-[#ff5722]/90 font-semibold text-lg inline-flex items-center"
-          >
-            View all guides
-            <svg
-              className="w-5 h-5 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
         </div>
       </div>
     </div>

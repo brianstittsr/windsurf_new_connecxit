@@ -8,7 +8,6 @@ import Link from 'next/link';
 export default function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -16,7 +15,6 @@ export default function SignInPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     setIsLoading(true);
 
     try {
@@ -28,12 +26,12 @@ export default function SignInPage() {
       });
 
       if (result?.error) {
-        setError(result.error);
+        throw new Error(result.error);
       } else if (result?.url) {
         router.push(result.url);
       }
     } catch (error) {
-      setError('An unexpected error occurred. Please try again.');
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -49,12 +47,6 @@ export default function SignInPage() {
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 border border-[#0ea5e9] rounded-lg sm:px-10">
-          {error && (
-            <div className="mb-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg">
-              {error}
-            </div>
-          )}
-          
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -108,7 +100,7 @@ export default function SignInPage() {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white text-gray-500">
-                  Don't have an account?
+                  Or continue with
                 </span>
               </div>
             </div>

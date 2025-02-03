@@ -1,9 +1,18 @@
-const { getSession } = require('@/lib/neo4j');
+import { getSession } from '@/lib/neo4j';
+import { Record, SessionConfig } from 'neo4j-driver';
 
-async function executeQuery(query: string, params: any) {
+interface QueryParams {
+  [key: string]: unknown;
+}
+
+async function executeQuery(
+  query: string,
+  params: QueryParams,
+  sessionConfig?: SessionConfig
+): Promise<Record[]> {
   let session = null;
   try {
-    session = await getSession();
+    session = await getSession(sessionConfig);
     const result = await session.run(query, params);
     return result.records;
   } catch (error) {
@@ -16,6 +25,7 @@ async function executeQuery(query: string, params: any) {
   }
 }
 
-module.exports = {
-  executeQuery
+export {
+  executeQuery,
+  type QueryParams
 };

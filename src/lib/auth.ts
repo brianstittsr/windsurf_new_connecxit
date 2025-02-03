@@ -1,34 +1,15 @@
-import NextAuth, { AuthOptions, User as NextAuthUser, Session } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { getSession } from "@/lib/neo4j";
+import { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcryptjs';
+import { getSession } from '@/lib/neo4j';
 
-interface User extends NextAuthUser {
-  id: string;
-  role: string;
-  email: string;
-  name: string;
-  hashedPassword: string;
-  image: string;
-}
-
-interface CustomSession extends Session {
-  user: {
-    id: string;
-    role: string;
-    email?: string | null;
-    name?: string | null;
-    image?: string | null;
-  };
-}
-
-const authOptions: AuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -63,28 +44,27 @@ const authOptions: AuthOptions = {
             throw new Error('Invalid email or password');
           }
 
-          const email = credentials.email;
-          const password = credentials.password;
-
           if (!user.hashedPassword) {
-            console.error('Invalid account configuration for user:', email);
+            console.error('Invalid account configuration for user:', credentials.email);
             throw new Error('Invalid account configuration');
           }
 
-          const isCorrectPassword = await bcrypt.compare(password, user.hashedPassword);
+          const isCorrectPassword = await bcrypt.compare(
+            credentials.password,
+            user.hashedPassword
+          );
 
           if (!isCorrectPassword) {
-            console.error('Invalid password for user:', email);
+            console.error('Invalid password for user:', credentials.email);
             throw new Error('Invalid email or password');
           }
 
-          console.log('Successfully authenticated user:', email);
+          console.log('Successfully authenticated user:', credentials.email);
 
           // Remove sensitive data before returning
           const userWithoutPassword = { ...user };
           delete userWithoutPassword.hashedPassword;
           return userWithoutPassword;
-
         } catch (error) {
           console.error('Authentication error:', error);
           throw error;
@@ -96,32 +76,26 @@ const authOptions: AuthOptions = {
       }
     })
   ],
-  session: {
-    strategy: "jwt"
-  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as User).role;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
-      const customSession = session as CustomSession;
-      if (customSession.user) {
-        customSession.user.id = token.id as string;
-        customSession.user.role = token.role as string;
+      if (token && session.user) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
       }
-      return customSession;
+      return session;
     }
   },
   pages: {
     signIn: '/signin',
   },
-  secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === 'development',
-}
-
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+  session: {
+    strategy: 'jwt',
+  }
+};

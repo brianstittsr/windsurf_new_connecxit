@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-const { getSession } = require('@/lib/neo4j');
+import { getSession } from '@/lib/neo4j';
 
 export async function POST(req: Request) {
   let session = null;

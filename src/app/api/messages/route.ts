@@ -1,12 +1,23 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/route';
-const { getUserMessages, createMessage } = require('@/services/messageService');
+import { authOptions } from '@/lib/auth';
+import { getUserMessages, createMessage } from '@/services/messageService';
+import { Session } from 'next-auth';
 
-export async function GET(request: Request) {
+interface CustomSession extends Session {
+  user: {
+    id: string;
+    role: string;
+    email?: string | null;
+    name?: string | null;
+    image?: string | null;
+  };
+}
+
+export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
+    const session = await getServerSession(authOptions) as CustomSession | null;
+    if (!session || !session.user) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -18,10 +29,10 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
+    const session = await getServerSession(authOptions) as CustomSession | null;
+    if (!session || !session.user) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 

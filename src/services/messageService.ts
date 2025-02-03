@@ -7,7 +7,26 @@ interface CreateMessageData {
   toUserId: string;
 }
 
-async function createMessage(messageData: CreateMessageData) {
+interface MessageRecord {
+  id: string;
+  content: string;
+  createdAt: string;
+  read: boolean;
+  from: {
+    id: string;
+    name: string;
+    email: string;
+    image?: string;
+  };
+  to: {
+    id: string;
+    name: string;
+    email: string;
+    image?: string;
+  };
+}
+
+async function createMessage(messageData: CreateMessageData): Promise<MessageRecord> {
   try {
     const result = await executeQuery(
       `
@@ -33,14 +52,14 @@ async function createMessage(messageData: CreateMessageData) {
     // Increment unread message count for recipient
     await incrementUnreadMessages(messageData.toUserId);
 
-    return result[0]._fields[0].properties;
+    return result[0]._fields[0].properties as MessageRecord;
   } catch (error) {
     console.error('Create message error:', error);
     throw error;
   }
 }
 
-async function getUnreadMessageCount(userId: string) {
+async function getUnreadMessageCount(userId: string): Promise<number> {
   try {
     const result = await executeQuery(
       `
@@ -57,7 +76,7 @@ async function getUnreadMessageCount(userId: string) {
   }
 }
 
-async function getUserMessages(userId: string) {
+async function getUserMessages(userId: string): Promise<MessageRecord[]> {
   try {
     const result = await executeQuery(
       `
@@ -75,14 +94,14 @@ async function getUserMessages(userId: string) {
       ...record._fields[0].properties,
       from: record._fields[1].properties,
       to: record._fields[2].properties
-    }));
+    })) as MessageRecord[];
   } catch (error) {
     console.error('Get user messages error:', error);
     throw error;
   }
 }
 
-async function markMessageAsRead(messageId: string) {
+async function markMessageAsRead(messageId: string): Promise<void> {
   try {
     await executeQuery(
       `
@@ -101,5 +120,7 @@ export {
   createMessage,
   getUnreadMessageCount,
   getUserMessages,
-  markMessageAsRead
+  markMessageAsRead,
+  type MessageRecord,
+  type CreateMessageData
 };

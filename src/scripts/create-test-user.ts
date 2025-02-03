@@ -1,4 +1,4 @@
-const { createUser } = require('../services/userService');
+import { createUser } from '@/services/userService';
 
 async function createTestUser() {
   try {

@@ -1,7 +1,9 @@
-require('dotenv').config();
-const neo4j = require('neo4j-driver');
-const bcrypt = require('bcryptjs');
-const { v4: uuidv4 } = require('uuid');
+import neo4j from 'neo4j-driver';
+import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
+
+dotenv.config();
 
 async function createTestUser() {
   const uri = process.env.NEO4J_URI;

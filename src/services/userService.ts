@@ -31,9 +31,28 @@ interface UpdateUserData {
   interests?: string[];
 }
 
-async function createUser(userData: CreateUserData) {
+interface UserRecord {
+  id: string;
+  email: string;
+  hashedPassword?: string;
+  name?: string;
+  image?: string;
+  role?: string;
+  bio?: string;
+  location?: string;
+  phone?: string;
+  website?: string;
+  company?: string;
+  title?: string;
+  skills?: string[];
+  interests?: string[];
+  unreadMessages?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+async function createUser(userData: CreateUserData): Promise<UserRecord> {
   try {
-    // Check if user already exists
     const existingUserResult = await executeQuery(
       `
       MATCH (u:User {email: $email})
@@ -46,10 +65,9 @@ async function createUser(userData: CreateUserData) {
       throw new Error('User already exists');
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(userData.password, 12);
+    const userId = uuidv4();
 
-    // Create user
     const result = await executeQuery(
       `
       CREATE (u:User {
@@ -74,12 +92,12 @@ async function createUser(userData: CreateUserData) {
       RETURN u
       `,
       {
-        id: uuidv4(),
+        id: userId,
         email: userData.email,
         hashedPassword,
         name: userData.name || null,
         image: userData.image || null,
-        role: userData.role || 'USER',
+        role: userData.role || 'user',
         bio: userData.bio || null,
         location: userData.location || null,
         phone: userData.phone || null,
@@ -91,30 +109,19 @@ async function createUser(userData: CreateUserData) {
       }
     );
 
-    if (!result || !result[0]) {
-      console.error('Create user failed: No result returned');
-      throw new Error('Failed to create user - no result returned');
-    }
-
-    console.log('Raw result:', result[0]);
-    
-    if (!result[0]._fields?.[0]?.properties) {
-      console.error('Create user failed: Invalid result structure:', result);
-      throw new Error('Failed to create user - invalid result structure');
-    }
-
-    const user = { ...result[0]._fields[0].properties };
-    if (user.hashedPassword) {
-      delete user.hashedPassword;
-    }
-    return user;
+    const user = result[0]._fields[0].properties;
+    return {
+      ...user,
+      skills: user.skills || [],
+      interests: user.interests || []
+    };
   } catch (error) {
-    console.error('Create user error:', error);
+    console.error('Error creating user:', error);
     throw error;
   }
 }
 
-async function getUserByEmail(email: string) {
+async function getUserByEmail(email: string): Promise<UserRecord | null> {
   try {
     const result = await executeQuery(
       `
@@ -124,22 +131,23 @@ async function getUserByEmail(email: string) {
       { email }
     );
 
-    if (!result || !result[0] || !result[0]._fields?.[0]?.properties) {
+    if (!result || result.length === 0 || !result[0]._fields?.[0]) {
       return null;
     }
 
-    const user = { ...result[0]._fields[0].properties };
-    if (user.hashedPassword) {
-      delete user.hashedPassword;
-    }
-    return user;
+    const user = result[0]._fields[0].properties;
+    return {
+      ...user,
+      skills: user.skills || [],
+      interests: user.interests || []
+    };
   } catch (error) {
-    console.error('Get user by email error:', error);
+    console.error('Error getting user by email:', error);
     throw error;
   }
 }
 
-async function getUserById(id: string) {
+async function getUserById(id: string): Promise<UserRecord | null> {
   try {
     const result = await executeQuery(
       `
@@ -149,71 +157,92 @@ async function getUserById(id: string) {
       { id }
     );
 
-    if (!result || !result[0] || !result[0]._fields?.[0]?.properties) {
+    if (!result || result.length === 0 || !result[0]._fields?.[0]) {
       return null;
     }
 
-    const user = { ...result[0]._fields[0].properties };
-    if (user.hashedPassword) {
-      delete user.hashedPassword;
-    }
-    return user;
+    const user = result[0]._fields[0].properties;
+    return {
+      ...user,
+      skills: user.skills || [],
+      interests: user.interests || []
+    };
   } catch (error) {
-    console.error('Get user by id error:', error);
+    console.error('Error getting user by id:', error);
     throw error;
   }
 }
 
-async function updateUser(id: string, userData: UpdateUserData) {
+async function updateUser(email: string, userData: UpdateUserData): Promise<UserRecord> {
   try {
     const result = await executeQuery(
       `
-      MATCH (u:User {id: $id})
-      SET u += $updates,
-          u.updatedAt = datetime()
+      MATCH (u:User {email: $email})
+      SET u += {
+        name: $name,
+        image: $image,
+        bio: $bio,
+        location: $location,
+        phone: $phone,
+        website: $website,
+        company: $company,
+        title: $title,
+        skills: $skills,
+        interests: $interests,
+        updatedAt: datetime()
+      }
       RETURN u
       `,
       {
-        id,
-        updates: {
-          ...userData,
-          updatedAt: new Date().toISOString()
-        }
+        email,
+        name: userData.name || null,
+        image: userData.image || null,
+        bio: userData.bio || null,
+        location: userData.location || null,
+        phone: userData.phone || null,
+        website: userData.website || null,
+        company: userData.company || null,
+        title: userData.title || null,
+        skills: userData.skills || [],
+        interests: userData.interests || []
       }
     );
 
-    if (!result || !result[0] || !result[0]._fields?.[0]?.properties) {
+    if (!result || result.length === 0 || !result[0]._fields?.[0]) {
       throw new Error('User not found');
     }
 
-    const user = { ...result[0]._fields[0].properties };
-    delete user.hashedPassword;
-    return user;
+    const user = result[0]._fields[0].properties;
+    return {
+      ...user,
+      skills: user.skills || [],
+      interests: user.interests || []
+    };
   } catch (error) {
-    console.error('Update user error:', error);
+    console.error('Error updating user:', error);
     throw error;
   }
 }
 
-async function incrementUnreadMessages(userId: string) {
+async function incrementUnreadMessages(userId: string): Promise<number> {
   try {
     const result = await executeQuery(
       `
       MATCH (u:User {id: $userId})
       SET u.unreadMessages = coalesce(u.unreadMessages, 0) + 1
-      RETURN u
+      RETURN u.unreadMessages as count
       `,
       { userId }
     );
 
-    return result[0]?._fields[0]?.properties?.unreadMessages || 0;
+    return result[0]._fields[0];
   } catch (error) {
-    console.error('Increment unread messages error:', error);
+    console.error('Error incrementing unread messages:', error);
     throw error;
   }
 }
 
-async function resetUnreadMessages(userId: string) {
+async function resetUnreadMessages(userId: string): Promise<void> {
   try {
     await executeQuery(
       `
@@ -223,7 +252,7 @@ async function resetUnreadMessages(userId: string) {
       { userId }
     );
   } catch (error) {
-    console.error('Reset unread messages error:', error);
+    console.error('Error resetting unread messages:', error);
     throw error;
   }
 }
@@ -234,5 +263,8 @@ export {
   getUserById,
   updateUser,
   incrementUnreadMessages,
-  resetUnreadMessages
+  resetUnreadMessages,
+  type CreateUserData,
+  type UpdateUserData,
+  type UserRecord
 };

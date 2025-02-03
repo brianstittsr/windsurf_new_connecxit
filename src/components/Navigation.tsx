@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { BellIcon } from '@heroicons/react/24/outline';
+import { usePathname } from 'next/navigation';
 
 interface User {
   name: string;
@@ -12,7 +13,7 @@ interface User {
 }
 
 const Navigation = () => {
-  const [activeItem, setActiveItem] = useState('jobs');
+  const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -22,13 +23,12 @@ const Navigation = () => {
   }, []);
 
   const menuItems = [
-    { name: 'Jobs', href: '/jobs', requiresAuth: false },
+    { name: 'Profile', href: '/profile', requiresAuth: true },
     { name: 'Messages', href: '/messages', requiresAuth: true },
     { name: 'Performance', href: '/performance', requiresAuth: true },
     { name: 'New', href: '/new', requiresAuth: true },
     { name: 'Services', href: '/services', requiresAuth: true },
     { name: 'Calendar', href: '/calendar', requiresAuth: true },
-    { name: 'Profile', href: '/profile', requiresAuth: true },
   ];
 
   const filteredMenuItems = menuItems.filter((item) => !item.requiresAuth || user);
@@ -53,16 +53,23 @@ const Navigation = () => {
 
             {/* Navigation Items */}
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+              {pathname !== '/profile' && (
+                <Link
+                  href="/profile"
+                  className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                >
+                  Profile
+                </Link>
+              )}
               {filteredMenuItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                    activeItem === item.name.toLowerCase()
+                    pathname === item.href
                       ? 'border-indigo-500 text-gray-900'
                       : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                   }`}
-                  onClick={() => setActiveItem(item.name.toLowerCase())}
                 >
                   {item.name}
                 </Link>
@@ -99,34 +106,9 @@ const Navigation = () => {
                     Sign Up
                   </span>
                 </Link>
-                <Link href="/pro-signup">
-                  <span className="bg-[#ff5722] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#f4511e] cursor-pointer">
-                    Join as a pro
-                  </span>
-                </Link>
               </div>
             )}
           </div>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      <div className="sm:hidden">
-        <div className="pt-2 pb-3 space-y-1">
-          {filteredMenuItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-                activeItem === item.name.toLowerCase()
-                  ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
-                  : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
-              }`}
-              onClick={() => setActiveItem(item.name.toLowerCase())}
-            >
-              {item.name}
-            </Link>
-          ))}
         </div>
       </div>
     </nav>

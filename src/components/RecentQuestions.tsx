@@ -1,129 +1,114 @@
 'use client';
 
-import Image from 'next/image';
-import { useState } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import DefaultImage from './DefaultImage';
 
-const questions = [
+interface Question {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  category: string;
+  author: {
+    name: string;
+    imageUrl: string;
+  };
+}
+
+const questions: Question[] = [
   {
     id: 1,
-    title: 'Florist & Decor Services',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/florist.jpg'
+    title: 'How do I get started with event planning?',
+    description: 'Tips and best practices for beginning event planners.',
+    imageUrl: '/images/guides/default-guide.jpg',
+    category: 'Event Planning',
+    author: {
+      name: 'Sarah Johnson',
+      imageUrl: '/images/avatars/default-avatar.jpg'
+    }
   },
   {
     id: 2,
-    title: 'Catering Services',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/catering.jpg'
+    title: 'What are the best venues in the area?',
+    description: 'A comprehensive guide to local venues and their features.',
+    imageUrl: '/images/guides/default-guide.jpg',
+    category: 'Venues',
+    author: {
+      name: 'Michael Chen',
+      imageUrl: '/images/avatars/default-avatar.jpg'
+    }
   },
   {
     id: 3,
-    title: 'Photography Services',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/photography.jpg'
-  },
-  {
-    id: 4,
-    title: 'Live Entertainment',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/entertainment.jpg'
-  },
-  {
-    id: 5,
-    title: 'DJ Services',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/dj.jpg'
-  },
-  {
-    id: 6,
-    title: 'Transportation Services',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/transportation.jpg'
-  },
-  {
-    id: 7,
-    title: 'Event Planning & Decor',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/event-planning.jpg'
-  },
-  {
-    id: 8,
-    title: 'Venue and Location Services',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
-    image: '/images/venue.jpg'
+    title: 'How to market your event effectively?',
+    description: 'Marketing strategies to increase event attendance.',
+    imageUrl: '/images/guides/default-guide.jpg',
+    category: 'Marketing',
+    author: {
+      name: 'Emily Davis',
+      imageUrl: '/images/avatars/default-avatar.jpg'
+    }
   }
 ];
 
 export default function RecentQuestions() {
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(questions.length / itemsPerPage);
-
-  const showPrevious = () => {
-    setCurrentPage((prev) => Math.max(0, prev - 1));
-  };
-
-  const showNext = () => {
-    setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1));
-  };
-
-  const visibleQuestions = questions.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
-
   return (
-    <div className="py-12 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold">
-            Popular Event Vendor Categories
-          </h2>
+    <div className="bg-white py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Recent Questions</h2>
+          <p className="mt-2 text-lg leading-8 text-gray-600">
+            Get answers to common questions from our community.
+          </p>
         </div>
-
-        <div className="relative">
-          <div className="grid grid-cols-4 gap-6">
-            {visibleQuestions.map((question) => (
-              <div key={question.id} className="relative">
-                <div className="relative h-64 mb-4 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
-                  <Image
-                    src={question.image}
-                    alt={question.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    priority={question.id <= 4}
-                  />
+        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-12 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          {questions.map((question) => (
+            <article
+              key={question.id}
+              className="flex flex-col items-start justify-between hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden"
+            >
+              <Link href={`/questions/${question.id}`} className="w-full">
+                <div className="relative w-full">
+                  <div className="relative h-48 w-full">
+                    <DefaultImage
+                      src={question.imageUrl}
+                      alt={question.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                  <div className="absolute top-4 left-4">
+                    <span className="inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-sm font-medium text-gray-700 backdrop-blur">
+                      {question.category}
+                    </span>
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold mb-2">{question.title}</h3>
-                <p className="text-gray-600">{question.description}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Navigation arrows */}
-          <button
-            onClick={showPrevious}
-            disabled={currentPage === 0}
-            className={`absolute -left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg z-10 ${
-              currentPage === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
-            }`}
-            aria-label="Previous page"
-          >
-            <ChevronLeftIcon className="h-6 w-6 text-gray-600" />
-          </button>
-
-          <button
-            onClick={showNext}
-            disabled={currentPage >= totalPages - 1}
-            className={`absolute -right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg z-10 ${
-              currentPage >= totalPages - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
-            }`}
-            aria-label="Next page"
-          >
-            <ChevronRightIcon className="h-6 w-6 text-gray-600" />
-          </button>
+                <div className="max-w-xl p-6">
+                  <div className="flex items-center gap-x-4 text-xs mb-4">
+                    <div className="relative h-8 w-8 rounded-full overflow-hidden">
+                      <DefaultImage
+                        src={question.author.imageUrl}
+                        alt={question.author.name}
+                        fill
+                        className="object-cover"
+                        sizes="32px"
+                      />
+                    </div>
+                    <span className="text-gray-500">{question.author.name}</span>
+                  </div>
+                  <div className="group relative">
+                    <h3 className="text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                      {question.title}
+                    </h3>
+                    <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+                      {question.description}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </article>
+          ))}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSearch,
@@ -15,9 +15,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
+import { getUserMessages, createMessage, markMessageAsRead } from '@/services/messageService';
+import { resetUnreadMessages } from '@/services/userService';
 
-const { getUserMessages, createMessage, markMessageAsRead } = require('@/services/messageService');
-const { resetUnreadMessages } = require('@/services/userService');
+interface CustomSession extends Session {
+  user: {
+    id: string;
+    role: string;
+    email?: string | null;
+    name?: string | null;
+    image?: string | null;
+  };
+}
 
 interface Message {
   id: string;
@@ -46,34 +55,26 @@ interface Conversation {
 }
 
 export default function MessagesPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession() as { data: CustomSession | null, status: string };
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [messageInput, setMessageInput] = useState('');
   const [showAttachMenu, setShowAttachMenu] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (session?.user?.id) {
-      loadMessages();
-    }
-  }, [session]);
-
-  useEffect(() => {
-    if (selectedConversation) {
-      resetUnreadMessages(session?.user?.id);
-    }
-  }, [selectedConversation]);
-
-  const loadMessages = async () => {
+  const loadMessages = useCallback(async () => {
+    if (!session?.user?.id) return;
+    
     try {
-      const allMessages = await getUserMessages(session!.user.id);
+      const allMessages = await getUserMessages(session.user.id);
       
       // Group messages by conversation
       const conversationsMap = new Map<string, Conversation>();
       
       allMessages.forEach((message: Message) => {
-        const otherUser = message.from.id === session!.user.id ? message.to : message.from;
+        const otherUser = message.from.id === session.user.id ? message.to : message.from;
         const conversationId = otherUser.id;
         
         if (!conversationsMap.has(conversationId)) {
@@ -83,11 +84,11 @@ export default function MessagesPage() {
             image: otherUser.image || '/images/avatars/default.jpg',
             lastMessage: message.content,
             timestamp: new Date(message.createdAt).toLocaleString(),
-            unread: message.from.id !== session!.user.id && !message.read ? 1 : 0
+            unread: message.from.id !== session.user.id && !message.read ? 1 : 0
           });
         } else {
           const conv = conversationsMap.get(conversationId)!;
-          if (message.from.id !== session!.user.id && !message.read) {
+          if (message.from.id !== session.user.id && !message.read) {
             conv.unread += 1;
           }
         }
@@ -101,10 +102,26 @@ export default function MessagesPage() {
         );
         setMessages(conversationMessages);
       }
-    } catch (error) {
-      console.error('Failed to load messages:', error);
+      setError(null);
+    } catch (err) {
+      console.error('Error loading messages:', err);
+      setError('Failed to load messages');
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [session, selectedConversation]);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      loadMessages();
+    }
+  }, [status, loadMessages]);
+
+  useEffect(() => {
+    if (selectedConversation) {
+      resetUnreadMessages(session?.user?.id).catch(console.error);
+    }
+  }, [selectedConversation, session?.user?.id]);
 
   const handleSendMessage = async () => {
     if (!messageInput.trim() || !selectedConversation || !session?.user?.id) return;
@@ -142,6 +159,18 @@ export default function MessagesPage() {
       console.error('Failed to load conversation:', error);
     }
   };
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'unauthenticated') {
+    return <div>Please sign in to view messages</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
