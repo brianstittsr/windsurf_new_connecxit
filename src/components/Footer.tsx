@@ -1,12 +1,24 @@
+import React from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faTwitter, faPinterest, faFacebook } from '@fortawesome/free-brands-svg-icons';
 
+interface FooterLink {
+  text: string;
+  href: string;
+}
+
+interface FooterSection {
+  title: string;
+  subtitle?: string;
+  links: FooterLink[];
+}
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const footerSections = {
-    connecxit: {
+  const footerSections: FooterSection[] = [
+    {
       title: 'ConnecXit',
       subtitle: 'Consider it done.',
       links: [
@@ -18,7 +30,7 @@ const Footer = () => {
         { text: 'Blog', href: '/blog' },
       ],
     },
-    customers: {
+    {
       title: 'Customers',
       links: [
         { text: 'How to use ConnecXit', href: '/how-to-use' },
@@ -29,7 +41,7 @@ const Footer = () => {
         { text: 'Event Planner inspiration pictures', href: '/inspiration' },
       ],
     },
-    pros: {
+    {
       title: 'Pros',
       links: [
         { text: 'ConnecXit for pros', href: '/pros' },
@@ -41,7 +53,7 @@ const Footer = () => {
         { text: 'Android app for pros', href: '/android-app' },
       ],
     },
-    support: {
+    {
       title: 'Support',
       links: [
         { text: 'Help', href: '/help' },
@@ -52,14 +64,14 @@ const Footer = () => {
         { text: 'Do not Sell or Share My Personal Information', href: '/privacy-choices' },
       ],
     },
-  };
+  ];
 
   return (
     <footer className="bg-white border-t border-gray-200 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {Object.entries(footerSections).map(([key, section]) => (
-            <div key={key}>
+          {footerSections.map((section, index) => (
+            <div key={index}>
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">
                 {section.title}
               </h3>
@@ -99,7 +111,7 @@ const Footer = () => {
               </Link>
             </div>
             <div className="flex items-center space-x-4">
-              <p className="text-sm text-gray-500">© {currentYear} ConnecXit, Inc.</p>
+              <p className="text-sm text-gray-500"> {currentYear} ConnecXit, Inc.</p>
               <div className="flex items-center">
                 <span className="text-sm text-blue-600">ConnecXit Guarantee</span>
               </div>

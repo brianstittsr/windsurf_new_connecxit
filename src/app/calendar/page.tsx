@@ -8,6 +8,7 @@ import {
   faPlus,
   faClock,
   faMapMarkerAlt,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Event {

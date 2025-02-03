@@ -7,6 +7,7 @@ import {
   faFilter,
   faDollarSign,
   faMapMarkerAlt,
+  faCalendarAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Job {

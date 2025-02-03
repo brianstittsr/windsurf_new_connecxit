@@ -48,13 +48,9 @@ const VendorSearch = () => {
         <div className="relative">
           <DatePicker
             selected={eventDate}
-            onChange={(date: Date) => setEventDate(date)}
-            placeholderText="When is your event?"
-            className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-            minDate={new Date()}
-            dateFormat="MMMM d, yyyy"
-            isClearable
-            showPopperArrow={false}
+            onChange={(date: Date | null) => date && setEventDate(date)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+            placeholderText="Select event date"
           />
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
             <FontAwesomeIcon icon={faCalendar} className="w-5 h-5 text-gray-400" />
