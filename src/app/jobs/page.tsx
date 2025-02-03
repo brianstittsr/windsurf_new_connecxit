@@ -1,15 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSearch,
+  faLocationDot,
   faFilter,
-  faMapMarkerAlt,
-  faClock,
+  faStar,
+  faCalendarAlt,
   faDollarSign,
-  faCheckCircle,
-  faTimesCircle,
+  faMapMarkerAlt,
+  faTag,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Job {
@@ -185,7 +186,7 @@ export default function JobsPage() {
                       {job.budget}
                     </span>
                     <span className="flex items-center">
-                      <FontAwesomeIcon icon={faClock} className="mr-2" />
+                      <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
                       {job.timeframe}
                     </span>
                   </div>

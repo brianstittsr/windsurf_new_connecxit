@@ -1,5 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 import {
   faStar,
   faStarHalf,
@@ -146,11 +147,14 @@ export default function ProReviews() {
             {/* Provider Header */}
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-start gap-4">
-                <img
-                  src={provider.providerImage}
-                  alt={provider.providerName}
-                  className="w-16 h-16 rounded-full object-cover"
-                />
+                <div className="relative w-16 h-16">
+                  <Image
+                    src={provider.providerImage}
+                    alt={provider.providerName}
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                </div>
                 <div className="flex-1">
                   <h2 className="text-xl font-semibold mb-1">{provider.providerName}</h2>
                   <p className="text-gray-600 mb-2">{provider.service}</p>

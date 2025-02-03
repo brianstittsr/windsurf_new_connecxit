@@ -40,8 +40,10 @@ interface Profile {
   };
 }
 
+type TabType = 'overview' | 'portfolio' | 'reviews' | 'settings';
+
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'portfolio' | 'reviews' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<TabType>('overview');
 
   const profile: Profile = {
     name: "Michael Anderson",
@@ -132,7 +134,7 @@ export default function ProfilePage() {
             {['overview', 'portfolio', 'reviews', 'settings'].map((tab) => (
               <button
                 key={tab}
-                onClick={() => setActiveTab(tab as any)}
+                onClick={() => setActiveTab(tab as TabType)}
                 className={`pb-4 px-2 font-medium ${
                   activeTab === tab
                     ? 'border-b-2 border-indigo-600 text-indigo-600'

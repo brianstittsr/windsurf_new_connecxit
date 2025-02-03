@@ -4,6 +4,7 @@ import PageLayout from '@/components/PageLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
   faChartLine,
   faCalendarCheck,
@@ -15,7 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Feature {
-  icon: any;
+  icon: IconDefinition;
   title: string;
   description: string;
 }

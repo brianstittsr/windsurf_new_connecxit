@@ -56,7 +56,7 @@ const BusinessCTA = () => {
                   href="#"
                   className="rounded-md bg-blue-500 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
                 >
-                  Become a ThumbStack pro
+                  Become a ConnecXit pro
                 </a>
               </div>
             </div>

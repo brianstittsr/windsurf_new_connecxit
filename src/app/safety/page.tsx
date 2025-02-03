@@ -76,7 +76,7 @@ export default function Safety() {
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start">
                 <span className="text-orange-500 mr-2">•</span>
-                Verify the service provider's profile and reviews before booking
+                Verify the service provider’s profile and reviews before booking
               </li>
               <li className="flex items-start">
                 <span className="text-orange-500 mr-2">•</span>
@@ -130,7 +130,7 @@ export default function Safety() {
               If you feel unsafe or encounter an emergency situation:
             </p>
             <ol className="list-decimal list-inside space-y-2 text-gray-700">
-              <li>Call emergency services (911) if you're in immediate danger</li>
+              <li>Call emergency services (911) if you’re in immediate danger</li>
               <li>Contact our 24/7 Trust & Safety team</li>
               <li>Document any relevant information or evidence</li>
             </ol>

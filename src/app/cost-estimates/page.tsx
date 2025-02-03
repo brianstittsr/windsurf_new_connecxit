@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import PageLayout from '@/components/PageLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
   faCalculator,
-  faChartLine,
   faInfoCircle,
   faArrowRight,
   faCamera,
@@ -17,7 +17,7 @@ import {
 interface ServiceCategory {
   id: string;
   name: string;
-  icon: any;
+  icon: IconDefinition;
   priceRange: string;
   description: string;
 }

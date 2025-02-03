@@ -120,14 +120,17 @@ export default function IPhoneApp() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <p className="text-gray-600 mb-4">
-                "The ConnecXit app has transformed how I run my business. I can manage everything on the go, and the instant notifications ensure I never miss an opportunity."
+                &ldquo;The ConnecXit app has transformed how I run my business. I can manage everything on the go, and the instant notifications ensure I never miss an opportunity.&rdquo;
               </p>
               <div className="flex items-center">
-                <img
-                  src="/images/testimonial-1.jpg"
-                  alt="John D."
-                  className="w-12 h-12 rounded-full mr-4"
-                />
+                <div className="relative w-12 h-12 mr-4">
+                  <Image
+                    src="/images/testimonial-1.jpg"
+                    alt="John D."
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                </div>
                 <div>
                   <p className="font-semibold">John D.</p>
                   <p className="text-sm text-gray-500">Plumber, New York</p>
@@ -136,14 +139,17 @@ export default function IPhoneApp() {
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <p className="text-gray-600 mb-4">
-                "The payment processing and scheduling features are seamless. It's like having a personal assistant in my pocket."
+                &ldquo;The payment processing and scheduling features are seamless. It&rsquo;s like having a personal assistant in my pocket.&rdquo;
               </p>
               <div className="flex items-center">
-                <img
-                  src="/images/testimonial-2.jpg"
-                  alt="Sarah M."
-                  className="w-12 h-12 rounded-full mr-4"
-                />
+                <div className="relative w-12 h-12 mr-4">
+                  <Image
+                    src="/images/testimonial-2.jpg"
+                    alt="Sarah M."
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                </div>
                 <div>
                   <p className="font-semibold">Sarah M.</p>
                   <p className="text-sm text-gray-500">House Cleaner, Chicago</p>
