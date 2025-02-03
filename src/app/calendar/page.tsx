@@ -6,6 +6,9 @@ import {
   faChevronLeft,
   faChevronRight,
   faPlus,
+  faCalendarAlt,
+  faClock,
+  faMapMarkerAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Event {
