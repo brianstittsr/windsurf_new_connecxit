@@ -4,13 +4,9 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSearch,
-  faLocationDot,
   faFilter,
-  faStar,
-  faCalendarAlt,
   faDollarSign,
   faMapMarkerAlt,
-  faTag,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Job {
@@ -30,8 +26,8 @@ interface Job {
 }
 
 export default function JobsPage() {
-  const [activeTab, setActiveTab] = useState<'available' | 'my_jobs'>('available');
-  const [filterOpen, setFilterOpen] = useState(false);
+  const [activeTab, setActiveTab] = React.useState<'available' | 'my_jobs'>('available');
+  const [filterOpen, setFilterOpen] = React.useState(false);
 
   const jobs: Job[] = [
     {

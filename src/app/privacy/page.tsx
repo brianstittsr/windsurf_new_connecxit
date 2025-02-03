@@ -11,7 +11,10 @@ export default function PrivacyPolicy() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
           <p className="text-gray-700 mb-4">
-            ConnecXit (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.
+            We’re committed to protecting your privacy. Please read this policy carefully to understand how we collect and use your information.
+          </p>
+          <p className="text-gray-700 mb-4">
+            “Personal Information” means information that identifies, relates to, describes, is reasonably capable of being associated with, or could reasonably be linked with a particular consumer or household.
           </p>
         </section>
 
@@ -94,7 +97,7 @@ export default function PrivacyPolicy() {
 
         {/* Children's Privacy */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">7. Children's Privacy</h2>
+          <h2 className="text-2xl font-semibold mb-4">7. Children’s Privacy</h2>
           <p className="text-gray-700 mb-4">
             Our services are not intended for users under the age of 18. We do not knowingly collect information from children under 18.
           </p>
@@ -112,7 +115,7 @@ export default function PrivacyPolicy() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">9. Changes to Privacy Policy</h2>
           <p className="text-gray-700 mb-4">
-            We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.
+            We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on this page and updating the “Last Updated” date.
           </p>
         </section>
 

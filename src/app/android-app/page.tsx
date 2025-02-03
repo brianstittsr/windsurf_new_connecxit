@@ -120,14 +120,17 @@ export default function AndroidApp() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <p className="text-gray-600 mb-4">
-                "The ConnecXit Android app is fantastic! The interface is smooth and intuitive, making it easy to manage my business on the go."
+                &ldquo;The ConnecXit Android app is fantastic! The interface is smooth and intuitive, making it easy to manage my business on the go.&rdquo;
               </p>
               <div className="flex items-center">
-                <img
-                  src="/images/testimonial-3.jpg"
-                  alt="Michael R."
-                  className="w-12 h-12 rounded-full mr-4"
-                />
+                <div className="relative w-12 h-12 mr-4">
+                  <Image
+                    src="/images/testimonial-3.jpg"
+                    alt="Michael R."
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                </div>
                 <div>
                   <p className="font-semibold">Michael R.</p>
                   <p className="text-sm text-gray-500">Electrician, Los Angeles</p>
@@ -136,14 +139,17 @@ export default function AndroidApp() {
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <p className="text-gray-600 mb-4">
-                "Being able to manage my schedule and process payments directly from my Android phone has been a game-changer for my business."
+                &ldquo;Being able to manage my schedule and process payments directly from my Android phone has been a game-changer for my business.&rdquo;
               </p>
               <div className="flex items-center">
-                <img
-                  src="/images/testimonial-4.jpg"
-                  alt="Rachel K."
-                  className="w-12 h-12 rounded-full mr-4"
-                />
+                <div className="relative w-12 h-12 mr-4">
+                  <Image
+                    src="/images/testimonial-4.jpg"
+                    alt="Rachel K."
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                </div>
                 <div>
                   <p className="font-semibold">Rachel K.</p>
                   <p className="text-sm text-gray-500">Pet Groomer, Seattle</p>

@@ -15,7 +15,7 @@ export default function AboutPage() {
           <div className="prose prose-lg">
             <h2>Our Mission</h2>
             <p>
-              At ConnecXit, we're dedicated to making event planning seamless and efficient. 
+              At ConnecXit, we’re dedicated to making event planning seamless and efficient. 
               We connect event planners with trusted vendors, making it easy to create 
               memorable experiences.
             </p>
@@ -34,6 +34,9 @@ export default function AboutPage() {
               <li>Innovation</li>
               <li>Customer Success</li>
             </ul>
+            <p className="text-gray-600 mb-4">
+              We’re on a mission to transform the event planning industry by connecting talented professionals with clients who need their services.
+            </p>
           </div>
         </div>
       </div>

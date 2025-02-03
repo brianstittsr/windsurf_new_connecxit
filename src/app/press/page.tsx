@@ -66,7 +66,7 @@ export default function PressPage() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Press & Media</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Get the latest news and updates about ConnecXit's mission to transform the event planning industry.
+            Get the latest news and updates about ConnecXit&#39;s mission to transform the event planning industry.
           </p>
         </div>
 
@@ -98,7 +98,9 @@ export default function PressPage() {
               <div key={release.title} className="bg-white p-6 rounded-lg shadow-sm">
                 <div className="text-sm text-gray-500 mb-2">{release.date}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{release.title}</h3>
-                <p className="text-gray-600 mb-4">{release.description}</p>
+                <p className="text-gray-600 mb-4">
+                  ConnecXit&rsquo;s innovative platform is revolutionizing the event planning industry.
+                </p>
                 <a href={release.link} className="text-orange-500 hover:text-orange-600 font-medium inline-flex items-center">
                   Read More
                   <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 ml-2" />

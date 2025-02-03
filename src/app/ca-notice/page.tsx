@@ -11,8 +11,8 @@ export default function CaliforniaNotice() {
         {/* Introduction */}
         <section>
           <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
-          <p className="text-gray-700 mb-4">
-            This Notice of Collection for California Residents supplements the information contained in ConnecXit's Privacy Policy and applies solely to residents of California. We adopt this notice to comply with the California Consumer Privacy Act (CCPA) and California Privacy Rights Act (CPRA).
+          <p className="text-gray-600 mb-4">
+            This notice supplements ConnecXit&rsquo;s Privacy Policy and applies only to California residents.
           </p>
         </section>
 

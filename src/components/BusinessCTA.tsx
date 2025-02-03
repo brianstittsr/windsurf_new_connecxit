@@ -49,7 +49,7 @@ const BusinessCTA = () => {
                 Open for business.
               </h2>
               <p className="mt-4 text-lg leading-8 text-gray-600">
-                Whatever work you do, we'll find you the jobs you want.
+                Whatever work you do, we’ll find you the jobs you want.
               </p>
               <div className="mt-8">
                 <a

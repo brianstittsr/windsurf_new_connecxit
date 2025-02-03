@@ -11,7 +11,7 @@ export default function TermsOfService() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">1. Agreement to Terms</h2>
           <p className="text-gray-700 mb-4">
-            By accessing or using ConnecXit's services, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing ConnecXit.
+            By accessing or using ConnecXit&rsquo;s services, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing ConnecXit.
           </p>
         </section>
 
