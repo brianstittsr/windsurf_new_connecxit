@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { getDriver } from "@/lib/neo4j";
+import { getSession } from "@/lib/neo4j";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -14,13 +14,15 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Invalid credentials');
+          console.error('Missing credentials');
+          throw new Error('Please provide both email and password');
         }
 
-        const driver = getDriver();
-        const session = driver.session();
-
+        let session = null;
         try {
+          session = await getSession();
+          console.log('Attempting to authenticate user:', credentials.email);
+
           const result = await session.run(
             `
             MATCH (u:User {email: $email})
@@ -38,8 +40,14 @@ export const authOptions: AuthOptions = {
 
           const user = result.records[0]?.get('user');
 
-          if (!user || !user.hashedPassword) {
-            throw new Error('Invalid credentials');
+          if (!user) {
+            console.error('User not found:', credentials.email);
+            throw new Error('Invalid email or password');
+          }
+
+          if (!user.hashedPassword) {
+            console.error('User has no password set:', credentials.email);
+            throw new Error('Invalid account configuration');
           }
 
           const isCorrectPassword = await bcrypt.compare(
@@ -48,18 +56,23 @@ export const authOptions: AuthOptions = {
           );
 
           if (!isCorrectPassword) {
-            throw new Error('Invalid credentials');
+            console.error('Invalid password for user:', credentials.email);
+            throw new Error('Invalid email or password');
           }
 
-          // Remove hashedPassword from the returned user object
-          delete user.hashedPassword;
+          console.log('Successfully authenticated user:', credentials.email);
 
-          return user;
+          // Remove sensitive data before returning
+          const { hashedPassword, ...userWithoutPassword } = user;
+          return userWithoutPassword;
+
         } catch (error) {
           console.error('Authentication error:', error);
-          throw new Error('Authentication failed');
+          throw error;
         } finally {
-          await session.close();
+          if (session) {
+            await session.close();
+          }
         }
       }
     })
@@ -67,15 +80,15 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role;
         token.id = user.id;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.role = token.role;
-        session.user.id = token.id;
+      if (token && session.user) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
       }
       return session;
     }
@@ -92,5 +105,4 @@ export const authOptions: AuthOptions = {
 }
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSearch,
@@ -14,121 +14,132 @@ import {
   faSmile,
 } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+
+const { getUserMessages, createMessage, markMessageAsRead } = require('@/services/messageService');
+const { resetUnreadMessages } = require('@/services/userService');
 
 interface Message {
-  id: number;
+  id: string;
   content: string;
-  timestamp: string;
-  sender: 'user' | 'other';
+  createdAt: string;
   read: boolean;
-  attachments?: {
-    type: 'image' | 'file';
-    url: string;
+  from: {
+    id: string;
     name: string;
-  }[];
+    image: string;
+  };
+  to: {
+    id: string;
+    name: string;
+    image: string;
+  };
 }
 
 interface Conversation {
-  id: number;
+  userId: string;
   name: string;
-  avatar: string;
+  image: string;
   lastMessage: string;
   timestamp: string;
   unread: number;
-  online: boolean;
-  typing?: boolean;
 }
 
 export default function MessagesPage() {
-  const [selectedConversation, setSelectedConversation] = useState<number | null>(1);
+  const { data: session } = useSession();
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [messageInput, setMessageInput] = useState('');
   const [showAttachMenu, setShowAttachMenu] = useState(false);
 
-  const conversations: Conversation[] = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      avatar: "/images/avatars/sarah.jpg",
-      lastMessage: "Perfect, I'll see you then!",
-      timestamp: "10:30 AM",
-      unread: 2,
-      online: true,
-      typing: true
-    },
-    {
-      id: 2,
-      name: "Michael Chen",
-      avatar: "/images/avatars/michael.jpg",
-      lastMessage: "Could you share the event details?",
-      timestamp: "Yesterday",
-      unread: 0,
-      online: false
-    },
-    {
-      id: 3,
-      name: "Emma Wilson",
-      avatar: "/images/avatars/emma.jpg",
-      lastMessage: "The photos look amazing!",
-      timestamp: "2 days ago",
-      unread: 0,
-      online: true
+  useEffect(() => {
+    if (session?.user?.id) {
+      loadMessages();
     }
-  ];
+  }, [session]);
 
-  const messages: Message[] = [
-    {
-      id: 1,
-      content: "Hi! I'm interested in your wedding photography services",
-      timestamp: "10:00 AM",
-      sender: "other",
-      read: true
-    },
-    {
-      id: 2,
-      content: "I'd love to help! When is your wedding date?",
-      timestamp: "10:05 AM",
-      sender: "user",
-      read: true
-    },
-    {
-      id: 3,
-      content: "It's on June 15th, 2025. Here are some inspiration photos:",
-      timestamp: "10:15 AM",
-      sender: "other",
-      read: true,
-      attachments: [
-        {
-          type: 'image',
-          url: '/images/messages/inspiration1.jpg',
-          name: 'Wedding Inspiration 1'
-        },
-        {
-          type: 'image',
-          url: '/images/messages/inspiration2.jpg',
-          name: 'Wedding Inspiration 2'
+  useEffect(() => {
+    if (selectedConversation) {
+      resetUnreadMessages(session?.user?.id);
+    }
+  }, [selectedConversation]);
+
+  const loadMessages = async () => {
+    try {
+      const allMessages = await getUserMessages(session!.user.id);
+      
+      // Group messages by conversation
+      const conversationsMap = new Map<string, Conversation>();
+      
+      allMessages.forEach((message: Message) => {
+        const otherUser = message.from.id === session!.user.id ? message.to : message.from;
+        const conversationId = otherUser.id;
+        
+        if (!conversationsMap.has(conversationId)) {
+          conversationsMap.set(conversationId, {
+            userId: otherUser.id,
+            name: otherUser.name,
+            image: otherUser.image || '/images/avatars/default.jpg',
+            lastMessage: message.content,
+            timestamp: new Date(message.createdAt).toLocaleString(),
+            unread: message.from.id !== session!.user.id && !message.read ? 1 : 0
+          });
+        } else {
+          const conv = conversationsMap.get(conversationId)!;
+          if (message.from.id !== session!.user.id && !message.read) {
+            conv.unread += 1;
+          }
         }
-      ]
-    },
-    {
-      id: 4,
-      content: "These are beautiful! I'm available on that date. Would you like to schedule a consultation to discuss your vision in detail?",
-      timestamp: "10:25 AM",
-      sender: "user",
-      read: true
-    },
-    {
-      id: 5,
-      content: "Perfect, I'll see you then!",
-      timestamp: "10:30 AM",
-      sender: "other",
-      read: false
+      });
+      
+      setConversations(Array.from(conversationsMap.values()));
+      
+      if (selectedConversation) {
+        const conversationMessages = allMessages.filter((message: Message) => 
+          message.from.id === selectedConversation || message.to.id === selectedConversation
+        );
+        setMessages(conversationMessages);
+      }
+    } catch (error) {
+      console.error('Failed to load messages:', error);
     }
-  ];
+  };
 
-  const handleSendMessage = () => {
-    if (messageInput.trim()) {
-      // Handle sending message
+  const handleSendMessage = async () => {
+    if (!messageInput.trim() || !selectedConversation || !session?.user?.id) return;
+
+    try {
+      await createMessage({
+        content: messageInput,
+        fromUserId: session.user.id,
+        toUserId: selectedConversation
+      });
+      
       setMessageInput('');
+      loadMessages();
+    } catch (error) {
+      console.error('Failed to send message:', error);
+    }
+  };
+
+  const handleConversationSelect = async (userId: string) => {
+    setSelectedConversation(userId);
+    try {
+      const conversationMessages = messages.filter(message => 
+        message.from.id === userId || message.to.id === userId
+      );
+      
+      // Mark unread messages as read
+      const unreadMessages = conversationMessages.filter(message => 
+        !message.read && message.from.id === userId
+      );
+      
+      await Promise.all(unreadMessages.map(message => markMessageAsRead(message.id)));
+      
+      loadMessages();
+    } catch (error) {
+      console.error('Failed to load conversation:', error);
     }
   };
 
@@ -157,23 +168,20 @@ export default function MessagesPage() {
             <div className="overflow-y-auto h-[calc(100vh-8rem)]">
               {conversations.map((conversation) => (
                 <button
-                  key={conversation.id}
-                  onClick={() => setSelectedConversation(conversation.id)}
+                  key={conversation.userId}
+                  onClick={() => handleConversationSelect(conversation.userId)}
                   className={`w-full p-4 flex items-start space-x-3 hover:bg-gray-50 ${
-                    selectedConversation === conversation.id ? 'bg-indigo-50' : ''
+                    selectedConversation === conversation.userId ? 'bg-indigo-50' : ''
                   }`}
                 >
                   <div className="relative">
                     <Image
-                      src={conversation.avatar}
+                      src={conversation.image}
                       alt={conversation.name}
                       width={48}
                       height={48}
                       className="rounded-full"
                     />
-                    {conversation.online && (
-                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
-                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between">
@@ -186,7 +194,7 @@ export default function MessagesPage() {
                     </div>
                     <div className="flex items-center justify-between">
                       <p className="text-sm text-gray-500 truncate">
-                        {conversation.typing ? 'Typing...' : conversation.lastMessage}
+                        {conversation.lastMessage}
                       </p>
                       {conversation.unread > 0 && (
                         <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-indigo-600 rounded-full">
@@ -207,19 +215,16 @@ export default function MessagesPage() {
               <div className="p-4 border-b flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <Image
-                    src={conversations[0].avatar}
-                    alt={conversations[0].name}
+                    src={conversations.find(conv => conv.userId === selectedConversation)?.image}
+                    alt={conversations.find(conv => conv.userId === selectedConversation)?.name}
                     width={40}
                     height={40}
                     className="rounded-full"
                   />
                   <div>
                     <h2 className="font-medium text-gray-900">
-                      {conversations[0].name}
+                      {conversations.find(conv => conv.userId === selectedConversation)?.name}
                     </h2>
-                    {conversations[0].online && (
-                      <span className="text-sm text-green-500">Online</span>
-                    )}
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -241,42 +246,25 @@ export default function MessagesPage() {
                   <div
                     key={message.id}
                     className={`flex ${
-                      message.sender === 'user' ? 'justify-end' : 'justify-start'
+                      message.from.id === session?.user?.id ? 'justify-end' : 'justify-start'
                     }`}
                   >
                     <div
                       className={`max-w-[70%] ${
-                        message.sender === 'user'
+                        message.from.id === session?.user?.id
                           ? 'bg-indigo-600 text-white'
                           : 'bg-gray-100 text-gray-900'
                       } rounded-lg px-4 py-2`}
                     >
                       {message.content}
-                      {message.attachments && (
-                        <div className="mt-2 grid grid-cols-2 gap-2">
-                          {message.attachments.map((attachment, index) => (
-                            <div
-                              key={index}
-                              className="relative h-24 rounded-lg overflow-hidden"
-                            >
-                              <Image
-                                src={attachment.url}
-                                alt={attachment.name}
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      )}
                       <div
                         className={`text-xs mt-1 ${
-                          message.sender === 'user'
+                          message.from.id === session?.user?.id
                             ? 'text-indigo-200'
                             : 'text-gray-500'
                         }`}
                       >
-                        {message.timestamp}
+                        {new Date(message.createdAt).toLocaleString()}
                       </div>
                     </div>
                   </div>

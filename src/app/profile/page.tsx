@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCamera,
@@ -13,68 +13,72 @@ import {
   faCheckCircle,
   faEdit,
   faShield,
+  faSave,
+  faTimes,
+  faMessage
 } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 interface Profile {
+  id: string;
   name: string;
   title: string;
   location: string;
-  rating: number;
-  reviews: number;
-  completedJobs: number;
   bio: string;
-  specialties: string[];
   email: string;
   phone: string;
   website: string;
-  languages: string[];
-  certifications: {
-    name: string;
-    issuer: string;
-    year: string;
-  }[];
-  availability: {
-    status: 'available' | 'busy' | 'unavailable';
-    nextAvailable?: string;
-  };
+  company: string;
+  image: string;
+  skills: string[];
+  interests: string[];
+  unreadMessages: number;
 }
 
-type TabType = 'overview' | 'portfolio' | 'reviews' | 'settings';
+type TabType = 'overview' | 'portfolio' | 'reviews' | 'messages' | 'settings';
+
+const { updateUser } = require('@/services/userService');
+const { getUnreadMessageCount } = require('@/services/messageService');
 
 export default function ProfilePage() {
+  const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState<TabType>('overview');
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedProfile, setEditedProfile] = useState<Profile | null>(null);
+  const [unreadMessages, setUnreadMessages] = useState(0);
 
-  const profile: Profile = {
-    name: "Michael Anderson",
-    title: "Professional Photographer",
-    location: "Boston, MA",
-    rating: 4.9,
-    reviews: 128,
-    completedJobs: 245,
-    bio: "Award-winning photographer with over 10 years of experience specializing in weddings, corporate events, and portrait photography. Known for capturing authentic moments and delivering exceptional quality.",
-    specialties: ["Wedding Photography", "Corporate Events", "Portrait Sessions", "Product Photography"],
-    email: "michael@example.com",
-    phone: "(555) 123-4567",
-    website: "www.mandersonphoto.com",
-    languages: ["English", "Spanish"],
-    certifications: [
-      {
-        name: "Professional Photography Certification",
-        issuer: "Professional Photographers of America",
-        year: "2022"
-      },
-      {
-        name: "Adobe Certified Expert",
-        issuer: "Adobe",
-        year: "2021"
-      }
-    ],
-    availability: {
-      status: "available",
-      nextAvailable: "Immediately"
+  useEffect(() => {
+    if (session?.user) {
+      // Fetch user profile
+      fetch(`/api/users/${session.user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          setProfile(data);
+          setEditedProfile(data);
+        });
+
+      // Fetch unread message count
+      getUnreadMessageCount(session.user.id)
+        .then(count => setUnreadMessages(count));
+    }
+  }, [session]);
+
+  const handleSave = async () => {
+    if (!editedProfile || !session?.user?.id) return;
+
+    try {
+      const updatedProfile = await updateUser(session.user.id, editedProfile);
+      setProfile(updatedProfile);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Failed to update profile:', error);
     }
   };
+
+  if (!profile) return <div>Loading...</div>;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -86,64 +90,139 @@ export default function ProfilePage() {
             <div className="relative">
               <div className="w-32 h-32 rounded-full overflow-hidden relative">
                 <Image
-                  src="/images/profile/avatar.jpg"
+                  src={profile.image || '/images/profile/avatar.jpg'}
                   alt={profile.name}
                   fill
                   className="object-cover"
                 />
               </div>
-              <button className="absolute bottom-0 right-0 bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700">
-                <FontAwesomeIcon icon={faCamera} />
-              </button>
+              {isEditing && (
+                <button className="absolute bottom-0 right-0 bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700">
+                  <FontAwesomeIcon icon={faCamera} />
+                </button>
+              )}
             </div>
 
             {/* Profile Info */}
             <div className="flex-1 text-center md:text-left">
-              <div className="flex items-center justify-center md:justify-start space-x-2">
-                <h1 className="text-2xl font-bold text-gray-900">{profile.name}</h1>
-                <FontAwesomeIcon icon={faCheckCircle} className="text-blue-500" />
+              <div className="flex justify-between items-center">
+                <div>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedProfile?.name}
+                      onChange={e => setEditedProfile({ ...editedProfile!, name: e.target.value })}
+                      className="text-2xl font-bold border rounded px-2 py-1"
+                    />
+                  ) : (
+                    <h1 className="text-2xl font-bold">{profile.name}</h1>
+                  )}
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedProfile?.title}
+                      onChange={e => setEditedProfile({ ...editedProfile!, title: e.target.value })}
+                      className="text-gray-600 border rounded px-2 py-1 mt-1"
+                    />
+                  ) : (
+                    <p className="text-gray-600">{profile.title}</p>
+                  )}
+                </div>
+                <div>
+                  {isEditing ? (
+                    <div className="space-x-2">
+                      <button
+                        onClick={handleSave}
+                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                      >
+                        <FontAwesomeIcon icon={faSave} className="mr-2" />
+                        Save
+                      </button>
+                      <button
+                        onClick={() => {
+                          setIsEditing(false);
+                          setEditedProfile(profile);
+                        }}
+                        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                      >
+                        <FontAwesomeIcon icon={faTimes} className="mr-2" />
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+                    >
+                      <FontAwesomeIcon icon={faEdit} className="mr-2" />
+                      Edit Profile
+                    </button>
+                  )}
+                </div>
               </div>
-              <p className="text-gray-600 mt-1">{profile.title}</p>
-              <div className="flex items-center justify-center md:justify-start mt-2 space-x-4">
-                <span className="flex items-center text-gray-600">
-                  <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-1" />
-                  {profile.location}
-                </span>
-                <span className="flex items-center text-yellow-500">
-                  <FontAwesomeIcon icon={faStar} className="mr-1" />
-                  {profile.rating} ({profile.reviews} reviews)
-                </span>
-                <span className="flex items-center text-gray-600">
-                  <FontAwesomeIcon icon={faBriefcase} className="mr-1" />
-                  {profile.completedJobs} jobs completed
-                </span>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="flex space-x-4">
-              <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-                <FontAwesomeIcon icon={faEdit} className="mr-2" />
-                Edit Profile
-              </button>
             </div>
           </div>
 
-          {/* Navigation Tabs */}
-          <div className="mt-8 flex space-x-8 border-b">
-            {['overview', 'portfolio', 'reviews', 'settings'].map((tab) => (
+          {/* Tabs */}
+          <div className="mt-8 border-b border-gray-200">
+            <nav className="-mb-px flex space-x-8">
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab as TabType)}
-                className={`pb-4 px-2 font-medium ${
-                  activeTab === tab
-                    ? 'border-b-2 border-indigo-600 text-indigo-600'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
+                onClick={() => setActiveTab('overview')}
+                className={`${
+                  activeTab === 'overview'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                Overview
               </button>
-            ))}
+              <button
+                onClick={() => setActiveTab('portfolio')}
+                className={`${
+                  activeTab === 'portfolio'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+              >
+                Portfolio
+              </button>
+              <button
+                onClick={() => setActiveTab('reviews')}
+                className={`${
+                  activeTab === 'reviews'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+              >
+                Reviews
+              </button>
+              <Link
+                href="/messages"
+                className={`${
+                  activeTab === 'messages'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+              >
+                <FontAwesomeIcon icon={faMessage} className="mr-2" />
+                Messages
+                {unreadMessages > 0 && (
+                  <span className="ml-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs">
+                    {unreadMessages}
+                  </span>
+                )}
+              </Link>
+              <button
+                onClick={() => setActiveTab('settings')}
+                className={`${
+                  activeTab === 'settings'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+              >
+                Settings
+              </button>
+            </nav>
           </div>
         </div>
       </div>
@@ -151,106 +230,90 @@ export default function ProfilePage() {
       {/* Profile Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Main Info */}
-            <div className="md:col-span-2 space-y-8">
-              {/* About */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-semibold mb-4">About</h2>
-                <p className="text-gray-600">{profile.bio}</p>
-              </div>
+          <div className="bg-white shadow rounded-lg p-6">
+            <h2 className="text-xl font-semibold mb-4">About Me</h2>
+            {isEditing ? (
+              <textarea
+                value={editedProfile?.bio}
+                onChange={e => setEditedProfile({ ...editedProfile!, bio: e.target.value })}
+                className="w-full h-32 border rounded p-2"
+              />
+            ) : (
+              <p className="text-gray-600">{profile.bio}</p>
+            )}
 
-              {/* Specialties */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-semibold mb-4">Specialties</h2>
-                <div className="flex flex-wrap gap-2">
-                  {profile.specialties.map((specialty) => (
-                    <span
-                      key={specialty}
-                      className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"
-                    >
-                      {specialty}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Certifications */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-semibold mb-4">Certifications</h2>
-                <div className="space-y-4">
-                  {profile.certifications.map((cert) => (
-                    <div key={cert.name} className="flex items-start">
-                      <FontAwesomeIcon icon={faShield} className="text-indigo-600 mt-1 mr-3" />
-                      <div>
-                        <h3 className="font-medium">{cert.name}</h3>
-                        <p className="text-sm text-gray-600">
-                          {cert.issuer} • {cert.year}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Sidebar */}
-            <div className="space-y-6">
-              {/* Contact Info */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
-                <div className="space-y-4">
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Contact Information</h3>
+                <div className="space-y-3">
                   <div className="flex items-center">
-                    <FontAwesomeIcon icon={faEnvelope} className="text-gray-400 w-5 mr-3" />
-                    <span className="text-gray-600">{profile.email}</span>
+                    <FontAwesomeIcon icon={faEnvelope} className="text-gray-400 w-5 h-5 mr-2" />
+                    {isEditing ? (
+                      <input
+                        type="email"
+                        value={editedProfile?.email}
+                        onChange={e => setEditedProfile({ ...editedProfile!, email: e.target.value })}
+                        className="border rounded px-2 py-1"
+                      />
+                    ) : (
+                      <span>{profile.email}</span>
+                    )}
                   </div>
                   <div className="flex items-center">
-                    <FontAwesomeIcon icon={faPhone} className="text-gray-400 w-5 mr-3" />
-                    <span className="text-gray-600">{profile.phone}</span>
+                    <FontAwesomeIcon icon={faPhone} className="text-gray-400 w-5 h-5 mr-2" />
+                    {isEditing ? (
+                      <input
+                        type="tel"
+                        value={editedProfile?.phone}
+                        onChange={e => setEditedProfile({ ...editedProfile!, phone: e.target.value })}
+                        className="border rounded px-2 py-1"
+                      />
+                    ) : (
+                      <span>{profile.phone}</span>
+                    )}
                   </div>
                   <div className="flex items-center">
-                    <FontAwesomeIcon icon={faGlobe} className="text-gray-400 w-5 mr-3" />
-                    <span className="text-gray-600">{profile.website}</span>
+                    <FontAwesomeIcon icon={faGlobe} className="text-gray-400 w-5 h-5 mr-2" />
+                    {isEditing ? (
+                      <input
+                        type="url"
+                        value={editedProfile?.website}
+                        onChange={e => setEditedProfile({ ...editedProfile!, website: e.target.value })}
+                        className="border rounded px-2 py-1"
+                      />
+                    ) : (
+                      <span>{profile.website}</span>
+                    )}
                   </div>
                 </div>
               </div>
 
-              {/* Languages */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-semibold mb-4">Languages</h2>
-                <div className="space-y-2">
-                  {profile.languages.map((language) => (
-                    <div key={language} className="text-gray-600">
-                      {language}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Availability */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-semibold mb-4">Availability</h2>
-                <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${
-                  profile.availability.status === 'available'
-                    ? 'bg-green-100 text-green-700'
-                    : profile.availability.status === 'busy'
-                    ? 'bg-yellow-100 text-yellow-700'
-                    : 'bg-red-100 text-red-700'
-                }`}>
-                  <span className="w-2 h-2 rounded-full mr-2 bg-current"></span>
-                  {profile.availability.status.charAt(0).toUpperCase() + profile.availability.status.slice(1)}
-                </div>
-                {profile.availability.nextAvailable && (
-                  <p className="text-sm text-gray-600 mt-2">
-                    Next available: {profile.availability.nextAvailable}
-                  </p>
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Skills</h3>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editedProfile?.skills.join(', ')}
+                    onChange={e => setEditedProfile({ ...editedProfile!, skills: e.target.value.split(',').map(s => s.trim()) })}
+                    className="w-full border rounded px-2 py-1"
+                    placeholder="Enter skills separated by commas"
+                  />
+                ) : (
+                  <div className="flex flex-wrap gap-2">
+                    {profile.skills.map((skill, index) => (
+                      <span
+                        key={index}
+                        className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 )}
               </div>
             </div>
           </div>
         )}
-
-        {/* Other tabs content would go here */}
       </div>
     </div>
   );

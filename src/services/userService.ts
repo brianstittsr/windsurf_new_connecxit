@@ -1,5 +1,6 @@
-const bcrypt = require('bcryptjs');
-const { v4: uuidv4 } = require('uuid');
+import bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
+import { executeQuery } from './dbService';
 
 interface CreateUserData {
   email: string;
@@ -7,28 +8,27 @@ interface CreateUserData {
   name?: string;
   image?: string;
   role?: string;
+  bio?: string;
+  location?: string;
+  phone?: string;
+  website?: string;
+  company?: string;
+  title?: string;
+  skills?: string[];
+  interests?: string[];
 }
 
-async function executeQuery(query: string, params: any) {
-  const response = await fetch('/api/db', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ query, params }),
-  });
-
-  if (!response.ok) {
-    throw new Error('Database operation failed');
-  }
-
-  const result = await response.json();
-  if (!result.success) {
-    throw new Error(result.error);
-  }
-
-  console.log('Query result:', JSON.stringify(result.data, null, 2));
-  return result.data;
+interface UpdateUserData {
+  name?: string;
+  image?: string;
+  bio?: string;
+  location?: string;
+  phone?: string;
+  website?: string;
+  company?: string;
+  title?: string;
+  skills?: string[];
+  interests?: string[];
 }
 
 async function createUser(userData: CreateUserData) {
@@ -59,6 +59,15 @@ async function createUser(userData: CreateUserData) {
         name: $name,
         image: $image,
         role: $role,
+        bio: $bio,
+        location: $location,
+        phone: $phone,
+        website: $website,
+        company: $company,
+        title: $title,
+        skills: $skills,
+        interests: $interests,
+        unreadMessages: 0,
         createdAt: datetime(),
         updatedAt: datetime()
       })
@@ -70,7 +79,15 @@ async function createUser(userData: CreateUserData) {
         hashedPassword,
         name: userData.name || null,
         image: userData.image || null,
-        role: userData.role || 'USER'
+        role: userData.role || 'USER',
+        bio: userData.bio || null,
+        location: userData.location || null,
+        phone: userData.phone || null,
+        website: userData.website || null,
+        company: userData.company || null,
+        title: userData.title || null,
+        skills: userData.skills || [],
+        interests: userData.interests || []
       }
     );
 
@@ -147,8 +164,75 @@ async function getUserById(id: string) {
   }
 }
 
-module.exports = {
+async function updateUser(id: string, userData: UpdateUserData) {
+  try {
+    const result = await executeQuery(
+      `
+      MATCH (u:User {id: $id})
+      SET u += $updates,
+          u.updatedAt = datetime()
+      RETURN u
+      `,
+      {
+        id,
+        updates: {
+          ...userData,
+          updatedAt: new Date().toISOString()
+        }
+      }
+    );
+
+    if (!result || !result[0] || !result[0]._fields?.[0]?.properties) {
+      throw new Error('User not found');
+    }
+
+    const user = { ...result[0]._fields[0].properties };
+    delete user.hashedPassword;
+    return user;
+  } catch (error) {
+    console.error('Update user error:', error);
+    throw error;
+  }
+}
+
+async function incrementUnreadMessages(userId: string) {
+  try {
+    const result = await executeQuery(
+      `
+      MATCH (u:User {id: $userId})
+      SET u.unreadMessages = coalesce(u.unreadMessages, 0) + 1
+      RETURN u
+      `,
+      { userId }
+    );
+
+    return result[0]?._fields[0]?.properties?.unreadMessages || 0;
+  } catch (error) {
+    console.error('Increment unread messages error:', error);
+    throw error;
+  }
+}
+
+async function resetUnreadMessages(userId: string) {
+  try {
+    await executeQuery(
+      `
+      MATCH (u:User {id: $userId})
+      SET u.unreadMessages = 0
+      `,
+      { userId }
+    );
+  } catch (error) {
+    console.error('Reset unread messages error:', error);
+    throw error;
+  }
+}
+
+export {
   createUser,
   getUserByEmail,
-  getUserById
+  getUserById,
+  updateUser,
+  incrementUnreadMessages,
+  resetUnreadMessages
 };
