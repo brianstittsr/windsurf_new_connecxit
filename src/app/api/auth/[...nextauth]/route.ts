@@ -1,28 +1,31 @@
-import NextAuth, { AuthOptions, User as NextAuthUser, Session } from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { getSession } from "@/lib/neo4j";
 
-interface User extends NextAuthUser {
+type CustomUser = {
   id: string;
   role: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  name: string;
+  phone: string;
+  timezone: string;
   hashedPassword: string;
   image: string;
+  bio?: string;
+  location?: string;
+  website?: string;
+  company?: string;
+  title?: string;
+  skills?: string[];
+  interests?: string[];
+  unreadMessages?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-interface CustomSession extends Session {
-  user: {
-    id: string;
-    role: string;
-    email?: string | null;
-    name?: string | null;
-    image?: string | null;
-  };
-}
-
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -39,7 +42,7 @@ const authOptions: AuthOptions = {
         let session = null;
         try {
           session = await getSession();
-          console.log('Attempting to authenticate user:', credentials.email);
+          console.log('Auth - Attempting to authenticate user:', credentials.email);
 
           const result = await session.run(
             `
@@ -47,19 +50,32 @@ const authOptions: AuthOptions = {
             RETURN u {
               .id,
               .email,
-              .name,
+              .firstName,
+              .lastName,
+              .phone,
+              .timezone,
               .hashedPassword,
               .role,
-              .image
+              .image,
+              .bio,
+              .location,
+              .website,
+              .company,
+              .title,
+              .skills,
+              .interests,
+              .unreadMessages,
+              .createdAt,
+              .updatedAt
             } as user
             `,
             { email: credentials.email }
           );
 
-          const user = result.records[0]?.get('user');
+          const user = result.records[0]?.get('user') as CustomUser;
 
           if (!user) {
-            console.error('User not found:', credentials.email);
+            console.error('Auth - User not found:', credentials.email);
             throw new Error('Invalid email or password');
           }
 
@@ -67,26 +83,28 @@ const authOptions: AuthOptions = {
           const password = credentials.password;
 
           if (!user.hashedPassword) {
-            console.error('Invalid account configuration for user:', email);
+            console.error('Auth - Invalid account configuration for user:', email);
             throw new Error('Invalid account configuration');
           }
 
           const isCorrectPassword = await bcrypt.compare(password, user.hashedPassword);
 
           if (!isCorrectPassword) {
-            console.error('Invalid password for user:', email);
+            console.error('Auth - Invalid password for user:', email);
             throw new Error('Invalid email or password');
           }
 
-          console.log('Successfully authenticated user:', email);
+          console.log('Auth - Successfully authenticated user:', email);
+          console.log('Auth - Raw user data:', user);
 
           // Remove sensitive data before returning
           const userWithoutPassword = { ...user };
           delete userWithoutPassword.hashedPassword;
+          console.log('Auth - Returning user data:', userWithoutPassword);
           return userWithoutPassword;
 
         } catch (error) {
-          console.error('Authentication error:', error);
+          console.error('Auth - Authentication error:', error);
           throw error;
         } finally {
           if (session) {
@@ -96,32 +114,59 @@ const authOptions: AuthOptions = {
       }
     })
   ],
-  session: {
-    strategy: "jwt"
-  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        console.log('Auth - JWT Callback - Raw user:', user);
         token.id = user.id;
-        token.role = (user as User).role;
+        token.role = user.role;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
+        token.phone = user.phone;
+        token.timezone = user.timezone;
+        token.bio = user.bio;
+        token.location = user.location;
+        token.website = user.website;
+        token.company = user.company;
+        token.title = user.title;
+        token.skills = user.skills;
+        token.interests = user.interests;
       }
+      console.log('Auth - JWT Callback - Final token:', token);
       return token;
     },
     async session({ session, token }) {
-      const customSession = session as CustomSession;
-      if (customSession.user) {
-        customSession.user.id = token.id as string;
-        customSession.user.role = token.role as string;
+      if (token && session.user) {
+        console.log('Auth - Session Callback - Initial session:', session);
+        console.log('Auth - Session Callback - Token:', token);
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
+        session.user.firstName = token.firstName as string;
+        session.user.lastName = token.lastName as string;
+        session.user.phone = token.phone as string;
+        session.user.timezone = token.timezone as string;
+        session.user.bio = token.bio as string;
+        session.user.location = token.location as string;
+        session.user.website = token.website as string;
+        session.user.company = token.company as string;
+        session.user.title = token.title as string;
+        session.user.skills = token.skills as string[];
+        session.user.interests = token.interests as string[];
+        console.log('Auth - Session Callback - Final session:', session);
       }
-      return customSession;
+      return session;
     }
   },
   pages: {
     signIn: '/signin',
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === 'development',
-}
+  session: {
+    strategy: 'jwt',
+  }
+};
 
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+
+export const GET = handler;
+export const POST = handler;

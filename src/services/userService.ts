@@ -5,12 +5,15 @@ import { executeQuery } from './dbService';
 interface CreateUserData {
   email: string;
   password: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  timezone: string;
+  role?: string;
   name?: string;
   image?: string;
-  role?: string;
   bio?: string;
   location?: string;
-  phone?: string;
   website?: string;
   company?: string;
   title?: string;
@@ -19,11 +22,14 @@ interface CreateUserData {
 }
 
 interface UpdateUserData {
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  timezone?: string;
   name?: string;
   image?: string;
   bio?: string;
   location?: string;
-  phone?: string;
   website?: string;
   company?: string;
   title?: string;
@@ -35,12 +41,15 @@ interface UserRecord {
   id: string;
   email: string;
   hashedPassword?: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  timezone: string;
+  role?: string;
   name?: string;
   image?: string;
-  role?: string;
   bio?: string;
   location?: string;
-  phone?: string;
   website?: string;
   company?: string;
   title?: string;
@@ -74,12 +83,15 @@ async function createUser(userData: CreateUserData): Promise<UserRecord> {
         id: $id,
         email: $email,
         hashedPassword: $hashedPassword,
+        firstName: $firstName,
+        lastName: $lastName,
+        phone: $phone,
+        timezone: $timezone,
+        role: $role,
         name: $name,
         image: $image,
-        role: $role,
         bio: $bio,
         location: $location,
-        phone: $phone,
         website: $website,
         company: $company,
         title: $title,
@@ -95,12 +107,15 @@ async function createUser(userData: CreateUserData): Promise<UserRecord> {
         id: userId,
         email: userData.email,
         hashedPassword,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        phone: userData.phone,
+        timezone: userData.timezone,
+        role: userData.role || 'user',
         name: userData.name || null,
         image: userData.image || null,
-        role: userData.role || 'user',
         bio: userData.bio || null,
         location: userData.location || null,
-        phone: userData.phone || null,
         website: userData.website || null,
         company: userData.company || null,
         title: userData.title || null,
@@ -149,19 +164,45 @@ async function getUserByEmail(email: string): Promise<UserRecord | null> {
 
 async function getUserById(id: string): Promise<UserRecord | null> {
   try {
+    console.log('getUserById - Fetching user with ID:', id);
     const result = await executeQuery(
       `
       MATCH (u:User {id: $id})
-      RETURN u
+      RETURN u {
+        .id,
+        .email,
+        .firstName,
+        .lastName,
+        .phone,
+        .timezone,
+        .role,
+        .name,
+        .image,
+        .bio,
+        .location,
+        .website,
+        .company,
+        .title,
+        .skills,
+        .interests,
+        .unreadMessages,
+        .createdAt,
+        .updatedAt
+      }
       `,
       { id }
     );
 
+    console.log('getUserById - Raw query result:', result);
+
     if (!result || result.length === 0 || !result[0]._fields?.[0]) {
+      console.log('getUserById - No user found');
       return null;
     }
 
-    const user = result[0]._fields[0].properties;
+    const user = result[0]._fields[0];
+    console.log('getUserById - Parsed user data:', user);
+    
     return {
       ...user,
       skills: user.skills || [],
@@ -179,11 +220,14 @@ async function updateUser(email: string, userData: UpdateUserData): Promise<User
       `
       MATCH (u:User {email: $email})
       SET u += {
+        firstName: $firstName,
+        lastName: $lastName,
+        phone: $phone,
+        timezone: $timezone,
         name: $name,
         image: $image,
         bio: $bio,
         location: $location,
-        phone: $phone,
         website: $website,
         company: $company,
         title: $title,
@@ -195,11 +239,14 @@ async function updateUser(email: string, userData: UpdateUserData): Promise<User
       `,
       {
         email,
+        firstName: userData.firstName || null,
+        lastName: userData.lastName || null,
+        phone: userData.phone || null,
+        timezone: userData.timezone || null,
         name: userData.name || null,
         image: userData.image || null,
         bio: userData.bio || null,
         location: userData.location || null,
-        phone: userData.phone || null,
         website: userData.website || null,
         company: userData.company || null,
         title: userData.title || null,

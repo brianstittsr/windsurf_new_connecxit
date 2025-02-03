@@ -28,10 +28,24 @@ export const authOptions: NextAuthOptions = {
             RETURN u {
               .id,
               .email,
-              .name,
-              .hashedPassword,
+              .firstName,
+              .lastName,
+              .phone,
+              .timezone,
               .role,
-              .image
+              .name,
+              .image,
+              .bio,
+              .location,
+              .website,
+              .company,
+              .title,
+              .skills,
+              .interests,
+              .hashedPassword,
+              .unreadMessages,
+              .createdAt,
+              .updatedAt
             } as user
             `,
             { email: credentials.email }
@@ -79,15 +93,39 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        // Include all user fields in the token
         token.id = user.id;
         token.role = user.role;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
+        token.phone = user.phone;
+        token.timezone = user.timezone;
+        token.bio = user.bio;
+        token.location = user.location;
+        token.website = user.website;
+        token.company = user.company;
+        token.title = user.title;
+        token.skills = user.skills;
+        token.interests = user.interests;
       }
       return token;
     },
     async session({ session, token }) {
       if (token && session.user) {
+        // Include all user fields in the session
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        session.user.firstName = token.firstName as string;
+        session.user.lastName = token.lastName as string;
+        session.user.phone = token.phone as string;
+        session.user.timezone = token.timezone as string;
+        session.user.bio = token.bio as string;
+        session.user.location = token.location as string;
+        session.user.website = token.website as string;
+        session.user.company = token.company as string;
+        session.user.title = token.title as string;
+        session.user.skills = token.skills as string[];
+        session.user.interests = token.interests as string[];
       }
       return session;
     }

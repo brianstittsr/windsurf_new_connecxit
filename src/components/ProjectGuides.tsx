@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import DefaultImage from './DefaultImage';
+import Image from 'next/image';
+import DefaultGuide from './DefaultGuide';
+import { useState } from 'react';
 
 interface Guide {
   title: string;
@@ -15,23 +17,29 @@ const guides: Guide[] = [
     title: 'Event Planning',
     description: 'Learn how to plan and manage successful events.',
     href: '/guides/event-planning',
-    imageUrl: '/images/guides/default-guide.jpg'
+    imageUrl: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=800&auto=format&fit=crop'
   },
   {
     title: 'Venue Management',
     description: 'Best practices for venue management and optimization.',
     href: '/guides/venue-management',
-    imageUrl: '/images/guides/default-guide.jpg'
+    imageUrl: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800&auto=format&fit=crop'
   },
   {
     title: 'Marketing Strategies',
     description: 'Effective marketing strategies for your business.',
     href: '/guides/marketing',
-    imageUrl: '/images/guides/default-guide.jpg'
+    imageUrl: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop'
   }
 ];
 
 export default function ProjectGuides() {
+  const [imageErrors, setImageErrors] = useState<{ [key: string]: boolean }>({});
+
+  const handleImageError = (title: string) => {
+    setImageErrors(prev => ({ ...prev, [title]: true }));
+  };
+
   return (
     <div className="bg-white py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -49,21 +57,24 @@ export default function ProjectGuides() {
             >
               <Link href={guide.href} className="w-full">
                 <div className="relative w-full h-48">
-                  <DefaultImage
-                    src={guide.imageUrl}
-                    alt={guide.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
+                  {!imageErrors[guide.title] ? (
+                    <Image
+                      src={guide.imageUrl}
+                      alt={guide.title}
+                      fill
+                      className="object-cover"
+                      onError={() => handleImageError(guide.title)}
+                    />
+                  ) : (
+                    <DefaultGuide
+                      title={guide.title}
+                      className="w-full h-full rounded-t-lg"
+                    />
+                  )}
                 </div>
-                <div className="max-w-xl p-6">
-                  <div className="group relative">
-                    <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                      {guide.title}
-                    </h3>
-                    <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{guide.description}</p>
-                  </div>
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold text-gray-900">{guide.title}</h3>
+                  <p className="mt-2 text-sm text-gray-600">{guide.description}</p>
                 </div>
               </Link>
             </article>

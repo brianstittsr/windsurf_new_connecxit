@@ -2,28 +2,36 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import { BellIcon } from '@heroicons/react/24/outline';
 import { usePathname } from 'next/navigation';
-
-interface User {
-  name: string;
-  email: string;
-  avatar: string;
-}
+import { useSession, signOut } from 'next-auth/react';
+import { BellIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useState, useRef, useEffect } from 'react';
+import DefaultImage from './DefaultImage';
 
 const Navigation = () => {
   const pathname = usePathname();
-  const [user, setUser] = useState<User | null>(null);
+  const { data: session, status } = useSession();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Clear any existing user data to ensure logged out state
-    localStorage.removeItem('user');
-    setUser(null);
+    setMounted(true);
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const menuItems = [
-    { name: 'Profile', href: '/profile', requiresAuth: true },
     { name: 'Messages', href: '/messages', requiresAuth: true },
     { name: 'Performance', href: '/performance', requiresAuth: true },
     { name: 'New', href: '/new', requiresAuth: true },
@@ -31,7 +39,14 @@ const Navigation = () => {
     { name: 'Calendar', href: '/calendar', requiresAuth: true },
   ];
 
-  const filteredMenuItems = menuItems.filter((item) => !item.requiresAuth || user);
+  const filteredMenuItems = menuItems.filter(
+    (item) => !item.requiresAuth || status === 'authenticated'
+  );
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <nav className="bg-white border-b border-gray-200">
@@ -53,14 +68,6 @@ const Navigation = () => {
 
             {/* Navigation Items */}
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              {pathname !== '/profile' && (
-                <Link
-                  href="/profile"
-                  className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                >
-                  Profile
-                </Link>
-              )}
               {filteredMenuItems.map((item) => (
                 <Link
                   key={item.name}
@@ -79,19 +86,70 @@ const Navigation = () => {
 
           {/* Right side items */}
           <div className="flex items-center space-x-4">
-            {user ? (
+            {status === 'authenticated' && session?.user ? (
               <>
+                <Link
+                  href="/inbox"
+                  className="text-gray-500 hover:text-gray-700 text-sm font-medium"
+                >
+                  Inbox
+                </Link>
                 <button className="p-2 rounded-full text-gray-500 hover:text-gray-600">
                   <BellIcon className="h-6 w-6" />
                 </button>
-                <div className="h-8 w-8 rounded-full overflow-hidden">
-                  <Image
-                    src={user.avatar}
-                    alt={user.name}
-                    width={32}
-                    height={32}
-                    className="h-full w-full object-cover"
-                  />
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="flex items-center space-x-3 focus:outline-none"
+                  >
+                    <div className="h-8 w-8 rounded-full overflow-hidden">
+                      {session.user.image ? (
+                        <Image
+                          src={session.user.image}
+                          alt={session.user.firstName + ' ' + session.user.lastName || 'User avatar'}
+                          width={32}
+                          height={32}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <DefaultImage
+                          firstName={session.user.firstName || ''}
+                          lastName={session.user.lastName || ''}
+                          size={32}
+                        />
+                      )}
+                    </div>
+                    <span className="text-sm font-medium text-gray-700">
+                      {session.user.firstName} {session.user.lastName}
+                    </span>
+                    <ChevronDownIcon className="h-4 w-4 text-gray-500" />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {isDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                      <div className="py-1" role="menu" aria-orientation="vertical">
+                        <Link
+                          href="/profile"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          Profile
+                        </Link>
+                        <button
+                          onClick={() => {
+                            setIsDropdownOpen(false);
+                            signOut({ callbackUrl: '/' });
+                          }}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </>
             ) : (

@@ -55,13 +55,12 @@ interface Conversation {
 }
 
 export default function MessagesPage() {
-  const { data: session, status } = useSession() as { data: CustomSession | null, status: string };
+  const { data: session } = useSession() as { data: CustomSession | null };
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [messageInput, setMessageInput] = useState('');
   const [showAttachMenu, setShowAttachMenu] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const loadMessages = useCallback(async () => {
@@ -106,16 +105,14 @@ export default function MessagesPage() {
     } catch (err) {
       console.error('Error loading messages:', err);
       setError('Failed to load messages');
-    } finally {
-      setLoading(false);
     }
   }, [session, selectedConversation]);
 
   useEffect(() => {
-    if (status === 'authenticated') {
+    if (session) {
       loadMessages();
     }
-  }, [status, loadMessages]);
+  }, [session, loadMessages]);
 
   useEffect(() => {
     if (selectedConversation) {
@@ -160,12 +157,8 @@ export default function MessagesPage() {
     }
   };
 
-  if (status === 'loading') {
+  if (!session) {
     return <div>Loading...</div>;
-  }
-
-  if (status === 'unauthenticated') {
-    return <div>Please sign in to view messages</div>;
   }
 
   if (error) {
