@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 
@@ -32,11 +31,6 @@ export default function SignUpPage() {
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop'
     }));
     router.push('/');
-  };
-
-  const handleSocialSignup = (provider: string) => {
-    // TODO: Implement social signup
-    console.log(`Signing up with ${provider}`);
   };
 
   return (
