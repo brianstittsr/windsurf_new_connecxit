@@ -5,6 +5,7 @@ import PopularVendorCategories from '@/components/PopularVendorCategories';
 import RecentQuestions from '@/components/RecentQuestions';
 import HotEventPlanners from '@/components/HotEventPlanners';
 import ProjectGuides from '@/components/ProjectGuides';
+import PromoteEventServices from '@/components/PromoteEventServices';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -40,6 +41,9 @@ export default function Home() {
         <section className="bg-gray-50">
           <ProjectGuides />
         </section>
+
+        {/* Promote Event Services Section */}
+        <PromoteEventServices />
 
         {/* Business CTA Section */}
         <section>
