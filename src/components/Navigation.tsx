@@ -2,11 +2,24 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BellIcon } from '@heroicons/react/24/outline';
+
+interface User {
+  name: string;
+  email: string;
+  avatar: string;
+}
 
 const Navigation = () => {
   const [activeItem, setActiveItem] = useState('jobs');
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    // Clear any existing user data to ensure logged out state
+    localStorage.removeItem('user');
+    setUser(null);
+  }, []);
 
   const menuItems = [
     { name: 'Jobs', href: '/jobs' },
@@ -57,20 +70,40 @@ const Navigation = () => {
 
           {/* Right side items */}
           <div className="flex items-center space-x-4">
-            {/* Referral text */}
-            <span className="hidden sm:inline-flex text-sm text-green-600">
-              Refer pros, Get up to $500
-            </span>
-
-            {/* Notification bell */}
-            <button className="p-2 rounded-full text-gray-500 hover:text-gray-600">
-              <BellIcon className="h-6 w-6" />
-            </button>
-
-            {/* Profile image */}
-            <div className="flex-shrink-0">
-              <div className="h-8 w-8 rounded-full bg-gray-300"></div>
-            </div>
+            {user ? (
+              <>
+                <button className="p-2 rounded-full text-gray-500 hover:text-gray-600">
+                  <BellIcon className="h-6 w-6" />
+                </button>
+                <div className="h-8 w-8 rounded-full overflow-hidden">
+                  <Image
+                    src={user.avatar}
+                    alt={user.name}
+                    width={32}
+                    height={32}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              </>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link href="/signin">
+                  <span className="text-gray-500 hover:text-gray-700 text-sm font-medium cursor-pointer">
+                    Sign In
+                  </span>
+                </Link>
+                <Link href="/signup">
+                  <span className="bg-[#ff5722] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#f4511e] cursor-pointer">
+                    Sign Up
+                  </span>
+                </Link>
+                <Link href="/pro-signup">
+                  <span className="bg-[#ff5722] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#f4511e] cursor-pointer">
+                    Join as a pro
+                  </span>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

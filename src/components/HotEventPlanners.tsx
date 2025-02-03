@@ -90,61 +90,62 @@ const HotEventPlanners = () => {
       <h2 className="text-3xl font-bold tracking-tight text-gray-900 text-center mb-12">
         Hot Event Planners
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="relative">
-          <button
-            onClick={scrollLeft}
-            className={`absolute -left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg ${
-              scrollPosition === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
-            }`}
-            disabled={scrollPosition === 0}
-            aria-label="Previous planners"
+      <div className="relative">
+        <button
+          onClick={scrollLeft}
+          className={`absolute -left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg ${
+            scrollPosition === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
+          }`}
+          disabled={scrollPosition === 0}
+          aria-label="Previous planners"
+        >
+          <FontAwesomeIcon icon={faChevronLeft} className="h-6 w-6 text-gray-600" />
+        </button>
+        <button
+          onClick={scrollRight}
+          className={`absolute -right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg ${
+            scrollPosition >= maxScroll ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
+          }`}
+          disabled={scrollPosition >= maxScroll}
+          aria-label="Next planners"
+        >
+          <FontAwesomeIcon icon={faChevronRight} className="h-6 w-6 text-gray-600" />
+        </button>
+        <div className="overflow-hidden px-2">
+          <div
+            className="flex space-x-6 transition-transform duration-300 ease-in-out"
+            style={{ transform: `translateX(-${scrollPosition * (100 / itemsPerPage)}%)` }}
           >
-            <FontAwesomeIcon icon={faChevronLeft} className="h-6 w-6 text-gray-600" />
-          </button>
-          <button
-            onClick={scrollRight}
-            className={`absolute -right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg ${
-              scrollPosition >= maxScroll ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
-            }`}
-            disabled={scrollPosition >= maxScroll}
-            aria-label="Next planners"
-          >
-            <FontAwesomeIcon icon={faChevronRight} className="h-6 w-6 text-gray-600" />
-          </button>
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-300 ease-in-out"
-              style={{ transform: `translateX(-${scrollPosition * 25}%)` }}
-            >
-              {planners.map((planner) => (
-                <div key={planner.id} className="w-full md:w-1/4 flex-shrink-0 px-4">
-                  <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                    <div className="relative h-64">
-                      <Image
-                        src={planner.image}
-                        alt={planner.name}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 25vw"
-                        priority={planner.id <= 4}
-                      />
-                    </div>
-                    <div className="p-4">
-                      <h3 className="text-xl font-semibold mb-1">{planner.name}</h3>
-                      <p className="text-gray-600 mb-2">{planner.specialty}</p>
-                      <div className="flex items-center">
-                        <span className="text-yellow-400 mr-1">
-                          <FontAwesomeIcon icon={faStar} className="h-4 w-4" />
-                        </span>
-                        <span className="font-medium">{planner.rating}</span>
-                        <span className="text-gray-500 ml-1">({planner.reviews} reviews)</span>
-                      </div>
+            {planners.map((planner) => (
+              <div 
+                key={planner.id} 
+                className="w-[calc((100%-72px)/4)] flex-shrink-0"
+              >
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                  <div className="relative h-64">
+                    <Image
+                      src={planner.image}
+                      alt={planner.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      priority={planner.id <= 4}
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-xl font-semibold mb-1">{planner.name}</h3>
+                    <p className="text-gray-600 mb-2">{planner.specialty}</p>
+                    <div className="flex items-center">
+                      <span className="text-yellow-400 mr-1">
+                        <FontAwesomeIcon icon={faStar} className="h-4 w-4" />
+                      </span>
+                      <span className="font-medium">{planner.rating}</span>
+                      <span className="text-gray-500 ml-1">({planner.reviews} reviews)</span>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

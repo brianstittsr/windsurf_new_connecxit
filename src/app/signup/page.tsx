@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function ProSignUpPage() {
+export default function SignUpPage() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -27,8 +27,7 @@ export default function ProSignUpPage() {
     localStorage.setItem('user', JSON.stringify({
       name: `${formData.firstName} ${formData.lastName}`,
       email: formData.email,
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop',
-      isPro: true
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop'
     }));
     router.push('/');
   };
@@ -109,7 +108,7 @@ export default function ProSignUpPage() {
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               />
-              <div className="mt-2 text-sm text-gray-500">
+              <div className="mt-2 space-y-2 text-sm text-gray-500">
                 Your password must:
                 <ul className="list-disc pl-5 space-y-1">
                   <li>be 8 to 71 characters long</li>
