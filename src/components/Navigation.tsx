@@ -22,14 +22,16 @@ const Navigation = () => {
   }, []);
 
   const menuItems = [
-    { name: 'Jobs', href: '/jobs' },
-    { name: 'Messages', href: '/messages' },
-    { name: 'Performance', href: '/performance' },
-    { name: 'New', href: '/new' },
-    { name: 'Services', href: '/services' },
-    { name: 'Calendar', href: '/calendar' },
-    { name: 'Profile', href: '/profile' },
+    { name: 'Jobs', href: '/jobs', requiresAuth: false },
+    { name: 'Messages', href: '/messages', requiresAuth: true },
+    { name: 'Performance', href: '/performance', requiresAuth: true },
+    { name: 'New', href: '/new', requiresAuth: true },
+    { name: 'Services', href: '/services', requiresAuth: true },
+    { name: 'Calendar', href: '/calendar', requiresAuth: true },
+    { name: 'Profile', href: '/profile', requiresAuth: true },
   ];
+
+  const filteredMenuItems = menuItems.filter((item) => !item.requiresAuth || user);
 
   return (
     <nav className="bg-white border-b border-gray-200">
@@ -51,7 +53,7 @@ const Navigation = () => {
 
             {/* Navigation Items */}
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              {menuItems.map((item) => (
+              {filteredMenuItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
@@ -111,7 +113,7 @@ const Navigation = () => {
       {/* Mobile menu */}
       <div className="sm:hidden">
         <div className="pt-2 pb-3 space-y-1">
-          {menuItems.map((item) => (
+          {filteredMenuItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
