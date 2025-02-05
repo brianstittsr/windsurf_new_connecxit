@@ -121,7 +121,7 @@ const AccountSettings = ({
   console.log('AccountSettings - Current form data:', formData);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 max-w-3xl mx-auto">
+    <div className="bg-white rounded-lg shadow p-6 max-w-3xl mx-auto">
       <h2 className="text-2xl font-semibold mb-6">Account Settings</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -135,7 +135,7 @@ const AccountSettings = ({
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
               required
             />
           </div>
@@ -150,7 +150,7 @@ const AccountSettings = ({
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
               required
             />
           </div>
@@ -165,7 +165,7 @@ const AccountSettings = ({
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
               required
             />
           </div>
@@ -180,7 +180,7 @@ const AccountSettings = ({
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             />
           </div>
 
@@ -194,7 +194,7 @@ const AccountSettings = ({
               name="timezone"
               value={formData.timezone}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             />
           </div>
 
@@ -208,7 +208,7 @@ const AccountSettings = ({
               name="company"
               value={formData.company}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             />
           </div>
 
@@ -222,7 +222,7 @@ const AccountSettings = ({
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             />
           </div>
 
@@ -236,11 +236,11 @@ const AccountSettings = ({
               name="website"
               value={formData.website}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             />
           </div>
 
-          <div>
+          <div className="col-span-2">
             <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
               Location
             </label>
@@ -250,64 +250,64 @@ const AccountSettings = ({
               name="location"
               value={formData.location}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             />
           </div>
-        </div>
 
-        <div>
-          <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-1">
-            Bio
-          </label>
-          <textarea
-            id="bio"
-            name="bio"
-            value={formData.bio}
-            onChange={handleChange}
-            rows={4}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
-          />
-        </div>
+          <div className="col-span-2">
+            <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-1">
+              Bio
+            </label>
+            <textarea
+              id="bio"
+              name="bio"
+              value={formData.bio}
+              onChange={handleChange}
+              rows={4}
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
+          </div>
 
-        <div>
-          <label htmlFor="skills" className="block text-sm font-medium text-gray-700 mb-1">
-            Skills (comma-separated)
-          </label>
-          <input
-            type="text"
-            id="skills"
-            name="skills"
-            value={formData.skills.join(', ')}
-            onChange={(e) => handleArrayChange('skills', e.target.value)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
-          />
-        </div>
+          <div className="col-span-2">
+            <label htmlFor="skills" className="block text-sm font-medium text-gray-700 mb-1">
+              Skills (comma-separated)
+            </label>
+            <input
+              type="text"
+              id="skills"
+              name="skills"
+              value={formData.skills.join(', ')}
+              onChange={(e) => handleArrayChange('skills', e.target.value)}
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
+          </div>
 
-        <div>
-          <label htmlFor="interests" className="block text-sm font-medium text-gray-700 mb-1">
-            Interests (comma-separated)
-          </label>
-          <input
-            type="text"
-            id="interests"
-            name="interests"
-            value={formData.interests.join(', ')}
-            onChange={(e) => handleArrayChange('interests', e.target.value)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#0ea5e9] focus:ring-[#0ea5e9] sm:text-sm"
-          />
+          <div className="col-span-2">
+            <label htmlFor="interests" className="block text-sm font-medium text-gray-700 mb-1">
+              Interests (comma-separated)
+            </label>
+            <input
+              type="text"
+              id="interests"
+              name="interests"
+              value={formData.interests.join(', ')}
+              onChange={(e) => handleArrayChange('interests', e.target.value)}
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
+          </div>
         </div>
 
         <div className="flex justify-end space-x-3">
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0ea5e9]"
+            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#0ea5e9] hover:bg-[#0284c7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0ea5e9]"
+            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
             Save Changes
           </button>

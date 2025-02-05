@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth.config';
 import { getUserById, updateUser } from '@/services/userService';
 import { Session } from 'next-auth';
 
@@ -106,7 +106,7 @@ export async function PATCH(
       return new NextResponse('User not found', { status: 404 });
     }
 
-    const updatedUser = await updateUser(user.email, body);
+    const updatedUser = await updateUser(id, body);
     console.log('Updated user data:', updatedUser);
     
     console.log('PATCH /api/users/[id] - Success');

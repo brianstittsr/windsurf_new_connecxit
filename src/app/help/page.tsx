@@ -1,7 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faSearch,
   faQuestionCircle,
   faEnvelope,
   faPhone,
@@ -77,11 +76,7 @@ export default function Help() {
           <input
             type="text"
             placeholder="Search for help..."
-            className="w-full p-4 pl-12 rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-orange-500"
-          />
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+            className="w-full p-4 rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-orange-500"
           />
         </div>
       </div>

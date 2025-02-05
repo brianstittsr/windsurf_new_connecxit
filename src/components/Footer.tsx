@@ -61,7 +61,7 @@ const Footer = () => {
         { text: 'Terms of Use', href: '/terms' },
         { text: 'Privacy Policy', href: '/privacy' },
         { text: 'CA Notice At Collection', href: '/ca-notice' },
-        { text: 'Do not Sell or Share My Personal Information', href: '/privacy-choices' },
+        { text: 'Do not Sell or Share My Personal Information', href: '/do-not-sell' },
       ],
     },
   ];

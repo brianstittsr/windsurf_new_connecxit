@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
 const VendorSearch = () => {
+  const router = useRouter();
   const [isVendorSearch, setIsVendorSearch] = useState(false);
   const [eventDate, setEventDate] = useState<Date | null>(null);
   const [vendorType, setVendorType] = useState('');
@@ -14,7 +16,13 @@ const VendorSearch = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ eventDate, vendorType, zipCode });
+    const searchParams = new URLSearchParams({
+      type: isVendorSearch ? 'vendor' : 'planner',
+      date: eventDate ? eventDate.toISOString() : '',
+      category: vendorType,
+      location: zipCode
+    });
+    router.push(`/searchresults?${searchParams.toString()}`);
   };
 
   return (

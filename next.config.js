@@ -11,21 +11,13 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.(png|jpg|gif|svg|ico)$/i,
-      use: [
-        {
-          loader: 'file-loader',
-          options: {
-            publicPath: '/_next/static/images/',
-            outputPath: 'static/images/',
-          },
-        },
-      ],
-    });
-    return config;
-  },
+  experimental: {
+    turbo: {
+      rules: {
+        // Configure any specific Turbopack rules here
+      }
+    }
+  }
 }
 
 module.exports = nextConfig

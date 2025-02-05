@@ -1,6 +1,4 @@
 import React from 'react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import PlannerCard from '@/components/PlannerCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
@@ -57,8 +55,6 @@ const planners = [
 export default function SearchResultsPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
-      
       <main className="flex-grow bg-gray-50 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Search Results Header */}
@@ -111,8 +107,6 @@ export default function SearchResultsPage() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { BellIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useState, useRef, useEffect } from 'react';
-import DefaultImage from './DefaultImage';
 
 const Navigation = () => {
   const pathname = usePathname();
@@ -110,13 +109,12 @@ const Navigation = () => {
                           width={32}
                           height={32}
                           className="h-full w-full object-cover"
+                          priority
                         />
                       ) : (
-                        <DefaultImage
-                          firstName={session.user.firstName || ''}
-                          lastName={session.user.lastName || ''}
-                          size={32}
-                        />
+                        <div className="h-full w-full flex items-center justify-center bg-orange-100 text-orange-600 text-sm font-bold">
+                          {session.user.firstName?.[0]?.toUpperCase() || '?'}
+                        </div>
                       )}
                     </div>
                     <span className="text-sm font-medium text-gray-700">

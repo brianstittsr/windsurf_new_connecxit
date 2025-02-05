@@ -26,10 +26,10 @@ const guides: Guide[] = [
     imageUrl: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800&auto=format&fit=crop'
   },
   {
-    title: 'Marketing Strategies',
-    description: 'Effective marketing strategies for your business.',
-    href: '/guides/marketing',
-    imageUrl: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop'
+    title: 'Transportation Strategies',
+    description: 'Effective transportation planning for events and venues.',
+    href: '/guides/transportation',
+    imageUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800&auto=format&fit=crop'
   }
 ];
 
