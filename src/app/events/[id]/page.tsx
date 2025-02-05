@@ -3,14 +3,14 @@ import { authOptions } from '@/lib/auth';
 import { redirect, notFound } from 'next/navigation';
 import EventDetailWrapper from '@/components/EventDetailWrapper';
 import { getEventById, getRelatedEvents } from '@/data/events';
+import { Metadata } from 'next';
 
-interface EventDetailPageProps {
-  params: {
-    id: string;
-  };
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export default async function EventDetailPage({ params }: EventDetailPageProps) {
+export default async function EventDetailPage({ params, searchParams }: Props) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
