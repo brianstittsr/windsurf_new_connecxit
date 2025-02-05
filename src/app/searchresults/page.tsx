@@ -1,54 +1,57 @@
 import React from 'react';
 import PlannerCard from '@/components/PlannerCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 // Sample data - in a real app, this would come from an API
 const planners = [
   {
     id: '1',
-    name: "Rose's Clean Team Inc",
-    rating: 4.7,
-    reviewCount: 504,
-    hireCount: 1119,
-    similarJobsCount: 318,
-    responseTime: '3 min',
+    name: "Elegant Events by Sarah",
+    rating: 5.0,
+    reviewCount: 48,
+    hireCount: 150,
+    similarJobsCount: 85,
+    responseTime: '2 hrs',
     testimonial: {
-      author: 'Tinika M.',
-      text: "I couldn't be happier with the amazing job these ladies did for our home. Our home now looks move in ready thanks to Rose's Clean Team Inc.",
+      author: 'Emily & James',
+      text: 'Sarah made our dream wedding come true! Her attention to detail and creative vision transformed our venue into a magical space.',
     },
-    logoUrl: '/images/planners/roses-clean-team.png',
-    startingPrice: 190,
+    logoUrl: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=500&auto=format&fit=crop',
+    startingPrice: 2900,
+    specialties: ['Full-Service Planning', 'Day-of Coordination', 'Destination Weddings'],
   },
   {
     id: '2',
-    name: 'Elite Event Planning',
-    rating: 4.9,
-    reviewCount: 328,
-    hireCount: 892,
-    similarJobsCount: 245,
-    responseTime: '5 min',
+    name: 'Perfect Day Planning',
+    rating: 5.0,
+    reviewCount: 32,
+    hireCount: 120,
+    similarJobsCount: 65,
+    responseTime: '16 min',
     testimonial: {
-      author: 'Michael R.',
-      text: 'Elite Event Planning made our wedding day absolutely perfect. Their attention to detail was outstanding.',
+      author: 'Rachel & Michael',
+      text: 'Working with Perfect Day was the best decision we made. They handled everything flawlessly and made our day stress-free!',
     },
-    logoUrl: '/images/planners/elite-events.png',
-    startingPrice: 250,
+    logoUrl: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=500&auto=format&fit=crop',
+    startingPrice: 3500,
+    specialties: ['Custom Design', 'Vendor Coordination', 'Budget Management'],
   },
   {
     id: '3',
-    name: 'Luxe Events Boston',
-    rating: 4.8,
-    reviewCount: 423,
-    hireCount: 967,
-    similarJobsCount: 289,
-    responseTime: '10 min',
+    name: 'Luxe Celebrations',
+    rating: 5.0,
+    reviewCount: 28,
+    hireCount: 85,
+    similarJobsCount: 42,
+    responseTime: '5 min',
     testimonial: {
-      author: 'Sarah K.',
-      text: 'Luxe Events Boston transformed our corporate event into an unforgettable experience. Highly recommended!',
+      author: 'Sophie & David',
+      text: 'The Luxe team went above and beyond to create our perfect wedding. Their vendor connections and expertise are unmatched!',
     },
-    logoUrl: '/images/planners/luxe-events.png',
-    startingPrice: 300,
+    logoUrl: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=500&auto=format&fit=crop',
+    startingPrice: 4200,
+    specialties: ['Luxury Weddings', 'Cultural Ceremonies', 'Entertainment Planning'],
   },
 ];
 
@@ -59,51 +62,36 @@ export default function SearchResultsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Search Results Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Event Planners in Boston</h1>
-            <p className="mt-2 text-lg text-gray-600">Found {planners.length} event planners matching your search</p>
+            <h1 className="text-2xl font-bold text-gray-900">Top 3 matching wedding planners</h1>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-gray-600">Our criteria</span>
+              <FontAwesomeIcon icon={faCircleInfo} className="w-4 h-4 text-gray-400" />
+            </div>
           </div>
 
-          {/* Filters and Sort */}
-          <div className="flex justify-between items-center mb-6">
-            <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 hover:bg-gray-50">
-              <FontAwesomeIcon icon={faFilter} className="w-4 h-4 text-gray-500" />
-              <span>Filters</span>
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 hover:bg-gray-50">
-              <FontAwesomeIcon icon={faSort} className="w-4 h-4 text-gray-500" />
-              <span>Sort by: Recommended</span>
-            </button>
+          {/* Section Labels */}
+          <div className="mb-4 space-x-2">
+            <div className="inline-block px-4 py-1 bg-blue-50 text-blue-700 font-medium rounded-full">
+              Highly rated
+            </div>
+            <div className="inline-block px-4 py-1 bg-purple-50 text-purple-700 font-medium rounded-full">
+              Full service
+            </div>
+            <div className="inline-block px-4 py-1 bg-pink-50 text-pink-700 font-medium rounded-full">
+              Custom design
+            </div>
           </div>
 
           {/* Search Results */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {planners.map((planner) => (
               <PlannerCard
                 key={planner.id}
                 {...planner}
+                specialFeatures={planner.specialties}
+                type="planner"
               />
             ))}
-          </div>
-
-          {/* Pagination */}
-          <div className="mt-8 flex justify-center">
-            <nav className="inline-flex rounded-md shadow">
-              <button className="px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                Previous
-              </button>
-              <button className="px-3 py-2 border-t border-b border-gray-300 bg-white text-sm font-medium text-blue-600">
-                1
-              </button>
-              <button className="px-3 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                2
-              </button>
-              <button className="px-3 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                3
-              </button>
-              <button className="px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                Next
-              </button>
-            </nav>
           </div>
         </div>
       </main>

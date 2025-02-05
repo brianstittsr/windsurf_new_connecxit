@@ -38,7 +38,7 @@ const VendorSearch = () => {
             }`}
             onClick={() => setIsVendorSearch(false)}
           >
-            List an Event Pro
+            Hire an Event Pro
           </button>
           <button
             className={`px-4 py-2 rounded transition-colors ${
