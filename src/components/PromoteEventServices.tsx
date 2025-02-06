@@ -1,12 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
-
 export default function PromoteEventServices() {
-  const { data: session } = useSession();
-
-  const buttonHref = session ? '/tickets' : '/api/auth/signin?callbackUrl=/tickets';
 
   return (
     <section className="bg-gray-50 py-16">
@@ -20,7 +15,7 @@ export default function PromoteEventServices() {
           </p>
           <div className="mt-8">
             <Link
-              href={buttonHref}
+              href="/tickets"
               className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#ff5722] hover:bg-[#f4511e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ff5722]"
             >
               List Your Services
