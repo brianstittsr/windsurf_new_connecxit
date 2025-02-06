@@ -504,7 +504,7 @@ export const events: Record<string, Event> = {
   }
 };
 
-export const getEventById = (id: string): Event | undefined => {
+export const getEventById = async (id: string): Promise<Event | undefined> => {
   // Check main events object first
   if (events[id]) {
     return events[id];
@@ -531,7 +531,7 @@ export const getEventById = (id: string): Event | undefined => {
   return undefined;
 };
 
-export const getRelatedEvents = (eventId: string): RelatedEvent[] => {
+export const getRelatedEvents = async (eventId: string): Promise<RelatedEvent[]> => {
   const currentEvent = events[eventId];
   if (!currentEvent) return [];
 
