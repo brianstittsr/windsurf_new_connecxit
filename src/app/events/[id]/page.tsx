@@ -5,22 +5,9 @@ import EventDetailWrapper from '@/components/EventDetailWrapper';
 import { getEventById, getRelatedEvents } from '@/data/events';
 import { Metadata } from 'next';
 
-type Params = { id: string };
-
-type Props = {
-  params: Params;
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
-
-export async function generateStaticParams(): Promise<Params[]> {
-  return [
-    { id: 'kate-bowler-life-after-perfect' },
-    { id: 'charlotte-job-fair-2025' },
-    { id: 'detours-storyslam' },
-  ];
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: { id: string } }
+): Promise<Metadata> {
   const event = await getEventById(params.id);
   
   if (!event) {
@@ -35,7 +22,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function EventDetailPage({ params }: Props) {
+export default async function EventDetailPage(
+  { params }: { params: { id: string } }
+) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
