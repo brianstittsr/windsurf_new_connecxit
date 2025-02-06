@@ -17,6 +17,8 @@ interface PlannerCardProps {
   };
   logoUrl: string;
   startingPrice: number;
+  specialFeatures: string[];
+  type: string;
 }
 
 export default function PlannerCard({
@@ -29,6 +31,8 @@ export default function PlannerCard({
   testimonial,
   logoUrl,
   startingPrice,
+  specialFeatures,
+  type,
 }: PlannerCardProps) {
   return (
     <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
@@ -68,10 +72,12 @@ export default function PlannerCard({
                 <span className="text-gray-500">({reviewCount})</span>
               </div>
               
-              <div className="mt-2 flex items-center gap-2">
-                <div className="px-3 py-1 bg-blue-50 text-blue-700 text-sm rounded">
-                  Great value
-                </div>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                {specialFeatures.map((feature, index) => (
+                  <div key={index} className="px-3 py-1 bg-blue-50 text-blue-700 text-sm rounded">
+                    {feature}
+                  </div>
+                ))}
               </div>
             </div>
             <div className="text-right">
@@ -114,7 +120,7 @@ export default function PlannerCard({
           <div className="text-2xl font-bold text-gray-900">${startingPrice}</div>
           <div className="text-sm text-gray-500 mb-4">Starting price</div>
           <Link
-            href={`/planner/${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+            href={`/${type}/${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
             className="inline-block px-6 py-2.5 bg-orange-500 text-white font-medium rounded hover:bg-orange-600 transition-colors"
           >
             View Profile

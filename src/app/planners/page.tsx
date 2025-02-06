@@ -16,6 +16,7 @@ const planners = [
     },
     logoUrl: '/images/planners/roses-clean-team.png',
     startingPrice: 190,
+    specialties: ['Deep Cleaning', 'Move-in/Move-out', 'Regular Maintenance'],
   },
   {
     id: '2',
@@ -31,6 +32,7 @@ const planners = [
     },
     logoUrl: '/images/planners/elite-events.png',
     startingPrice: 250,
+    specialties: ['Wedding Planning', 'Corporate Events', 'Special Occasions'],
   },
 ];
 
@@ -47,6 +49,8 @@ export default function PlannersPage() {
           <PlannerCard
             key={planner.id}
             {...planner}
+            specialFeatures={planner.specialties}
+            type="planner"
           />
         ))}
       </div>

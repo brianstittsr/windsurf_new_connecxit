@@ -70,7 +70,7 @@ async function createUser(userData: CreateUserData): Promise<UserRecord> {
       { email: userData.email }
     );
 
-    if (existingUserResult && existingUserResult.length > 0 && existingUserResult[0]._fields?.[0]) {
+    if (existingUserResult && existingUserResult.length > 0 && existingUserResult[0].get(0)) {
       throw new Error('User already exists');
     }
 
@@ -124,7 +124,7 @@ async function createUser(userData: CreateUserData): Promise<UserRecord> {
       }
     );
 
-    const user = result[0]._fields[0].properties;
+    const user = result[0].get(0).properties;
     return {
       ...user,
       skills: user.skills || [],
@@ -146,11 +146,11 @@ async function getUserByEmail(email: string): Promise<UserRecord | null> {
       { email }
     );
 
-    if (!result || result.length === 0 || !result[0]._fields?.[0]) {
+    if (!result || result.length === 0 || !result[0].get(0)) {
       return null;
     }
 
-    const user = result[0]._fields[0].properties;
+    const user = result[0].get(0).properties;
     return {
       ...user,
       skills: user.skills || [],
@@ -195,12 +195,12 @@ async function getUserById(id: string): Promise<UserRecord | null> {
 
     console.log('getUserById - Raw query result:', result);
 
-    if (!result || result.length === 0 || !result[0]._fields?.[0]) {
+    if (!result || result.length === 0 || !result[0].get(0)) {
       console.log('getUserById - No user found');
       return null;
     }
 
-    const rawUser = result[0]._fields[0];
+    const rawUser = result[0].get(0);
     console.log('getUserById - Raw user data:', rawUser);
     
     // Ensure all properties have proper default values
@@ -305,11 +305,11 @@ async function updateUser(id: string, userData: UpdateUserData): Promise<UserRec
 
     const result = await executeQuery(query, params);
 
-    if (!result || result.length === 0 || !result[0]._fields?.[0]) {
+    if (!result || result.length === 0 || !result[0].get(0)) {
       throw new Error('User not found');
     }
 
-    const user = result[0]._fields[0].properties;
+    const user = result[0].get(0).properties;
     return {
       ...user,
       skills: user.skills || [],
@@ -332,7 +332,7 @@ async function incrementUnreadMessages(userId: string): Promise<number> {
       { userId }
     );
 
-    return result[0]._fields[0];
+    return result[0].get(0);
   } catch (error) {
     console.error('Error incrementing unread messages:', error);
     throw error;

@@ -10,7 +10,7 @@ interface CustomSession extends Session {
     role: string;
     firstName: string;
     lastName: string;
-    email?: string | null;
+    email: string;
     phone?: string | null;
     timezone?: string | null;
     name?: string | null;
@@ -22,6 +22,9 @@ interface CustomSession extends Session {
     title?: string | null;
     skills?: string[];
     interests?: string[];
+    emailVerified?: Date | null;
+    createdAt?: string;
+    updatedAt?: string;
   };
 }
 

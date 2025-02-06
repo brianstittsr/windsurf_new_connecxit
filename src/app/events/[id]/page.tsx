@@ -5,10 +5,19 @@ import EventDetailWrapper from '@/components/EventDetailWrapper';
 import { getEventById, getRelatedEvents } from '@/data/events';
 import { Metadata } from 'next';
 
+type PageParams = {
+  id: string;
+};
+
+type Props = {
+  params: Promise<PageParams>;
+};
+
 export async function generateMetadata(
-  { params }: { params: { id: string } }
+  { params }: Props
 ): Promise<Metadata> {
-  const event = await getEventById(params.id);
+  const resolvedParams = await params;
+  const event = await getEventById(resolvedParams.id);
   
   if (!event) {
     return {
@@ -22,21 +31,20 @@ export async function generateMetadata(
   };
 }
 
-export default async function EventDetailPage(
-  { params }: { params: { id: string } }
-) {
+export default async function EventDetailPage({ params }: Props) {
   const session = await getServerSession(authOptions);
+  const resolvedParams = await params;
 
   if (!session) {
     redirect('/api/auth/signin');
   }
 
-  const event = await getEventById(params.id);
+  const event = await getEventById(resolvedParams.id);
   if (!event) {
     notFound();
   }
 
-  const relatedEvents = await getRelatedEvents(params.id);
+  const relatedEvents = await getRelatedEvents(resolvedParams.id);
 
 
 

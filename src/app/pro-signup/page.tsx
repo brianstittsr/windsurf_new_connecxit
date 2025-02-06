@@ -40,8 +40,12 @@ export default function ProSignUpPage() {
       await createUser({
         email: formData.email,
         password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         name: `${formData.firstName} ${formData.lastName}`.trim(),
-        role: 'PRO'
+        role: 'PRO',
+        phone: '',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       });
       
       router.push('/profile');

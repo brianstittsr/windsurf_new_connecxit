@@ -8,9 +8,16 @@ interface CustomSession extends Session {
   user: {
     id: string;
     role: string;
-    email?: string | null;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone?: string | null;
+    timezone?: string | null;
     name?: string | null;
     image?: string | null;
+    emailVerified?: Date | null;
+    createdAt?: string;
+    updatedAt?: string;
   };
 }
 

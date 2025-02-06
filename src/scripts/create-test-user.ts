@@ -5,6 +5,10 @@ async function createTestUser() {
     const user = await createUser({
       email: 'test@example.com',
       password: 'Test123!@#',
+      firstName: 'Test',
+      lastName: 'User',
+      phone: '+1234567890',
+      timezone: 'America/New_York',
       name: 'Test User',
       role: 'USER'
     });

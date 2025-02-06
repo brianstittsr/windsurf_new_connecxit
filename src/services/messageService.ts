@@ -1,7 +1,7 @@
-import { executeQuery } from './dbService';
+import { executeQuery, type QueryParams } from './dbService';
 import { incrementUnreadMessages } from './userService';
 
-interface CreateMessageData {
+interface CreateMessageData extends QueryParams {
   content: string;
   fromUserId: string;
   toUserId: string;
@@ -42,17 +42,17 @@ async function createMessage(messageData: CreateMessageData): Promise<MessageRec
       CREATE (m)-[:TO]->(to)
       RETURN m
       `,
-      messageData
+      messageData as QueryParams
     );
 
-    if (!result || !result[0] || !result[0]._fields?.[0]?.properties) {
+    if (!result || !result[0] || !result[0].get(0)?.properties) {
       throw new Error('Failed to create message');
     }
 
     // Increment unread message count for recipient
     await incrementUnreadMessages(messageData.toUserId);
 
-    return result[0]._fields[0].properties as MessageRecord;
+    return result[0].get(0).properties as MessageRecord;
   } catch (error) {
     console.error('Create message error:', error);
     throw error;
@@ -69,7 +69,7 @@ async function getUnreadMessageCount(userId: string): Promise<number> {
       { userId }
     );
 
-    return result[0]?._fields?.[0] || 0;
+    return result[0]?.get(0) || 0;
   } catch (error) {
     console.error('Get unread message count error:', error);
     throw error;
@@ -91,9 +91,9 @@ async function getUserMessages(userId: string): Promise<MessageRecord[]> {
     );
 
     return result.map(record => ({
-      ...record._fields[0].properties,
-      from: record._fields[1].properties,
-      to: record._fields[2].properties
+      ...record.get(0).properties,
+      from: record.get(1).properties,
+      to: record.get(2).properties
     })) as MessageRecord[];
   } catch (error) {
     console.error('Get user messages error:', error);

@@ -1,5 +1,5 @@
 import { getSession } from '@/lib/neo4j';
-import { Record, SessionConfig } from 'neo4j-driver';
+import { Record } from 'neo4j-driver';
 
 interface QueryParams {
   [key: string]: unknown;
@@ -7,12 +7,11 @@ interface QueryParams {
 
 async function executeQuery(
   query: string,
-  params: QueryParams,
-  sessionConfig?: SessionConfig
+  params: QueryParams
 ): Promise<Record[]> {
   let session = null;
   try {
-    session = await getSession(sessionConfig);
+    session = await getSession();
     const result = await session.run(query, params);
     return result.records;
   } catch (error) {

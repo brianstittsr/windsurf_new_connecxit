@@ -56,9 +56,9 @@ export default function EventsUnder() {
               id={event.id.toString()}
               title={event.title}
               date={`${event.date} at ${event.time}`}
-              location={event.venue}
-              imageUrl={event.image}
-              price={event.price}
+              location={event.location?.name || ''}
+              imageUrl={event.backgroundImage}
+              price={event.ticketInfo?.price || ''}
             />
           ))}
         </div>

@@ -40,8 +40,12 @@ export default function SignUpPage() {
       await createUser({
         email: formData.email,
         password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         name: `${formData.firstName} ${formData.lastName}`.trim(),
-        role: 'USER'
+        role: 'USER',
+        phone: '',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       });
       
       router.push('/profile');
