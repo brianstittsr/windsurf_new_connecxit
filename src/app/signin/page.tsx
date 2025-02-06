@@ -20,19 +20,28 @@ function SignInForm() {
     setError('');
 
     try {
+      console.log('Attempting to sign in with email:', email);
       const result = await signIn('credentials', {
         email,
         password,
         redirect: false,
       });
 
+      console.log('Sign in result:', result);
+
       if (result?.error) {
+        console.error('Sign in error:', result.error);
         setError(result.error);
+      } else if (!result?.ok) {
+        console.error('Sign in not ok but no error provided');
+        setError('An unexpected error occurred');
       } else {
+        console.log('Sign in successful, redirecting to:', callbackUrl);
         router.push(callbackUrl);
         router.refresh();
       }
-    } catch {
+    } catch (error) {
+      console.error('Sign in error:', error);
       setError('An unexpected error occurred');
     } finally {
       setIsLoading(false);

@@ -40,7 +40,9 @@ export const authOptions: NextAuthOptions = {
 
         let session = null;
         try {
+          console.log('Attempting to get Neo4j session...');
           session = await getSession();
+          console.log('Successfully got Neo4j session');
 
           const result = await session.run(
             `
@@ -70,7 +72,9 @@ export const authOptions: NextAuthOptions = {
             { email: credentials.email }
           );
 
+          console.log('Query result:', result.records);
           const user = result.records[0]?.get('user') as CustomUser | null;
+          console.log('Retrieved user:', user);
 
           if (!user) {
             throw new Error('Invalid email or password');
@@ -95,7 +99,8 @@ export const authOptions: NextAuthOptions = {
           return userWithoutPassword;
         } catch (error) {
           console.error('Authentication error:', error);
-          throw error;
+          console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace');
+          throw new Error('Authentication failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
         } finally {
           if (session) {
             await session.close();

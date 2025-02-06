@@ -6,8 +6,6 @@ import RecentQuestions from '@/components/RecentQuestions';
 import HotEventPlanners from '@/components/HotEventPlanners';
 import ProjectGuides from '@/components/ProjectGuides';
 import PromoteEventServices from '@/components/PromoteEventServices';
-import Footer from '@/components/Footer';
-
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
@@ -50,7 +48,6 @@ export default function Home() {
           <BusinessCTA />
         </section>
       </main>
-      <Footer />
     </div>
   );
 }
