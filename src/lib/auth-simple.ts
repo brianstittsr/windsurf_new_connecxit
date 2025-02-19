@@ -48,9 +48,6 @@ export async function signIn(email: string, password: string): Promise<{ token: 
       return null;
     }
 
-    // Remove sensitive data
-    const { hashedPassword, ...userWithoutPassword } = user;
-
     // Create JWT token
     const token = jwt.sign(
       { 
@@ -62,6 +59,8 @@ export async function signIn(email: string, password: string): Promise<{ token: 
       { expiresIn: TOKEN_EXPIRY }
     );
 
+    // Remove sensitive data before returning
+    const { hashedPassword: _, ...userWithoutPassword } = user;
     return { 
       token,
       user: userWithoutPassword as User
