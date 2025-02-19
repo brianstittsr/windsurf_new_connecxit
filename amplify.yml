@@ -6,8 +6,13 @@ frontend:
         # Set Node.js version
         - nvm use 18
         - node -v
-        # Install dependencies
-        - yarn install --frozen-lockfile
+        # Ensure Yarn is being used
+        - corepack enable
+        - corepack prepare yarn@1.22.22 --activate
+        # Prevent npm from being used
+        - npm config set ignore-scripts true
+        # Install dependencies with Yarn
+        - yarn install --frozen-lockfile --prefer-offline
         # Debug: Print environment info
         - |
           echo "🔍 DEBUG - Environment Source Check"
