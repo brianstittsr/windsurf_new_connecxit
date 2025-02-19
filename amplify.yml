@@ -4,11 +4,25 @@ frontend:
     preBuild:
       commands:
         - yarn install
+        # Debug: Print environment info
+        - |
+          echo "🔍 DEBUG - Environment Source Check"
+          echo "Process Environment:"
+          printenv | sort
+          echo "\nAWS Amplify Build Image Info:"
+          cat /etc/os-release
     build:
       commands:
         # Export and verify environment variables
         - |
           echo "🔍 Verifying AWS Amplify environment variables..."
+          
+          echo "\n📋 Build Environment Context:"
+          echo "BUILD_ID=$BUILD_ID"
+          echo "AWS_REGION=$AWS_REGION"
+          echo "AWS_APP_ID=$AWS_APP_ID"
+          
+          echo "\n🔐 Checking Secrets Access Method:"
           
           # Function to safely display variable info
           safe_var_info() {
@@ -46,6 +60,12 @@ frontend:
           echo "✅ NEO4J_PASSWORD: (length: ${#NEO4J_PASSWORD})"
           
           echo "\n📤 Creating environment files..."
+          
+          # Access secrets using Amplify's secrets manager
+          JWT_SECRET=$(printenv JWT_SECRET || echo "${JWT_SECRET}")
+          NEO4J_URI=$(printenv NEO4J_URI || echo "${NEO4J_URI}")
+          NEO4J_USER=$(printenv NEO4J_USER || echo "${NEO4J_USER}")
+          NEO4J_PASSWORD=$(printenv NEO4J_PASSWORD || echo "${NEO4J_PASSWORD}")
           
           # Create runtime environment variables file
           cat << EOF > .env.production
