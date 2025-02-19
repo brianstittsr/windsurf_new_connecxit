@@ -6,6 +6,7 @@ frontend:
         - yarn install
     build:
       commands:
+        - env | grep -e NEXT -e AUTH -e NEO4J >> .env.production
         - yarn build
   artifacts:
     baseDirectory: .next
