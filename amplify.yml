@@ -6,8 +6,20 @@ frontend:
         - yarn install
     build:
       commands:
-        - env | grep -e NEXT -e AUTH -e NEO4J >> .env.production
-        - env | grep -e NEXT -e AUTH -e NEO4J >> .env.local
+        # Export environment variables to both production and local env files
+        - echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env.production
+        - echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env.production
+        - echo "NEO4J_URI=$NEO4J_URI" >> .env.production
+        - echo "NEO4J_USER=$NEO4J_USER" >> .env.production
+        - echo "NEO4J_PASSWORD=$NEO4J_PASSWORD" >> .env.production
+        - cp .env.production .env.local
+        # Verify environment variables
+        - echo "Verifying environment variables..."
+        - |
+          if [ -z "$NEXTAUTH_URL" ] || [ -z "$NEXTAUTH_SECRET" ] || [ -z "$NEO4J_URI" ] || [ -z "$NEO4J_USER" ] || [ -z "$NEO4J_PASSWORD" ]; then
+            echo "Error: Missing required environment variables"
+            exit 1
+          fi
         - yarn build
   artifacts:
     baseDirectory: .next

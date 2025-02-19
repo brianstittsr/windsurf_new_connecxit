@@ -40,6 +40,23 @@ export const authOptions: NextAuthOptions = {
 
         let session = null;
         try {
+          // Validate environment variables
+          const requiredEnvVars = {
+            NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+            NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+            NEO4J_URI: process.env.NEO4J_URI,
+            NEO4J_USER: process.env.NEO4J_USER,
+            NEO4J_PASSWORD: process.env.NEO4J_PASSWORD
+          };
+
+          const missingVars = Object.entries(requiredEnvVars)
+            .filter(([, value]) => !value)
+            .map(([key]) => key);
+
+          if (missingVars.length > 0) {
+            throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
+          }
+
           console.log('Attempting to get Neo4j session...');
           session = await getSession();
           console.log('Successfully got Neo4j session');
