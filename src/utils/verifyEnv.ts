@@ -18,30 +18,55 @@ function getUrlDomain(url: string | undefined): string {
 
 export function verifyEnvironmentVariables() {
   const vars = {
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    // Authentication
+    JWT_SECRET: process.env.JWT_SECRET,
+    
+    // Neo4j Database
     NEO4J_URI: process.env.NEO4J_URI,
     NEO4J_USER: process.env.NEO4J_USER,
     NEO4J_PASSWORD: process.env.NEO4J_PASSWORD,
+
+    // Optional Prisma Database
+    DATABASE_URL: process.env.DATABASE_URL,
   };
 
   // Log safe versions of the variables
   logger.log('Environment Variable Details:', {
-    NEXTAUTH_URL: vars.NEXTAUTH_URL ? getUrlDomain(vars.NEXTAUTH_URL) : 'undefined',
-    NEXTAUTH_SECRET: maskValue(vars.NEXTAUTH_SECRET),
+    // Authentication
+    JWT_SECRET: maskValue(vars.JWT_SECRET),
+    
+    // Neo4j Database
     NEO4J_URI: vars.NEO4J_URI ? getUrlDomain(vars.NEO4J_URI) : 'undefined',
     NEO4J_USER: maskValue(vars.NEO4J_USER),
     NEO4J_PASSWORD: `(length: ${vars.NEO4J_PASSWORD?.length || 0})`,
+    
+    // Optional Prisma Database
+    DATABASE_URL: vars.DATABASE_URL ? getUrlDomain(vars.DATABASE_URL) : 'not configured',
+    
+    // Build Information
     NODE_ENV: process.env.NODE_ENV,
     IS_PRODUCTION_BUILD: process.env.NODE_ENV === 'production',
   });
 
-  const missingVars = Object.entries(vars)
+  // Required variables that must be present
+  const requiredVars = {
+    JWT_SECRET: vars.JWT_SECRET,
+    NEO4J_URI: vars.NEO4J_URI,
+    NEO4J_USER: vars.NEO4J_USER,
+    NEO4J_PASSWORD: vars.NEO4J_PASSWORD,
+  };
+
+  const missingVars = Object.entries(requiredVars)
     .filter(([, value]) => !value)
     .map(([key]) => key);
 
   if (missingVars.length > 0) {
     throw new Error(`Missing required environment variables at runtime: ${missingVars.join(', ')}`);
+  }
+
+  // Optional Prisma check
+  if (vars.DATABASE_URL) {
+    logger.log('✅ Prisma database configuration detected');
   }
 
   logger.log('✅ All required environment variables are present and have expected formats');

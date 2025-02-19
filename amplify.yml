@@ -13,6 +13,8 @@ frontend:
         - npm config set ignore-scripts true
         # Install dependencies with Yarn
         - yarn install --frozen-lockfile --prefer-offline
+        # Generate Prisma Client
+        - npx prisma generate
         # Debug: Print environment info
         - |
           echo "🔍 DEBUG - Environment Source Check"
@@ -20,6 +22,9 @@ frontend:
           printenv | sort
           echo "\nAWS Amplify Build Image Info:"
           cat /etc/os-release
+          echo "\n🔑 Database Configuration:"
+          echo "Using Neo4j: $(test -n "$NEO4J_URI" && echo "Yes" || echo "No")"
+          echo "Using Prisma: $(test -f prisma/schema.prisma && echo "Yes" || echo "No")"
     build:
       commands:
         # Export and verify environment variables
