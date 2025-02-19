@@ -11,11 +11,18 @@ frontend:
         - corepack prepare yarn@1.22.22 --activate
         # Prevent npm from being used
         - npm config set ignore-scripts true
-        # Install dependencies with Yarn
+        # Clean and install dependencies
+        - yarn set version 4.1.0
+        - yarn config set nodeLinker node-modules
+        - yarn clean:all || true
         - yarn cache clean
         - rm -f yarn.lock
-        - yarn install
+        - yarn install --mode update-lockfile
         - yarn dedupe
+        - yarn install --check-cache
+        # Verify ESLint installation
+        - yarn why eslint
+        - yarn list "@eslint/*"
         # Debug: Print environment info
         - |
           echo "🔍 DEBUG - Environment Source Check"
