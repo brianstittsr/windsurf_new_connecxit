@@ -22,7 +22,9 @@ frontend:
         - yarn install --check-cache
         # Verify ESLint installation
         - yarn why eslint
-        - yarn list "@eslint/*"
+        - yarn info "@eslint/*"
+        # Run ESLint to verify configuration
+        - yarn lint
         # Debug: Print environment info
         - |
           echo "🔍 DEBUG - Environment Source Check"
