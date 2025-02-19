@@ -1,20 +1,31 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "rules": {
     "react/no-unescaped-entities": [
       "error",
       {
         "forbid": [
-          {
-            "char": ">"
-          },
-          {
-            "char": "}"
-          }
+          { "char": ">" },
+          { "char": "}" }
         ]
       }
     ],
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "off"
-  }
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { 
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+    "no-unused-vars": "off"
+  },
+  "ignorePatterns": [
+    ".next/*",
+    "node_modules/*"
+  ]
 }
