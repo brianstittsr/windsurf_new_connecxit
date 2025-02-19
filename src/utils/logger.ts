@@ -1,27 +1,29 @@
 const isLoggingEnabled = process.env.NEXT_PUBLIC_ENABLE_LOGGING === 'true';
 
+type LogArgs = string | number | boolean | null | undefined | object;
+
 export const logger = {
-  log: (...args: any[]) => {
+  log: (...args: LogArgs[]) => {
     if (isLoggingEnabled) {
       console.log(...args);
     }
   },
-  error: (...args: any[]) => {
+  error: (...args: LogArgs[]) => {
     if (isLoggingEnabled) {
       console.error(...args);
     }
   },
-  warn: (...args: any[]) => {
+  warn: (...args: LogArgs[]) => {
     if (isLoggingEnabled) {
       console.warn(...args);
     }
   },
-  info: (...args: any[]) => {
+  info: (...args: LogArgs[]) => {
     if (isLoggingEnabled) {
       console.info(...args);
     }
   },
-  debug: (...args: any[]) => {
+  debug: (...args: LogArgs[]) => {
     if (isLoggingEnabled) {
       console.debug(...args);
     }
