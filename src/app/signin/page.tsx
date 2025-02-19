@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, Suspense } from 'react';
-import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 
 function SignInForm() {
   const [email, setEmail] = useState('');
@@ -13,6 +13,7 @@ function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,20 +22,13 @@ function SignInForm() {
 
     try {
       console.log('Attempting to sign in with email:', email);
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      });
+      const result = await login(email, password);
 
       console.log('Sign in result:', result);
 
-      if (result?.error) {
+      if (!result.success) {
         console.error('Sign in error:', result.error);
-        setError(result.error);
-      } else if (!result?.ok) {
-        console.error('Sign in not ok but no error provided');
-        setError('An unexpected error occurred');
+        setError(result.error || 'Authentication failed');
       } else {
         console.log('Sign in successful, redirecting to:', callbackUrl);
         router.push(callbackUrl);
@@ -77,6 +71,7 @@ function SignInForm() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#0ea5e9] focus:border-[#0ea5e9] sm:text-sm"
                 />
               </div>
@@ -95,6 +90,7 @@ function SignInForm() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={isLoading}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#0ea5e9] focus:border-[#0ea5e9] sm:text-sm"
                 />
               </div>

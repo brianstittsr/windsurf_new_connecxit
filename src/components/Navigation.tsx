@@ -3,13 +3,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
 import { BellIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useState, useRef, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navigation = () => {
   const pathname = usePathname();
-  const { data: session, status } = useSession();
+  const { user, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -39,7 +39,7 @@ const Navigation = () => {
   ];
 
   const filteredMenuItems = menuItems.filter(
-    (item) => !item.requiresAuth || status === 'authenticated'
+    (item) => !item.requiresAuth || user !== null
   );
 
   // Prevent hydration mismatch by not rendering until mounted
@@ -85,7 +85,7 @@ const Navigation = () => {
 
           {/* Right side items */}
           <div className="flex items-center space-x-4">
-            {status === 'authenticated' && session?.user ? (
+            {user ? (
               <>
                 <Link
                   href="/inbox"
@@ -102,23 +102,12 @@ const Navigation = () => {
                     className="flex items-center space-x-3 focus:outline-none"
                   >
                     <div className="h-8 w-8 rounded-full overflow-hidden">
-                      {session.user.image ? (
-                        <Image
-                          src={session.user.image}
-                          alt={session.user.firstName + ' ' + session.user.lastName || 'User avatar'}
-                          width={32}
-                          height={32}
-                          className="h-full w-full object-cover"
-                          priority
-                        />
-                      ) : (
-                        <div className="h-full w-full flex items-center justify-center bg-orange-100 text-orange-600 text-sm font-bold">
-                          {session.user.firstName?.[0]?.toUpperCase() || '?'}
-                        </div>
-                      )}
+                      <div className="h-full w-full flex items-center justify-center bg-orange-100 text-orange-600 text-sm font-bold">
+                        {user.firstName?.[0]?.toUpperCase() || '?'}
+                      </div>
                     </div>
                     <span className="text-sm font-medium text-gray-700">
-                      {session.user.firstName} {session.user.lastName}
+                      {user.firstName} {user.lastName}
                     </span>
                     <ChevronDownIcon className="h-4 w-4 text-gray-500" />
                   </button>
@@ -138,7 +127,7 @@ const Navigation = () => {
                         <button
                           onClick={() => {
                             setIsDropdownOpen(false);
-                            signOut({ callbackUrl: '/' });
+                            logout();
                           }}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                           role="menuitem"
