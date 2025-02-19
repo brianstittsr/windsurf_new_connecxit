@@ -16,8 +16,6 @@ frontend:
         - rm -f yarn.lock
         - yarn install
         - yarn dedupe
-        # Generate Prisma Client
-        - npx prisma generate
         # Debug: Print environment info
         - |
           echo "🔍 DEBUG - Environment Source Check"
