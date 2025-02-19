@@ -2,6 +2,7 @@ import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import { getSession } from '@/lib/neo4j';
+import { logger } from '@/utils/logger';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -13,14 +14,14 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          console.error('Missing credentials');
+          logger.error('Missing credentials');
           throw new Error('Please provide both email and password');
         }
 
         let session = null;
         try {
           session = await getSession();
-          console.log('Attempting to authenticate user:', credentials.email);
+          logger.log('Attempting to authenticate user:', credentials.email);
 
           const result = await session.run(
             `
