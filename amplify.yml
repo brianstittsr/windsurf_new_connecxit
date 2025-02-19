@@ -40,16 +40,14 @@ frontend:
           }
           
           echo "\n📝 Environment Variable Details:"
-          safe_url_info "NEXTAUTH_URL" "$NEXTAUTH_URL"
-          safe_var_info "NEXTAUTH_SECRET" "$NEXTAUTH_SECRET"
+          safe_var_info "JWT_SECRET" "$JWT_SECRET"
           safe_url_info "NEO4J_URI" "$NEO4J_URI"
           safe_var_info "NEO4J_USER" "$NEO4J_USER"
           echo "✅ NEO4J_PASSWORD: (length: ${#NEO4J_PASSWORD})"
           
           echo "\n📤 Creating environment files..."
           # Create .env.production
-          echo "NEXTAUTH_URL=$NEXTAUTH_URL" > .env.production
-          echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env.production
+          echo "JWT_SECRET=$JWT_SECRET" > .env.production
           echo "NEO4J_URI=$NEO4J_URI" >> .env.production
           echo "NEO4J_USER=$NEO4J_USER" >> .env.production
           echo "NEO4J_PASSWORD=$NEO4J_PASSWORD" >> .env.production
@@ -60,7 +58,7 @@ frontend:
           echo "✅ Environment files created"
           
           # Final verification
-          if [ -z "$NEXTAUTH_URL" ] || [ -z "$NEXTAUTH_SECRET" ] || [ -z "$NEO4J_URI" ] || [ -z "$NEO4J_USER" ] || [ -z "$NEO4J_PASSWORD" ]; then
+          if [ -z "$JWT_SECRET" ] || [ -z "$NEO4J_URI" ] || [ -z "$NEO4J_USER" ] || [ -z "$NEO4J_PASSWORD" ]; then
             echo "\n❌ Error: Missing required environment variables"
             exit 1
           fi
