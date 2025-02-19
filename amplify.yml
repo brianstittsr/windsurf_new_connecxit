@@ -12,7 +12,10 @@ frontend:
         # Prevent npm from being used
         - npm config set ignore-scripts true
         # Install dependencies with Yarn
-        - yarn install --frozen-lockfile --prefer-offline
+        - yarn cache clean
+        - rm -f yarn.lock
+        - yarn install
+        - yarn dedupe
         # Generate Prisma Client
         - npx prisma generate
         # Debug: Print environment info
