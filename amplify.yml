@@ -3,7 +3,11 @@ frontend:
   phases:
     preBuild:
       commands:
-        - yarn install
+        # Set Node.js version
+        - nvm use 18
+        - node -v
+        # Install dependencies
+        - yarn install --frozen-lockfile
         # Debug: Print environment info
         - |
           echo "🔍 DEBUG - Environment Source Check"

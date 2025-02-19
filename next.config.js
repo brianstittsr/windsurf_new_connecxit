@@ -11,20 +11,14 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  experimental: {
-    turbo: {
-      rules: {
-        // Configure any specific Turbopack rules here
-      }
-    }
-  },
+  // Environment variables configuration
   env: {
     JWT_SECRET: process.env.JWT_SECRET,
     NEO4J_URI: process.env.NEO4J_URI,
     NEO4J_USER: process.env.NEO4J_USER,
     NEO4J_PASSWORD: process.env.NEO4J_PASSWORD,
   },
-  // Ensure environment variables are available at runtime
+  // Server-side environment variables
   serverRuntimeConfig: {
     JWT_SECRET: process.env.JWT_SECRET,
     NEO4J_URI: process.env.NEO4J_URI,
@@ -34,7 +28,11 @@ const nextConfig = {
   // Public runtime config (be careful not to expose secrets)
   publicRuntimeConfig: {
     // Add any public variables here
-  }
+  },
+  // Disable experimental features
+  swcMinify: true,
+  reactStrictMode: true,
+  poweredByHeader: false
 }
 
 module.exports = nextConfig
