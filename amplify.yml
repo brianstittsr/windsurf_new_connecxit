@@ -3,182 +3,60 @@ frontend:
   phases:
     preBuild:
       commands:
-        # Set Node.js version
+        # Set up Node.js and Yarn
         - nvm use 18
-        - node -v
-        # Ensure Yarn is being used
         - corepack enable
         - corepack prepare yarn@1.22.22 --activate
-        # Prevent npm from being used
-        - npm config set ignore-scripts true
-        # Set up Yarn environment
         - yarn set version 4.1.0
+        
+        # Configure Yarn
         - yarn config set nodeLinker node-modules
         - yarn config set enableGlobalCache false
-        - yarn config set compressionLevel 0
-        - yarn config set nmMode hardlinks-local
         
-        # Clean existing files
+        # Clean and install dependencies
         - yarn clean:all || true
         - yarn cache clean
-        - rm -rf .yarn/cache .yarn/install-state.gz
-        - rm -f yarn.lock
-        
-        # Install dependencies
         - yarn install --mode update-lockfile --no-immutable
-        - yarn dedupe
-        - yarn install --check-cache --no-immutable
-        # Verify package installations
-        - |
-          echo "Verifying package installations..."
-          yarn why eslint
-          yarn list --pattern "@eslint/*"
-          yarn list --pattern "eslint*"
         
-        # Run ESLint to verify configuration
-        - yarn lint
-        # Debug: Print environment info
-        - |
-          echo "🔍 DEBUG - Environment Source Check"
-          echo "Process Environment:"
-          printenv | sort
-          echo "\nAWS Amplify Build Image Info:"
-          cat /etc/os-release
-          echo "\n🔑 Database Configuration:"
-          echo "Using Neo4j: $(test -n "$NEO4J_URI" && echo "Yes" || echo "No")"
-          echo "Using Prisma: $(test -f prisma/schema.prisma && echo "Yes" || echo "No")"
-          echo "JWT Config: $(test -n "$JWT_SECRET" && echo "Configured" || echo "Missing")"
+        # Verify environment
+        - node scripts/check-env.js
+        
     build:
       commands:
-        # Set up and verify environment variables
+        # Set up production environment
         - |
-          echo "🔍 Setting up environment variables..."
-          
-          # Define required variables
-          required_vars=("JWT_SECRET" "NEO4J_URI" "NEO4J_USER" "NEO4J_PASSWORD")
-          
-          # Check required variables
-          missing_vars=0
-          for var in "${required_vars[@]}"; do
-            if [ -z "${!var}" ]; then
-              echo "❌ Error: $var is not set"
-              missing_vars=1
-            else
-              echo "✅ $var is configured"
-            fi
-          done
-          
-          # Exit if any required variables are missing
-          if [ $missing_vars -eq 1 ]; then
-            echo "❌ Error: Missing required environment variables"
-            exit 1
-          fi
-          
-          # Set up process.env.secrets
-          echo "🔐 Setting up process.env.secrets..."
+          # Create production environment file
           cat > .env.production << EOL
+          NODE_ENV=production
           JWT_SECRET=${JWT_SECRET}
           NEO4J_URI=${NEO4J_URI}
           NEO4J_USER=${NEO4J_USER}
           NEO4J_PASSWORD=${NEO4J_PASSWORD}
-          NODE_ENV=production
           EOL
           
-          echo "✅ Environment variables configured successfully!"
-          
-          echo "\n📋 Build Environment Context:"
-          echo "BUILD_ID=$BUILD_ID"
-          echo "AWS_REGION=$AWS_REGION"
-          echo "AWS_APP_ID=$AWS_APP_ID"
-          
-          echo "\n🔐 Checking Secrets Access Method:"
-          
-          # Function to safely display variable info
-          safe_var_info() {
-            local var_name=$1
-            local var_value=$2
-            if [ -z "$var_value" ]; then
-              echo "❌ $var_name: undefined"
-            else
-              local length=${#var_value}
-              if [ $length -le 4 ]; then
-                echo "✅ $var_name: ****"
-              elif [[ "$var_name" == *"SECRET"* || "$var_name" == *"PASSWORD"* ]]; then
-                echo "✅ $var_name: ${var_value:0:2}...${var_value: -2} (length: $length)"
-              else
-                local first_two="${var_value:0:2}"
-                local last_two="${var_value: -2}"
-                echo "✅ $var_name: $first_two...$last_two (length: $length)"
-              fi
-            fi
-          }
-          
-          # Function to safely display URL domain
-          safe_url_info() {
-            local var_name=$1
-            local var_value=$2
-            if [ -z "$var_value" ]; then
-              echo "❌ $var_name: undefined"
-            else
-              echo "✅ $var_name: $(echo $var_value | sed -E 's/.*:\/\/([^/]+).*/\1/')"
-            fi
-          }
-          
-          echo "\n📝 Environment Variable Details:"
-          safe_var_info "JWT_SECRET" "$JWT_SECRET"
-          safe_url_info "NEO4J_URI" "$NEO4J_URI"
-          safe_var_info "NEO4J_USER" "$NEO4J_USER"
-          echo "✅ NEO4J_PASSWORD: (length: ${#NEO4J_PASSWORD})"
-          
-          echo "\n📤 Creating environment files..."
-          
-          # Access secrets using Amplify's secrets manager
-          JWT_SECRET=$(printenv JWT_SECRET || echo "${JWT_SECRET}")
-          NEO4J_URI=$(printenv NEO4J_URI || echo "${NEO4J_URI}")
-          NEO4J_USER=$(printenv NEO4J_USER || echo "${NEO4J_USER}")
-          NEO4J_PASSWORD=$(printenv NEO4J_PASSWORD || echo "${NEO4J_PASSWORD}")
-          
-          # Create runtime environment variables file
-          cat << EOF > .env.production
-          JWT_SECRET="${JWT_SECRET}"
-          NEO4J_URI="${NEO4J_URI}"
-          NEO4J_USER="${NEO4J_USER}"
-          NEO4J_PASSWORD="${NEO4J_PASSWORD}"
-          EOF
-          
-          # Create build-time environment variables file
-          cat << EOF > .env
-          NEXT_PUBLIC_API_URL="${NEXT_PUBLIC_API_URL}"
-          JWT_SECRET="${JWT_SECRET}"
-          NEO4J_URI="${NEO4J_URI}"
-          NEO4J_USER="${NEO4J_USER}"
-          NEO4J_PASSWORD="${NEO4J_PASSWORD}"
-          EOF
-          
-          # Ensure environment variables are available during build
-          export JWT_SECRET="${JWT_SECRET}"
-          export NEO4J_URI="${NEO4J_URI}"
-          export NEO4J_USER="${NEO4J_USER}"
-          export NEO4J_PASSWORD="${NEO4J_PASSWORD}"
-          
-          echo "✅ Environment files created"
-          
-          # Final verification
-          if [ -z "$JWT_SECRET" ] || [ -z "$NEO4J_URI" ] || [ -z "$NEO4J_USER" ] || [ -z "$NEO4J_PASSWORD" ]; then
-            echo "\n❌ Error: Missing required environment variables"
-            exit 1
-          fi
-          
-          echo "\n✅ All environment variables verified. Starting build..."
+          # Export variables for build process
+          export NODE_ENV=production
+          export JWT_SECRET=${JWT_SECRET}
+          export NEO4J_URI=${NEO4J_URI}
+          export NEO4J_USER=${NEO4J_USER}
+          export NEO4J_PASSWORD=${NEO4J_PASSWORD}
+        
+        # Build application
         - yarn build
+  
   artifacts:
     baseDirectory: .next
     files:
       - '**/*'
+  
   cache:
     paths:
       - node_modules/**/*
       - .next/cache/**/*
+      - .yarn/cache
+      - .yarn/unplugged
+      - .pnp.*
+  
   customHeaders:
     - pattern: '**/*'
       headers:

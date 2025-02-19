@@ -1,0 +1,133 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        # Set up Node.js and Yarn
+        - nvm use 18
+        - corepack enable
+        - corepack prepare yarn@1.22.22 --activate
+        - yarn set version 4.1.0
+        
+        # Configure Yarn
+        - yarn config set nodeLinker node-modules
+        - yarn config set enableGlobalCache false
+        
+        # Clean and install dependencies
+        - yarn clean:all || true
+        - yarn cache clean
+        - yarn install --mode update-lockfile --no-immutable
+        
+        # Verify environment
+        - node scripts/check-env.js
+        
+    build:
+      commands:
+        # Set up production environment
+        - |
+          cat > .env.production << EOL
+          NODE_ENV=production
+          JWT_SECRET=${JWT_SECRET}
+          NEO4J_URI=${NEO4J_URI}
+          NEO4J_USER=${NEO4J_USER}
+          NEO4J_PASSWORD=${NEO4J_PASSWORD}
+          EOL
+        
+        # Build application
+        - yarn build
+            else
+              local length=${#var_value}
+              if [ $length -le 4 ]; then
+                echo "✅ $var_name: ****"
+              elif [[ "$var_name" == *"SECRET"* || "$var_name" == *"PASSWORD"* ]]; then
+                echo "✅ $var_name: ${var_value:0:2}...${var_value: -2} (length: $length)"
+              else
+                local first_two="${var_value:0:2}"
+                local last_two="${var_value: -2}"
+                echo "✅ $var_name: $first_two...$last_two (length: $length)"
+              fi
+            fi
+          }
+          
+          # Function to safely display URL domain
+          safe_url_info() {
+            local var_name=$1
+            local var_value=$2
+            if [ -z "$var_value" ]; then
+              echo "❌ $var_name: undefined"
+            else
+              echo "✅ $var_name: $(echo $var_value | sed -E 's/.*:\/\/([^/]+).*/\1/')"
+            fi
+          }
+          
+          echo "\n📝 Environment Variable Details:"
+          safe_var_info "JWT_SECRET" "$JWT_SECRET"
+          safe_url_info "NEO4J_URI" "$NEO4J_URI"
+          safe_var_info "NEO4J_USER" "$NEO4J_USER"
+          echo "✅ NEO4J_PASSWORD: (length: ${#NEO4J_PASSWORD})"
+          
+          echo "\n📤 Creating environment files..."
+          
+          # Access secrets using Amplify's secrets manager
+          JWT_SECRET=$(printenv JWT_SECRET || echo "${JWT_SECRET}")
+          NEO4J_URI=$(printenv NEO4J_URI || echo "${NEO4J_URI}")
+          NEO4J_USER=$(printenv NEO4J_USER || echo "${NEO4J_USER}")
+          NEO4J_PASSWORD=$(printenv NEO4J_PASSWORD || echo "${NEO4J_PASSWORD}")
+          
+          # Create runtime environment variables file
+          cat << EOF > .env.production
+          JWT_SECRET="${JWT_SECRET}"
+          NEO4J_URI="${NEO4J_URI}"
+          NEO4J_USER="${NEO4J_USER}"
+          NEO4J_PASSWORD="${NEO4J_PASSWORD}"
+          EOF
+          
+          # Create build-time environment variables file
+          cat << EOF > .env
+          NEXT_PUBLIC_API_URL="${NEXT_PUBLIC_API_URL}"
+          JWT_SECRET="${JWT_SECRET}"
+          NEO4J_URI="${NEO4J_URI}"
+          NEO4J_USER="${NEO4J_USER}"
+          NEO4J_PASSWORD="${NEO4J_PASSWORD}"
+          EOF
+          
+          # Ensure environment variables are available during build
+          export JWT_SECRET="${JWT_SECRET}"
+          export NEO4J_URI="${NEO4J_URI}"
+          export NEO4J_USER="${NEO4J_USER}"
+          export NEO4J_PASSWORD="${NEO4J_PASSWORD}"
+          
+          echo "✅ Environment files created"
+          
+          # Final verification
+          if [ -z "$JWT_SECRET" ] || [ -z "$NEO4J_URI" ] || [ -z "$NEO4J_USER" ] || [ -z "$NEO4J_PASSWORD" ]; then
+            echo "\n❌ Error: Missing required environment variables"
+            exit 1
+          fi
+          
+          echo "\n✅ All environment variables verified. Starting build..."
+        - yarn build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
+      - .yarn/cache
+      - .yarn/unplugged
+      - .pnp.*
+  customHeaders:
+    - pattern: '**/*'
+      headers:
+        - key: 'Strict-Transport-Security'
+          value: 'max-age=31536000; includeSubDomains'
+        - key: 'X-Frame-Options'
+          value: 'SAMEORIGIN'
+        - key: 'X-XSS-Protection'
+          value: '1; mode=block'
+    - pattern: '/api/auth/**/*'
+      headers:
+        - key: 'Cache-Control'
+          value: 'no-store, max-age=0'
