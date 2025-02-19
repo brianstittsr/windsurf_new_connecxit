@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -48,11 +48,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         };
       }
 
-      setToken(data.token);
-      setUser(data.user);
-      
       // Store auth data
       localStorage.setItem('auth_token', data.token);
+      localStorage.setItem('auth_user', JSON.stringify(data.user));
+      
+      setToken(data.token);
+      setUser(data.user);
       localStorage.setItem('auth_user', JSON.stringify(data.user));
 
       return { success: true };

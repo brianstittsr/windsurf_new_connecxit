@@ -21,16 +21,11 @@ function SignInForm() {
     setError('');
 
     try {
-      console.log('Attempting to sign in with email:', email);
       const result = await login(email, password);
 
-      console.log('Sign in result:', result);
-
       if (!result.success) {
-        console.error('Sign in error:', result.error);
         setError(result.error || 'Authentication failed');
       } else {
-        console.log('Sign in successful, redirecting to:', callbackUrl);
         router.push(callbackUrl);
         router.refresh();
       }

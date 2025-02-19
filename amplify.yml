@@ -25,6 +25,7 @@ frontend:
           echo "\n🔑 Database Configuration:"
           echo "Using Neo4j: $(test -n "$NEO4J_URI" && echo "Yes" || echo "No")"
           echo "Using Prisma: $(test -f prisma/schema.prisma && echo "Yes" || echo "No")"
+          echo "JWT Config: $(test -n "$JWT_SECRET" && echo "Configured" || echo "Missing")"
     build:
       commands:
         # Export and verify environment variables
@@ -48,6 +49,8 @@ frontend:
               local length=${#var_value}
               if [ $length -le 4 ]; then
                 echo "✅ $var_name: ****"
+              elif [[ "$var_name" == *"SECRET"* || "$var_name" == *"PASSWORD"* ]]; then
+                echo "✅ $var_name: ${var_value:0:2}...${var_value: -2} (length: $length)"
               else
                 local first_two="${var_value:0:2}"
                 local last_two="${var_value: -2}"
