@@ -1,8 +1,12 @@
 import NextAuth from "next-auth";
 import { authOptions } from './auth.config';
 import { logger } from '@/utils/logger';
+import { verifyEnvironmentVariables } from '@/utils/verifyEnv';
 
 try {
+  // Verify environment variables before initializing NextAuth
+  verifyEnvironmentVariables();
+
   logger.log('Initializing NextAuth handler with options:', {
     providers: authOptions.providers.map(p => p.id),
     hasSecret: !!authOptions.secret,

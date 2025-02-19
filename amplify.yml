@@ -7,19 +7,30 @@ frontend:
     build:
       commands:
         # Export environment variables to both production and local env files
-        - echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env.production
-        - echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env.production
-        - echo "NEO4J_URI=$NEO4J_URI" >> .env.production
-        - echo "NEO4J_USER=$NEO4J_USER" >> .env.production
-        - echo "NEO4J_PASSWORD=$NEO4J_PASSWORD" >> .env.production
-        - cp .env.production .env.local
-        # Verify environment variables
-        - echo "Verifying environment variables..."
         - |
+          echo "Creating .env.production file..."
+          echo "NEXTAUTH_URL=$NEXTAUTH_URL" > .env.production
+          echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env.production
+          echo "NEO4J_URI=$NEO4J_URI" >> .env.production
+          echo "NEO4J_USER=$NEO4J_USER" >> .env.production
+          echo "NEO4J_PASSWORD=$NEO4J_PASSWORD" >> .env.production
+          
+          echo "Contents of .env.production:"
+          cat .env.production
+          
+          echo "\nCopying to .env.local..."
+          cp .env.production .env.local
+          
+          echo "\nContents of .env.local:"
+          cat .env.local
+          
+          echo "\nVerifying environment variables..."
           if [ -z "$NEXTAUTH_URL" ] || [ -z "$NEXTAUTH_SECRET" ] || [ -z "$NEO4J_URI" ] || [ -z "$NEO4J_USER" ] || [ -z "$NEO4J_PASSWORD" ]; then
             echo "Error: Missing required environment variables"
             exit 1
           fi
+          
+          echo "\nAll environment variables verified. Starting build..."
         - yarn build
   artifacts:
     baseDirectory: .next
