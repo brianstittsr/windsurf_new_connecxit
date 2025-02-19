@@ -6,31 +6,66 @@ frontend:
         - yarn install
     build:
       commands:
-        # Export environment variables to both production and local env files
+        # Export and verify environment variables
         - |
-          echo "Creating .env.production file..."
+          echo "🔍 Verifying AWS Amplify environment variables..."
+          
+          # Function to safely display variable info
+          safe_var_info() {
+            local var_name=$1
+            local var_value=$2
+            if [ -z "$var_value" ]; then
+              echo "❌ $var_name: undefined"
+            else
+              local length=${#var_value}
+              if [ $length -le 4 ]; then
+                echo "✅ $var_name: ****"
+              else
+                local first_two="${var_value:0:2}"
+                local last_two="${var_value: -2}"
+                echo "✅ $var_name: $first_two...$last_two (length: $length)"
+              fi
+            fi
+          }
+          
+          # Function to safely display URL domain
+          safe_url_info() {
+            local var_name=$1
+            local var_value=$2
+            if [ -z "$var_value" ]; then
+              echo "❌ $var_name: undefined"
+            else
+              echo "✅ $var_name: $(echo $var_value | sed -E 's/.*:\/\/([^/]+).*/\1/')"
+            fi
+          }
+          
+          echo "\n📝 Environment Variable Details:"
+          safe_url_info "NEXTAUTH_URL" "$NEXTAUTH_URL"
+          safe_var_info "NEXTAUTH_SECRET" "$NEXTAUTH_SECRET"
+          safe_url_info "NEO4J_URI" "$NEO4J_URI"
+          safe_var_info "NEO4J_USER" "$NEO4J_USER"
+          echo "✅ NEO4J_PASSWORD: (length: ${#NEO4J_PASSWORD})"
+          
+          echo "\n📤 Creating environment files..."
+          # Create .env.production
           echo "NEXTAUTH_URL=$NEXTAUTH_URL" > .env.production
           echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env.production
           echo "NEO4J_URI=$NEO4J_URI" >> .env.production
           echo "NEO4J_USER=$NEO4J_USER" >> .env.production
           echo "NEO4J_PASSWORD=$NEO4J_PASSWORD" >> .env.production
           
-          echo "Contents of .env.production:"
-          cat .env.production
-          
-          echo "\nCopying to .env.local..."
+          # Copy to .env.local
           cp .env.production .env.local
           
-          echo "\nContents of .env.local:"
-          cat .env.local
+          echo "✅ Environment files created"
           
-          echo "\nVerifying environment variables..."
+          # Final verification
           if [ -z "$NEXTAUTH_URL" ] || [ -z "$NEXTAUTH_SECRET" ] || [ -z "$NEO4J_URI" ] || [ -z "$NEO4J_USER" ] || [ -z "$NEO4J_PASSWORD" ]; then
-            echo "Error: Missing required environment variables"
+            echo "\n❌ Error: Missing required environment variables"
             exit 1
           fi
           
-          echo "\nAll environment variables verified. Starting build..."
+          echo "\n✅ All environment variables verified. Starting build..."
         - yarn build
   artifacts:
     baseDirectory: .next
