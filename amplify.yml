@@ -11,18 +11,30 @@ frontend:
         - corepack prepare yarn@1.22.22 --activate
         # Prevent npm from being used
         - npm config set ignore-scripts true
-        # Clean and install dependencies
+        # Set up Yarn environment
         - yarn set version 4.1.0
         - yarn config set nodeLinker node-modules
+        - yarn config set enableGlobalCache false
+        - yarn config set compressionLevel 0
+        - yarn config set nmMode hardlinks-local
+        
+        # Clean existing files
         - yarn clean:all || true
         - yarn cache clean
+        - rm -rf .yarn/cache .yarn/install-state.gz
         - rm -f yarn.lock
-        - yarn install --mode update-lockfile
+        
+        # Install dependencies
+        - yarn install --mode update-lockfile --no-immutable
         - yarn dedupe
-        - yarn install --check-cache
-        # Verify ESLint installation
-        - yarn why eslint
-        - yarn info "@eslint/*"
+        - yarn install --check-cache --no-immutable
+        # Verify package installations
+        - |
+          echo "Verifying package installations..."
+          yarn why eslint
+          yarn list --pattern "@eslint/*"
+          yarn list --pattern "eslint*"
+        
         # Run ESLint to verify configuration
         - yarn lint
         # Debug: Print environment info
@@ -38,9 +50,41 @@ frontend:
           echo "JWT Config: $(test -n "$JWT_SECRET" && echo "Configured" || echo "Missing")"
     build:
       commands:
-        # Export and verify environment variables
+        # Set up and verify environment variables
         - |
-          echo "🔍 Verifying AWS Amplify environment variables..."
+          echo "🔍 Setting up environment variables..."
+          
+          # Define required variables
+          required_vars=("JWT_SECRET" "NEO4J_URI" "NEO4J_USER" "NEO4J_PASSWORD")
+          
+          # Check required variables
+          missing_vars=0
+          for var in "${required_vars[@]}"; do
+            if [ -z "${!var}" ]; then
+              echo "❌ Error: $var is not set"
+              missing_vars=1
+            else
+              echo "✅ $var is configured"
+            fi
+          done
+          
+          # Exit if any required variables are missing
+          if [ $missing_vars -eq 1 ]; then
+            echo "❌ Error: Missing required environment variables"
+            exit 1
+          fi
+          
+          # Set up process.env.secrets
+          echo "🔐 Setting up process.env.secrets..."
+          cat > .env.production << EOL
+          JWT_SECRET=${JWT_SECRET}
+          NEO4J_URI=${NEO4J_URI}
+          NEO4J_USER=${NEO4J_USER}
+          NEO4J_PASSWORD=${NEO4J_PASSWORD}
+          NODE_ENV=production
+          EOL
+          
+          echo "✅ Environment variables configured successfully!"
           
           echo "\n📋 Build Environment Context:"
           echo "BUILD_ID=$BUILD_ID"
