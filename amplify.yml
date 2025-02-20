@@ -24,6 +24,9 @@ frontend:
         - node scripts/check-env.js
     build:
       commands:
+        # Run ESLint
+        - yarn lint --max-warnings=0
+        
         # Build the application
         - NODE_ENV=production yarn build
         
