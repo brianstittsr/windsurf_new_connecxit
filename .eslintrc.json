@@ -16,13 +16,21 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"],
+      "extends": [
+        "plugin:@typescript-eslint/recommended"
+      ],
       "parserOptions": {
         "project": "./tsconfig.json"
       }
     },
     {
       "files": ["*.js", "*.jsx"],
-      "parser": "@babel/eslint-parser"
+      "parser": "@babel/eslint-parser",
+      "extends": ["eslint:recommended"],
+      "env": {
+        "node": true,
+        "es6": true
+      }
     }
   ],
   "plugins": ["@typescript-eslint", "import", "prettier"],
