@@ -2,112 +2,38 @@
 
 import { useState, useEffect } from "react";
 
-interface AccountSettingsProps {
+interface UserData {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   timezone: string;
-  bio?: string;
-  location?: string;
-  website?: string;
-  company?: string;
-  title?: string;
-  skills?: string[];
-  interests?: string[];
-  onSave: (data: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    timezone: string;
-    bio?: string;
-    location?: string;
-    website?: string;
-    company?: string;
-    title?: string;
-    skills?: string[];
-    interests?: string[];
-  }) => void;
-  onCancel: () => void;
+  bio: string;
+  location: string;
+  website: string;
+  company: string;
+  title: string;
+  skills: string[];
+  interests: string[];
+  image: string | null;
+}
+
+interface AccountSettingsProps {
+  userData: UserData;
+  setUserData: React.Dispatch<React.SetStateAction<UserData>>;
+  isEditing: boolean;
 }
 
 const AccountSettings = ({
-  firstName,
-  lastName,
-  email,
-  phone,
-  timezone,
-  bio = "",
-  location = "",
-  website = "",
-  company = "",
-  title = "",
-  skills = [],
-  interests = [],
-  onSave,
-  onCancel,
+  userData,
+  setUserData,
+  isEditing,
 }: AccountSettingsProps) => {
-  console.log("AccountSettings - Initial props:", {
-    firstName,
-    lastName,
-    email,
-    phone,
-    timezone,
-    bio,
-    location,
-    website,
-    company,
-    title,
-    skills,
-    interests,
-  });
-
-  const [formData, setFormData] = useState({
-    firstName,
-    lastName,
-    email,
-    phone,
-    timezone,
-    bio,
-    location,
-    website,
-    company,
-    title,
-    skills,
-    interests,
-  });
+  const [formData, setFormData] = useState(userData);
 
   useEffect(() => {
-    console.log("AccountSettings - Props changed, updating form data");
-    setFormData({
-      firstName,
-      lastName,
-      email,
-      phone,
-      timezone,
-      bio,
-      location,
-      website,
-      company,
-      title,
-      skills,
-      interests,
-    });
-  }, [
-    firstName,
-    lastName,
-    email,
-    phone,
-    timezone,
-    bio,
-    location,
-    website,
-    company,
-    title,
-    skills,
-    interests,
-  ]);
+    setFormData(userData);
+  }, [userData]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -133,7 +59,7 @@ const AccountSettings = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("AccountSettings - Submitting form data:", formData);
-    onSave(formData);
+    setUserData(formData);
   };
 
   console.log("AccountSettings - Current form data:", formData);
@@ -352,19 +278,23 @@ const AccountSettings = ({
         </div>
 
         <div className="flex justify-end space-x-3">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-          >
-            Save Changes
-          </button>
+          {isEditing && (
+            <button
+              type="button"
+              onClick={() => setFormData(userData)}
+              className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            >
+              Cancel
+            </button>
+          )}
+          {isEditing && (
+            <button
+              type="submit"
+              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            >
+              Save Changes
+            </button>
+          )}
         </div>
       </form>
     </div>

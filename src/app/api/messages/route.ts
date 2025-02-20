@@ -59,7 +59,7 @@ export async function GET() {
   }
 }
 
-export async function POST(_request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const user = await getServerUser();
 
@@ -70,7 +70,7 @@ export async function POST(_request: NextRequest) {
       });
     }
 
-    const { recipientId, content } = await req.json();
+    const { recipientId, content } = await request.json();
 
     if (!recipientId || !content) {
       return new Response(

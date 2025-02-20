@@ -29,7 +29,7 @@ export async function GET() {
   }
 }
 
-export async function PUT(_request: NextRequest) {
+export async function PUT(request: NextRequest) {
   try {
     const user = await getServerUser();
 
@@ -40,7 +40,7 @@ export async function PUT(_request: NextRequest) {
       });
     }
 
-    const updates = await req.json();
+    const updates = await request.json();
     let session = null;
 
     try {

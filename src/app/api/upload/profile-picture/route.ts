@@ -2,7 +2,7 @@ import { getServerUser } from "@/lib/auth-server";
 import { getSession } from "@/lib/neo4j";
 import { NextRequest } from "next/server";
 
-export async function POST(_request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const user = await getServerUser();
 
@@ -13,7 +13,7 @@ export async function POST(_request: NextRequest) {
       });
     }
 
-    const formData = await req.formData();
+    const formData = await request.formData();
     const file = formData.get("file") as File;
 
     if (!file) {
