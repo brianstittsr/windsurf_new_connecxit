@@ -20,7 +20,7 @@ export async function GET() {
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error) {
-    logger.error('Auth check error:', error);
+    logger.error('Auth check error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return new Response(
       JSON.stringify({ error: 'Not authenticated' }),
       { status: 401, headers: { 'Content-Type': 'application/json' } }
