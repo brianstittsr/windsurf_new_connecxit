@@ -51,8 +51,8 @@ export async function verifyToken(token: string): Promise<AuthToken> {
     }
     return {
       user: payload.user as User,
-      exp: payload.exp as number,
-      iat: payload.iat as number,
+      exp: payload.exp ?? Math.floor(Date.now() / 1000) + 24 * 60 * 60, // 24 hours from now
+      iat: payload.iat ?? Math.floor(Date.now() / 1000),
     };
   } catch (error) {
     console.error("Token verification error:", error);
