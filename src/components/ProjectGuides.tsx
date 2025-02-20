@@ -37,9 +37,7 @@ const guides: Guide[] = [
 ];
 
 export default function ProjectGuides() {
-  const [imageErrors, setImageErrors] = useState<{ [key: string]: boolean }>(
-    {},
-  );
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   const handleImageError = (title: string) => {
     setImageErrors((prev) => ({ ...prev, [title]: true }));

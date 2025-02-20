@@ -4,13 +4,13 @@ import { getEventById, getRelatedEvents } from "@/data/events";
 import { Metadata } from "next";
 import { getServerUser } from "@/lib/auth-server";
 
-type PageParams = {
+interface PageParams {
   id: string;
-};
+}
 
-type Props = {
+interface Props {
   params: Promise<PageParams>;
-};
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;

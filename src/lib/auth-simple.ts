@@ -5,14 +5,14 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 const TOKEN_EXPIRY = "24h";
 
-export type User = {
+export interface User {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
   role: string;
   // Add other user properties as needed
-};
+}
 
 export async function signIn(
   email: string,

@@ -78,9 +78,9 @@ export default function TopTrendingEvents() {
               id={event.id.toString()}
               title={event.title}
               date={`${event.date} at ${event.time}`}
-              location={event.location?.name || ""}
+              location={event.location.name || ""}
               imageUrl={event.backgroundImage}
-              price={event.ticketInfo?.price || ""}
+              price={event.ticketInfo.price || ""}
             />
           ))}
         </div>

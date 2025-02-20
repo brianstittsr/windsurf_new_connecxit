@@ -103,9 +103,7 @@ const planners = [
 
 const HotEventPlanners = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>(
-    {},
-  );
+  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
 
   const handleImageError = (id: number) => {
     setImageErrors((prev) => ({ ...prev, [id]: true }));

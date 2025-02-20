@@ -4,7 +4,7 @@ import { verifyEnvironmentVariables } from "@/utils/verifyEnv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-export type User = {
+export interface User {
   id: string;
   role: string;
   firstName: string;
@@ -23,7 +23,7 @@ export type User = {
   unreadMessages?: number;
   createdAt?: string;
   updatedAt?: string;
-};
+}
 
 const JWT_SECRET =
   process.env.JWT_SECRET || "default-secret-key-change-in-production";

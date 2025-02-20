@@ -51,6 +51,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.23.10",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^20",

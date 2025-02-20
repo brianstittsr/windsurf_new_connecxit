@@ -106,7 +106,7 @@ const Navigation = () => {
                   >
                     <div className="h-8 w-8 rounded-full overflow-hidden">
                       <div className="h-full w-full flex items-center justify-center bg-orange-100 text-orange-600 text-sm font-bold">
-                        {user.firstName?.[0]?.toUpperCase() || "?"}
+                        {user.firstName[0].toUpperCase() || "?"}
                       </div>
                     </div>
                     <span className="text-sm font-medium text-gray-700">
