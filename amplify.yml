@@ -23,7 +23,7 @@ frontend:
         
         # Clean and install dependencies
         - rm -rf node_modules .yarn/cache .yarn/install-state.gz yarn.lock
-        - yarn install --mode update-lockfile --no-immutable --prefer-dedupe
+        - yarn install --refresh-lockfile --check-cache
         
         # Verify environment
         - node scripts/check-env.js
