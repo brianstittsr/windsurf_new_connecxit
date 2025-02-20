@@ -40,6 +40,7 @@
     "neo4j-driver": "^5.27.0",
     "@neo4j/graphql": "^4.4.4",
     "@neo4j/graphql-plugin-auth": "^2.2.0",
+    "graphql": "^16.8.1",
     "next": "^14.1.0",
     "postcss": "^8",
     "react": "^18.2.0",
