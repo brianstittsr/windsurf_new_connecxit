@@ -25,7 +25,6 @@
     },
     {
       "files": ["*.js", "*.jsx"],
-      "parser": "@babel/eslint-parser",
       "extends": ["eslint:recommended"],
       "env": {
         "node": true,
@@ -68,6 +67,7 @@
   },
   "ignorePatterns": [
     ".next/*",
-    "node_modules/*"
+    "node_modules/*",
+    "src/scripts/*.js"
   ]
 }
