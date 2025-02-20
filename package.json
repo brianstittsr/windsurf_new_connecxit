@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "18.x"
+    "node": "18.x",
+    "yarn": "1.22.x"
   },
   "scripts": {
     "check-env": "node scripts/check-env.js",

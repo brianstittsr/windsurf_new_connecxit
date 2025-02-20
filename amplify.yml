@@ -3,9 +3,8 @@ frontend:
   phases:
     preBuild:
       commands:
-        # Set up environment
-        - nvm use 18
-        - npm install -g yarn
+        # Install dependencies
+        - yarn install --frozen-lockfile
         
         # Create production env file
         - |
@@ -17,25 +16,20 @@ frontend:
           NEO4J_PASSWORD=${NEO4J_PASSWORD}
           EOF
         
-        # Install dependencies
-        - yarn install --frozen-lockfile
-        
         # Verify environment
         - node scripts/check-env.js
-        
-        # Verify environment
-        - node scripts/check-env.js
-        
     build:
       commands:
         # Build the application
         - NODE_ENV=production yarn build
-        
-        # Output build info
-        - echo "Build completed successfully"
-        
-        # Build application
-        - yarn build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
   
   artifacts:
     baseDirectory: .next
