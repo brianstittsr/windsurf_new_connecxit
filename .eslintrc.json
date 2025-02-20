@@ -8,6 +8,11 @@
     "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
   "plugins": ["@typescript-eslint", "import", "prettier"],
   "settings": {
     "import/resolver": {
