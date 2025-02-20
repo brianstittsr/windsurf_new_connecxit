@@ -3,11 +3,24 @@ frontend:
   phases:
     preBuild:
       commands:
-        # Install dependencies
+        # Set up environment
+        - nvm use 18
         - npm install -g yarn
+        
+        # Create production env file
+        - |
+          cat << EOF > .env.production
+          NODE_ENV=production
+          JWT_SECRET=${JWT_SECRET}
+          NEO4J_URI=${NEO4J_URI}
+          NEO4J_USER=${NEO4J_USER}
+          NEO4J_PASSWORD=${NEO4J_PASSWORD}
+          EOF
+        
+        # Install dependencies
         - yarn install --frozen-lockfile
         
-        # Verify environment variables
+        # Verify environment
         - node scripts/check-env.js
         
         # Verify environment
@@ -15,23 +28,11 @@ frontend:
         
     build:
       commands:
-        # Set up production environment
-        - |
-          # Create production environment file
-          cat > .env.production << EOL
-          NODE_ENV=production
-          JWT_SECRET=${JWT_SECRET}
-          NEO4J_URI=${NEO4J_URI}
-          NEO4J_USER=${NEO4J_USER}
-          NEO4J_PASSWORD=${NEO4J_PASSWORD}
-          EOL
-          
-          # Export variables for build process
-          export NODE_ENV=production
-          export JWT_SECRET=${JWT_SECRET}
-          export NEO4J_URI=${NEO4J_URI}
-          export NEO4J_USER=${NEO4J_USER}
-          export NEO4J_PASSWORD=${NEO4J_PASSWORD}
+        # Build the application
+        - NODE_ENV=production yarn build
+        
+        # Output build info
+        - echo "Build completed successfully"
         
         # Build application
         - yarn build
