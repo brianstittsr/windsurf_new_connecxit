@@ -1,6 +1,6 @@
 import { getServerUser } from '@/lib/auth-server';
 import { getSession } from '@/lib/neo4j';
-import { logger } from '@/utils/logger';
+
 
 export async function POST(req: Request) {
   try {
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       }
     }
   } catch (error) {
-    logger.error('Profile picture upload error:', error);
+    console.error('Profile picture upload error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return new Response(
       JSON.stringify({ error: 'Failed to upload profile picture' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }

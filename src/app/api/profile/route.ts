@@ -1,6 +1,6 @@
 import { getServerUser } from '@/lib/auth-server';
 import { getSession } from '@/lib/neo4j';
-import { logger } from '@/utils/logger';
+
 
 export async function GET() {
   try {
@@ -18,7 +18,7 @@ export async function GET() {
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (error) {
-    logger.error('Profile fetch error:', error);
+    console.error('Profile fetch error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return new Response(
       JSON.stringify({ error: 'Failed to fetch profile' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
@@ -92,7 +92,7 @@ export async function PUT(req: Request) {
       }
     }
   } catch (error) {
-    logger.error('Profile update error:', error);
+    console.error('Profile update error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return new Response(
       JSON.stringify({ error: 'Failed to update profile' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }

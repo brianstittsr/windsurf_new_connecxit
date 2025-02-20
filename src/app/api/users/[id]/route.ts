@@ -1,6 +1,6 @@
 import { getServerUser } from '@/lib/auth-server';
 import { getSession } from '@/lib/neo4j';
-import { logger } from '@/utils/logger';
+
 
 export async function GET(
   req: Request,
@@ -69,7 +69,7 @@ export async function GET(
       }
     }
   } catch (error) {
-    logger.error('User fetch error:', error);
+    console.error('User fetch error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return new Response(
       JSON.stringify({ error: 'Failed to fetch user' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
@@ -155,7 +155,7 @@ export async function PUT(
       }
     }
   } catch (error) {
-    logger.error('User update error:', error);
+    console.error('User update error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return new Response(
       JSON.stringify({ error: 'Failed to update user' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }

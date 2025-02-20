@@ -1,5 +1,5 @@
 import { getSession } from "./neo4j";
-import { logger } from "@/utils/logger";
+
 import { verifyEnvironmentVariables } from "@/utils/verifyEnv";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -65,13 +65,13 @@ export async function authenticate(email: string, password: string): Promise<{ u
 
     const user = result.records[0]?.get('user');
     if (!user) {
-      logger.error('User not found:', email);
+      console.error('User not found:', email);
       return null;
     }
 
     const isValidPassword = await bcrypt.compare(password, user.hashedPassword);
     if (!isValidPassword) {
-      logger.error('Invalid password for user:', email);
+      console.error('Invalid password for user:', email);
       return null;
     }
 
@@ -94,7 +94,7 @@ export async function authenticate(email: string, password: string): Promise<{ u
       token
     };
   } catch (error) {
-    logger.error('Authentication error:', error);
+    console.error('Authentication error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return null;
   } finally {
     if (session) {
@@ -145,7 +145,7 @@ export async function verifyToken(token: string): Promise<User | null> {
       }
     }
   } catch (error) {
-    logger.error('Token verification error:', error);
+    console.error('Token verification error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return null;
   }
 }

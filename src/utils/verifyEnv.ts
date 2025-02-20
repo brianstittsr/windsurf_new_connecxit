@@ -1,4 +1,4 @@
-import { logger } from './logger';
+
 
 function maskValue(value: string | undefined): string {
   if (!value) return 'undefined';
@@ -31,7 +31,7 @@ export function verifyEnvironmentVariables() {
   };
 
   // Log safe versions of the variables
-  logger.log('Environment Variable Details:', {
+  console.log('Environment Variable Details:', {
     // Authentication
     JWT_SECRET: maskValue(vars.JWT_SECRET),
     
@@ -66,8 +66,8 @@ export function verifyEnvironmentVariables() {
 
   // Optional Prisma check
   if (vars.DATABASE_URL) {
-    logger.log('✅ Prisma database configuration detected');
+    console.log('✅ Prisma database configuration detected');
   }
 
-  logger.log('✅ All required environment variables are present and have expected formats');
+  console.log('✅ All required environment variables are present and have expected formats');
 }

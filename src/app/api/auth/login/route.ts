@@ -1,5 +1,5 @@
 import { authenticateUser } from '@/lib/auth';
-import { logger } from '@/utils/logger';
+
 import { cookies } from 'next/headers';
 
 export async function POST(req: Request) {
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (error) {
-    logger.error('Login error:', error instanceof Error ? error.message : 'Unknown error occurred');
+    console.error('Login error:', error instanceof Error ? error.message : 'Unknown error occurred');
     
     if (error instanceof Error && error.message.includes('Invalid')) {
       return new Response(

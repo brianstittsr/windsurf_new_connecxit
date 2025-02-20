@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { getSession } from '@/lib/neo4j';
-import { logger } from '@/utils/logger';
+
 
 export interface User {
   id: string;
@@ -32,14 +32,14 @@ export interface AuthToken {
 
 export async function authenticateUser(email: string, password: string): Promise<{ user: User; token: string }> {
   if (!email || !password) {
-    logger.error('Missing credentials');
+    console.error('Missing credentials');
     throw new Error('Please provide both email and password');
   }
 
   let session = null;
   try {
     session = await getSession();
-    logger.log('Attempting to authenticate user:', email);
+    console.log('Attempting to authenticate user:', email);
 
     const result = await session.run(
       `
@@ -72,23 +72,23 @@ export async function authenticateUser(email: string, password: string): Promise
     const user = result.records[0]?.get('user');
 
     if (!user) {
-      logger.error('User not found:', email);
+      console.error('User not found:', email);
       throw new Error('Invalid email or password');
     }
 
     if (!user.hashedPassword) {
-      logger.error('Invalid account configuration for user:', email);
+      console.error('Invalid account configuration for user:', email);
       throw new Error('Invalid account configuration');
     }
 
     const isCorrectPassword = await bcrypt.compare(password, user.hashedPassword);
 
     if (!isCorrectPassword) {
-      logger.error('Invalid password for user:', email);
+      console.error('Invalid password for user:', email);
       throw new Error('Invalid email or password');
     }
 
-    logger.log('Successfully authenticated user:', email);
+    console.log('Successfully authenticated user:', email);
 
     // Remove sensitive data before returning
     const userWithoutPassword = { ...user };
@@ -99,7 +99,7 @@ export async function authenticateUser(email: string, password: string): Promise
 
     return { user: userWithoutPassword, token };
   } catch (error) {
-    logger.error('Authentication error:', error);
+    console.error('Authentication error:', error instanceof Error ? error.message : 'Unknown error occurred');
     throw error;
   } finally {
     if (session) {
