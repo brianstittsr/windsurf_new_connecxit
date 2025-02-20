@@ -21,9 +21,11 @@ frontend:
         - yarn config set enableMirror false
         - yarn config set checksumBehavior update
         
-        # Clean and install dependencies
-        - rm -rf node_modules .yarn/cache .yarn/install-state.gz yarn.lock
-        - yarn install --refresh-lockfile --check-cache
+        # Clean dependencies but preserve lock file
+        - rm -rf node_modules .yarn/cache .yarn/install-state.gz
+        
+        # Install dependencies and update lock file if needed
+        - yarn install
         
         # Verify environment
         - node scripts/check-env.js

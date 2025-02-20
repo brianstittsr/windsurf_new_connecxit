@@ -22,6 +22,9 @@
 .yarn/install-state.gz.*
 .pnp.*
 
+# Keep yarn.lock
+!yarn.lock
+
 # testing
 /coverage
 
