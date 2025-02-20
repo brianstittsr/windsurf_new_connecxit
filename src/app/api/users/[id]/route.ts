@@ -3,6 +3,7 @@ import { getSession } from '@/lib/neo4j';
 
 
 export async function GET(
+  request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
