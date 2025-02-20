@@ -1,11 +1,11 @@
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { verifyToken, type User } from './auth';
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { verifyToken, type User } from "./auth";
 
 export async function getServerUser(): Promise<User | null> {
   try {
-    const token = cookies().get('auth_token')?.value;
-    
+    const token = cookies().get("auth_token")?.value;
+
     if (!token) {
       return null;
     }
@@ -19,10 +19,10 @@ export async function getServerUser(): Promise<User | null> {
 
 export async function requireAuth() {
   const user = await getServerUser();
-  
+
   if (!user) {
-    redirect('/signin');
+    redirect("/signin");
   }
-  
+
   return user;
 }

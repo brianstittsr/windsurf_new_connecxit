@@ -1,4 +1,4 @@
-import { getSession, closeDriver } from '@/lib/neo4j';
+import { getSession, closeDriver } from "@/lib/neo4j";
 
 async function migrateUserSchema() {
   const session = getSession();
@@ -26,10 +26,12 @@ async function migrateUserSchema() {
       RETURN count(u) as updatedUsers
     `);
 
-    const updatedUsers = result.records[0].get('updatedUsers').toNumber();
-    console.log(`Migration completed successfully. Updated ${updatedUsers} users.`);
+    const updatedUsers = result.records[0].get("updatedUsers").toNumber();
+    console.log(
+      `Migration completed successfully. Updated ${updatedUsers} users.`,
+    );
   } catch (error) {
-    console.error('Migration failed:', error);
+    console.error("Migration failed:", error);
     throw error;
   } finally {
     await session.close();
@@ -40,7 +42,7 @@ async function migrateUserSchema() {
 // Run the migration
 migrateUserSchema()
   .then(() => process.exit(0))
-  .catch(error => {
+  .catch((error) => {
     console.error(error);
     process.exit(1);
   });

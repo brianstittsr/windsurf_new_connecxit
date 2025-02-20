@@ -1,5 +1,5 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarAlt,
   faComments,
@@ -8,9 +8,9 @@ import {
   faSearch,
   faUsers,
   faVideo,
-} from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
-import Image from 'next/image';
+} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Community() {
   const discussions = [
@@ -22,7 +22,7 @@ export default function Community() {
       category: "Best Practices",
       replies: 24,
       views: 156,
-      lastActivity: "10 minutes ago"
+      lastActivity: "10 minutes ago",
     },
     {
       id: 2,
@@ -32,7 +32,7 @@ export default function Community() {
       category: "Business Tips",
       replies: 18,
       views: 98,
-      lastActivity: "1 hour ago"
+      lastActivity: "1 hour ago",
     },
     {
       id: 3,
@@ -42,8 +42,8 @@ export default function Community() {
       category: "Tools & Resources",
       replies: 32,
       views: 245,
-      lastActivity: "2 hours ago"
-    }
+      lastActivity: "2 hours ago",
+    },
   ];
 
   const upcomingEvents = [
@@ -54,7 +54,7 @@ export default function Community() {
       time: "6:00 PM - 8:00 PM EST",
       location: "Virtual",
       attendees: 156,
-      image: "/images/events/networking.jpg"
+      image: "/images/events/networking.jpg",
     },
     {
       id: 2,
@@ -63,8 +63,8 @@ export default function Community() {
       time: "2:00 PM - 4:00 PM EST",
       location: "Virtual",
       attendees: 89,
-      image: "/images/events/workshop.jpg"
-    }
+      image: "/images/events/workshop.jpg",
+    },
   ];
 
   const categories = [
@@ -72,26 +72,26 @@ export default function Community() {
       name: "General Discussion",
       icon: faComments,
       topics: 245,
-      color: "blue"
+      color: "blue",
     },
     {
       name: "Business Growth",
       icon: faLightbulb,
       topics: 189,
-      color: "green"
+      color: "green",
     },
     {
       name: "Networking",
       icon: faHandshake,
       topics: 156,
-      color: "purple"
+      color: "purple",
     },
     {
       name: "Success Stories",
       icon: faUsers,
       topics: 134,
-      color: "orange"
-    }
+      color: "orange",
+    },
   ];
 
   return (
@@ -129,7 +129,7 @@ export default function Community() {
             {categories.map((category) => (
               <Link
                 key={category.name}
-                href={`/community/category/${category.name.toLowerCase().replace(' ', '-')}`}
+                href={`/community/category/${category.name.toLowerCase().replace(" ", "-")}`}
                 className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all group"
               >
                 <div className={`text-${category.color}-500 mb-4`}>
@@ -138,9 +138,7 @@ export default function Community() {
                 <h3 className="text-xl font-semibold mb-2 group-hover:text-indigo-600 transition-colors">
                   {category.name}
                 </h3>
-                <p className="text-gray-600">
-                  {category.topics} topics
-                </p>
+                <p className="text-gray-600">{category.topics} topics</p>
               </Link>
             ))}
           </div>
@@ -219,15 +217,26 @@ export default function Community() {
                   <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
                   <div className="space-y-2 text-gray-600">
                     <div className="flex items-center">
-                      <FontAwesomeIcon icon={faCalendarAlt} className="w-4 h-4 mr-2" />
-                      <span>{event.date} • {event.time}</span>
+                      <FontAwesomeIcon
+                        icon={faCalendarAlt}
+                        className="w-4 h-4 mr-2"
+                      />
+                      <span>
+                        {event.date} • {event.time}
+                      </span>
                     </div>
                     <div className="flex items-center">
-                      <FontAwesomeIcon icon={faVideo} className="w-4 h-4 mr-2" />
+                      <FontAwesomeIcon
+                        icon={faVideo}
+                        className="w-4 h-4 mr-2"
+                      />
                       <span>{event.location}</span>
                     </div>
                     <div className="flex items-center">
-                      <FontAwesomeIcon icon={faUsers} className="w-4 h-4 mr-2" />
+                      <FontAwesomeIcon
+                        icon={faUsers}
+                        className="w-4 h-4 mr-2"
+                      />
                       <span>{event.attendees} attending</span>
                     </div>
                   </div>
@@ -248,7 +257,8 @@ export default function Community() {
             Join Our Growing Community
           </h2>
           <p className="text-xl mb-8">
-            Connect with thousands of service professionals, share experiences, and grow together.
+            Connect with thousands of service professionals, share experiences,
+            and grow together.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

@@ -1,9 +1,11 @@
-import React from 'react';
+import React from "react";
 
 export default function DoNotSell() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Do Not Sell or Share My Personal Information</h1>
+      <h1 className="text-3xl font-bold mb-8">
+        Do Not Sell or Share My Personal Information
+      </h1>
       <p className="text-gray-600 mb-8">Last Updated: January 18, 2025</p>
 
       <div className="space-y-8">
@@ -11,7 +13,9 @@ export default function DoNotSell() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">Your Privacy Choices</h2>
           <p className="text-gray-700 mb-4">
-            Under California law, you have the right to opt-out of the sale or sharing of your personal information. This page explains your rights and how to exercise them.
+            Under California law, you have the right to opt-out of the sale or
+            sharing of your personal information. This page explains your rights
+            and how to exercise them.
           </p>
         </section>
 
@@ -19,12 +23,13 @@ export default function DoNotSell() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">What This Means</h2>
           <div className="space-y-4">
-            <p className="text-gray-700">
-              When you opt out, ConnecXit will:
-            </p>
+            <p className="text-gray-700">When you opt out, ConnecXit will:</p>
             <ul className="list-disc pl-6 text-gray-700">
               <li>Stop selling your personal information to third parties</li>
-              <li>Stop sharing your personal information for cross-context behavioral advertising</li>
+              <li>
+                Stop sharing your personal information for cross-context
+                behavioral advertising
+              </li>
               <li>Maintain a record of your privacy choices</li>
               <li>Honor your request across all our platforms and services</li>
             </ul>
@@ -36,7 +41,10 @@ export default function DoNotSell() {
           <h2 className="text-2xl font-semibold mb-4">Submit Your Request</h2>
           <form className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email Address
               </label>
               <input
@@ -50,7 +58,10 @@ export default function DoNotSell() {
             </div>
 
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Full Name
               </label>
               <input
@@ -90,8 +101,12 @@ export default function DoNotSell() {
                   />
                 </div>
                 <div className="ml-3">
-                  <label htmlFor="optOutSharing" className="text-sm text-gray-700">
-                    I want to opt out of the sharing of my personal information for cross-context behavioral advertising
+                  <label
+                    htmlFor="optOutSharing"
+                    className="text-sm text-gray-700"
+                  >
+                    I want to opt out of the sharing of my personal information
+                    for cross-context behavioral advertising
                   </label>
                 </div>
               </div>
@@ -110,11 +125,11 @@ export default function DoNotSell() {
 
         {/* Additional Information */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">Additional Information</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            Additional Information
+          </h2>
           <div className="space-y-4">
-            <p className="text-gray-700">
-              After submitting your request:
-            </p>
+            <p className="text-gray-700">After submitting your request:</p>
             <ul className="list-disc pl-6 text-gray-700">
               <li>We will process your request within 15 business days</li>
               <li>You may receive a confirmation email</li>
@@ -128,7 +143,8 @@ export default function DoNotSell() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">Questions?</h2>
           <p className="text-gray-700 mb-4">
-            If you have questions about this process or need assistance, please contact us:
+            If you have questions about this process or need assistance, please
+            contact us:
           </p>
           <div className="text-gray-700">
             <p>Email: privacy@connecxit.com</p>

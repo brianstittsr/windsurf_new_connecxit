@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-
-import { useState } from 'react';
-import EventDetailHero from '@/components/EventDetailHero';
-import EventDetailLogistics from '@/components/EventDetailLogistics';
-import EventDetailDescription from '@/components/EventDetailDescription';
-import EventDetailVideo from '@/components/EventDetailVideo';
-import EventDetailEventTags from '@/components/EventDetailEventTags';
-import EventDetailOrganizedBy from '@/components/EventDetailOrganizedBy';
-import EventDetailMoreEventsFromThisOrganizer from '@/components/EventDetailMoreEventsFromThisOrganizer';
+import { useState } from "react";
+import EventDetailHero from "@/components/EventDetailHero";
+import EventDetailLogistics from "@/components/EventDetailLogistics";
+import EventDetailDescription from "@/components/EventDetailDescription";
+import EventDetailVideo from "@/components/EventDetailVideo";
+import EventDetailEventTags from "@/components/EventDetailEventTags";
+import EventDetailOrganizedBy from "@/components/EventDetailOrganizedBy";
+import EventDetailMoreEventsFromThisOrganizer from "@/components/EventDetailMoreEventsFromThisOrganizer";
 
 interface Event {
   title: string;
@@ -61,7 +60,10 @@ interface EventDetailProps {
   relatedEvents: RelatedEvent[];
 }
 
-export default function EventDetail({ event, relatedEvents }: EventDetailProps) {
+export default function EventDetail({
+  event,
+  relatedEvents,
+}: EventDetailProps) {
   const [tags, setTags] = useState<string[]>(event.tags || []);
   const [isFollowing, setIsFollowing] = useState(event.organizer.isFollowing);
 
@@ -75,12 +77,12 @@ export default function EventDetail({ event, relatedEvents }: EventDetailProps) 
 
   return (
     <main className="flex-grow">
-      <EventDetailHero 
+      <EventDetailHero
         title={event.title}
         subtitle={event.subtitle}
         backgroundImage={event.backgroundImage}
       />
-      <EventDetailLogistics 
+      <EventDetailLogistics
         title={event.title}
         description={event.description}
         date={event.date}
@@ -90,26 +92,20 @@ export default function EventDetail({ event, relatedEvents }: EventDetailProps) 
         ticketInfo={event.ticketInfo}
         duration={event.duration}
       />
-      <EventDetailDescription 
+      <EventDetailDescription
         title={`ABOUT THIS ${event.title}`}
         description={event.description}
       />
-      <EventDetailVideo 
-        initialVideoUrl={event.videoUrl}
-        title={event.title}
-
-      />
-      <EventDetailEventTags 
+      <EventDetailVideo initialVideoUrl={event.videoUrl} title={event.title} />
+      <EventDetailEventTags
         initialTags={tags}
         onTagsChange={handleTagsChange}
       />
-      <EventDetailOrganizedBy 
-        organizer={{...event.organizer, isFollowing}}
+      <EventDetailOrganizedBy
+        organizer={{ ...event.organizer, isFollowing }}
         onFollow={handleFollow}
       />
-      <EventDetailMoreEventsFromThisOrganizer 
-        events={relatedEvents}
-      />
+      <EventDetailMoreEventsFromThisOrganizer events={relatedEvents} />
     </main>
   );
 }

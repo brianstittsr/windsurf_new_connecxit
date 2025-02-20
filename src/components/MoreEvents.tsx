@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import EventCard from './EventCard';
-import { moreEvents } from '@/data/events';
+import { useState } from "react";
+import EventCard from "./EventCard";
+import { moreEvents } from "@/data/events";
 
 export default function MoreEvents() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -19,7 +19,7 @@ export default function MoreEvents() {
 
   const currentEvents = moreEvents.slice(
     currentPage * eventsPerPage,
-    (currentPage + 1) * eventsPerPage
+    (currentPage + 1) * eventsPerPage,
   );
 
   return (
@@ -33,8 +33,18 @@ export default function MoreEvents() {
               className="p-2 rounded-full border border-gray-300 hover:bg-gray-100"
               aria-label="Previous page"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </button>
             <button
@@ -42,8 +52,18 @@ export default function MoreEvents() {
               className="p-2 rounded-full border border-gray-300 hover:bg-gray-100"
               aria-label="Next page"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -56,9 +76,9 @@ export default function MoreEvents() {
               id={event.id.toString()}
               title={event.title}
               date={`${event.date} at ${event.time}`}
-              location={event.location?.name || ''}
+              location={event.location?.name || ""}
               imageUrl={event.backgroundImage}
-              price={event.ticketInfo?.price || ''}
+              price={event.ticketInfo?.price || ""}
             />
           ))}
         </div>

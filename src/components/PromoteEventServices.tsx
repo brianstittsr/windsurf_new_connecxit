@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 export default function PromoteEventServices() {
-
   return (
     <section className="bg-gray-50 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -11,7 +10,8 @@ export default function PromoteEventServices() {
             Promote Your <span className="text-[#ff5722]">Event Services</span>
           </h2>
           <p className="mt-4 text-lg text-gray-600">
-            Join our network of top event professionals and connect with clients looking for your services.
+            Join our network of top event professionals and connect with clients
+            looking for your services.
           </p>
           <div className="mt-8">
             <Link

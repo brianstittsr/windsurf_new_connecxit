@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import PageLayout from '@/components/PageLayout';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { useState } from "react";
+import PageLayout from "@/components/PageLayout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import {
   faCalculator,
   faInfoCircle,
@@ -12,7 +12,7 @@ import {
   faUtensils,
   faMusic,
   faChampagneGlasses,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
 interface ServiceCategory {
   id: string;
@@ -30,63 +30,63 @@ interface CostGuide {
 }
 
 export default function CostEstimatesPage() {
-  const [eventType, setEventType] = useState('wedding');
-  const [guestCount, setGuestCount] = useState('50-100');
-  const [location, setLocation] = useState('');
+  const [eventType, setEventType] = useState("wedding");
+  const [guestCount, setGuestCount] = useState("50-100");
+  const [location, setLocation] = useState("");
 
   const serviceCategories: ServiceCategory[] = [
     {
-      id: 'photography',
-      name: 'Photography',
+      id: "photography",
+      name: "Photography",
       icon: faCamera,
-      priceRange: '$1,000 - $3,000',
-      description: 'Professional event photography services',
+      priceRange: "$1,000 - $3,000",
+      description: "Professional event photography services",
     },
     {
-      id: 'catering',
-      name: 'Catering',
+      id: "catering",
+      name: "Catering",
       icon: faUtensils,
-      priceRange: '$50 - $150 per person',
-      description: 'Full-service catering and beverages',
+      priceRange: "$50 - $150 per person",
+      description: "Full-service catering and beverages",
     },
     {
-      id: 'entertainment',
-      name: 'Entertainment',
+      id: "entertainment",
+      name: "Entertainment",
       icon: faMusic,
-      priceRange: '$800 - $2,500',
-      description: 'DJs, live bands, and performers',
+      priceRange: "$800 - $2,500",
+      description: "DJs, live bands, and performers",
     },
     {
-      id: 'venue',
-      name: 'Venue',
+      id: "venue",
+      name: "Venue",
       icon: faChampagneGlasses,
-      priceRange: '$2,000 - $10,000',
-      description: 'Event spaces and venues',
+      priceRange: "$2,000 - $10,000",
+      description: "Event spaces and venues",
     },
   ];
 
   const costGuides: CostGuide[] = [
     {
-      title: 'Wedding Photography',
-      description: 'Understanding wedding photography pricing and packages',
+      title: "Wedding Photography",
+      description: "Understanding wedding photography pricing and packages",
       factors: [
-        'Hours of coverage',
-        'Number of photographers',
-        'Photo editing and retouching',
-        'Digital files and prints',
+        "Hours of coverage",
+        "Number of photographers",
+        "Photo editing and retouching",
+        "Digital files and prints",
       ],
-      averageCost: '$2,500',
+      averageCost: "$2,500",
     },
     {
-      title: 'Corporate Event Catering',
-      description: 'Breakdown of corporate catering costs',
+      title: "Corporate Event Catering",
+      description: "Breakdown of corporate catering costs",
       factors: [
-        'Menu selection',
-        'Service style',
-        'Staff requirements',
-        'Equipment rentals',
+        "Menu selection",
+        "Service style",
+        "Staff requirements",
+        "Equipment rentals",
       ],
-      averageCost: '$75 per person',
+      averageCost: "$75 per person",
     },
   ];
 
@@ -95,9 +95,12 @@ export default function CostEstimatesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Cost Estimates</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Cost Estimates
+          </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Get accurate cost estimates for your event services and make informed decisions.
+            Get accurate cost estimates for your event services and make
+            informed decisions.
           </p>
         </div>
 
@@ -106,9 +109,14 @@ export default function CostEstimatesPage() {
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center mb-6">
               <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
-                <FontAwesomeIcon icon={faCalculator} className="w-6 h-6 text-orange-500" />
+                <FontAwesomeIcon
+                  icon={faCalculator}
+                  className="w-6 h-6 text-orange-500"
+                />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Cost Calculator</h2>
+              <h2 className="text-2xl font-bold text-gray-900">
+                Cost Calculator
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -166,16 +174,28 @@ export default function CostEstimatesPage() {
 
         {/* Service Categories */}
         <div className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">Average Costs by Service</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8">
+            Average Costs by Service
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {serviceCategories.map((category) => (
-              <div key={category.id} className="bg-white p-6 rounded-lg shadow-sm">
+              <div
+                key={category.id}
+                className="bg-white p-6 rounded-lg shadow-sm"
+              >
                 <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                  <FontAwesomeIcon icon={category.icon} className="w-6 h-6 text-orange-500" />
+                  <FontAwesomeIcon
+                    icon={category.icon}
+                    className="w-6 h-6 text-orange-500"
+                  />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{category.name}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  {category.name}
+                </h3>
                 <p className="text-gray-600 mb-4">{category.description}</p>
-                <div className="text-lg font-bold text-orange-500">{category.priceRange}</div>
+                <div className="text-lg font-bold text-orange-500">
+                  {category.priceRange}
+                </div>
               </div>
             ))}
           </div>
@@ -192,15 +212,28 @@ export default function CostEstimatesPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {costGuides.map((guide) => (
-              <div key={guide.title} className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{guide.title}</h3>
+              <div
+                key={guide.title}
+                className="bg-white p-6 rounded-lg shadow-sm"
+              >
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {guide.title}
+                </h3>
                 <p className="text-gray-600 mb-4">{guide.description}</p>
                 <div className="mb-4">
-                  <h4 className="font-medium text-gray-900 mb-2">Key Cost Factors:</h4>
+                  <h4 className="font-medium text-gray-900 mb-2">
+                    Key Cost Factors:
+                  </h4>
                   <ul className="space-y-2">
                     {guide.factors.map((factor) => (
-                      <li key={factor} className="flex items-center text-gray-600">
-                        <FontAwesomeIcon icon={faInfoCircle} className="w-4 h-4 text-orange-500 mr-2" />
+                      <li
+                        key={factor}
+                        className="flex items-center text-gray-600"
+                      >
+                        <FontAwesomeIcon
+                          icon={faInfoCircle}
+                          className="w-4 h-4 text-orange-500 mr-2"
+                        />
                         {factor}
                       </li>
                     ))}
@@ -208,7 +241,9 @@ export default function CostEstimatesPage() {
                 </div>
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                   <span className="text-gray-600">Average Cost:</span>
-                  <span className="text-lg font-bold text-orange-500">{guide.averageCost}</span>
+                  <span className="text-lg font-bold text-orange-500">
+                    {guide.averageCost}
+                  </span>
                 </div>
               </div>
             ))}

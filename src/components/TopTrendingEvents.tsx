@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import EventCard from './EventCard';
-import { trendingEvents } from '@/data/events';
+import { useState } from "react";
+import EventCard from "./EventCard";
+import { trendingEvents } from "@/data/events";
 
 export default function TopTrendingEvents() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -19,22 +19,34 @@ export default function TopTrendingEvents() {
 
   const currentEvents = trendingEvents.slice(
     currentPage * eventsPerPage,
-    (currentPage + 1) * eventsPerPage
+    (currentPage + 1) * eventsPerPage,
   );
 
   return (
     <div className="bg-white py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Top trending in North Carolina</h2>
+          <h2 className="text-2xl font-bold text-gray-900">
+            Top trending in North Carolina
+          </h2>
           <div className="flex space-x-2">
             <button
               onClick={prevPage}
               className="p-2 rounded-full border border-gray-300 hover:bg-gray-100"
               aria-label="Previous page"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </button>
             <button
@@ -42,8 +54,18 @@ export default function TopTrendingEvents() {
               className="p-2 rounded-full border border-gray-300 hover:bg-gray-100"
               aria-label="Next page"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -56,9 +78,9 @@ export default function TopTrendingEvents() {
               id={event.id.toString()}
               title={event.title}
               date={`${event.date} at ${event.time}`}
-              location={event.location?.name || ''}
+              location={event.location?.name || ""}
               imageUrl={event.backgroundImage}
-              price={event.ticketInfo?.price || ''}
+              price={event.ticketInfo?.price || ""}
             />
           ))}
         </div>

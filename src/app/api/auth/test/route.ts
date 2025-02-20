@@ -1,5 +1,5 @@
-import { createAuthMiddleware } from '@/lib/auth-simple';
-import { NextResponse } from 'next/server';
+import { createAuthMiddleware } from "@/lib/auth-simple";
+import { NextResponse } from "next/server";
 
 const authMiddleware = createAuthMiddleware();
 
@@ -12,7 +12,7 @@ export async function GET(req: Request) {
 
   // If we get here, the user is authenticated
   return NextResponse.json({
-    message: 'You are authenticated!',
-    timestamp: new Date().toISOString()
+    message: "You are authenticated!",
+    timestamp: new Date().toISOString(),
   });
 }

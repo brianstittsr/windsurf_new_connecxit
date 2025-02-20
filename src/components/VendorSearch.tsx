@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import DatePicker from 'react-datepicker';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 const VendorSearch = () => {
   const router = useRouter();
   const [isVendorSearch, setIsVendorSearch] = useState(false);
   const [eventDate, setEventDate] = useState<Date | null>(null);
-  const [vendorType, setVendorType] = useState('');
-  const [zipCode, setZipCode] = useState('');
+  const [vendorType, setVendorType] = useState("");
+  const [zipCode, setZipCode] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const searchParams = new URLSearchParams({
-      type: isVendorSearch ? 'vendor' : 'planner',
-      date: eventDate ? eventDate.toISOString() : '',
+      type: isVendorSearch ? "vendor" : "planner",
+      date: eventDate ? eventDate.toISOString() : "",
       category: vendorType,
-      location: zipCode
+      location: zipCode,
     });
     router.push(`/searchresults?${searchParams.toString()}`);
   };
@@ -33,8 +33,8 @@ const VendorSearch = () => {
           <button
             className={`px-4 py-2 rounded transition-colors ${
               !isVendorSearch
-                ? 'bg-orange-500 text-white'
-                : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                ? "bg-orange-500 text-white"
+                : "border border-gray-300 text-gray-700 hover:bg-gray-50"
             }`}
             onClick={() => setIsVendorSearch(false)}
           >
@@ -43,8 +43,8 @@ const VendorSearch = () => {
           <button
             className={`px-4 py-2 rounded transition-colors ${
               isVendorSearch
-                ? 'bg-orange-500 text-white'
-                : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                ? "bg-orange-500 text-white"
+                : "border border-gray-300 text-gray-700 hover:bg-gray-50"
             }`}
             onClick={() => setIsVendorSearch(true)}
           >
@@ -62,14 +62,19 @@ const VendorSearch = () => {
               placeholderText="Select event date"
             />
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-              <FontAwesomeIcon icon={faCalendar} className="w-5 h-5 text-gray-400" />
+              <FontAwesomeIcon
+                icon={faCalendar}
+                className="w-5 h-5 text-gray-400"
+              />
             </div>
           </div>
 
           {/* Vendor/Planner Type Selection */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              {isVendorSearch ? 'What type of vendors do you need?' : 'What Type of Event Planner Do You Need?'}
+              {isVendorSearch
+                ? "What type of vendors do you need?"
+                : "What Type of Event Planner Do You Need?"}
             </label>
             <div className="relative">
               <select
@@ -78,7 +83,9 @@ const VendorSearch = () => {
                 onChange={(e) => setVendorType(e.target.value)}
               >
                 <option value="">
-                  {isVendorSearch ? 'Select vendor type' : 'Select a planner type'}
+                  {isVendorSearch
+                    ? "Select vendor type"
+                    : "Select a planner type"}
                 </option>
                 {isVendorSearch ? (
                   <>
@@ -98,8 +105,18 @@ const VendorSearch = () => {
                 )}
               </select>
               <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <svg
+                  className="w-5 h-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </div>
             </div>

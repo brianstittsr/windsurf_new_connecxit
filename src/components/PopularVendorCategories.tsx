@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSpa,
   faUtensils,
@@ -10,49 +10,49 @@ import {
   faCar,
   faCalendarCheck,
   faBuilding,
-} from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
+} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const categories = [
   {
-    name: 'Florist & Decor Services',
+    name: "Florist & Decor Services",
     icon: faSpa,
-    href: '/vendors/florist-decor',
+    href: "/vendors/florist-decor",
   },
   {
-    name: 'Catering Services',
+    name: "Catering Services",
     icon: faUtensils,
-    href: '/vendors/catering',
+    href: "/vendors/catering",
   },
   {
-    name: 'Photography Services',
+    name: "Photography Services",
     icon: faCamera,
-    href: '/vendors/photography',
+    href: "/vendors/photography",
   },
   {
-    name: 'Live Entertainment',
+    name: "Live Entertainment",
     icon: faGuitar,
-    href: '/vendors/live-entertainment',
+    href: "/vendors/live-entertainment",
   },
   {
-    name: 'DJ Services',
+    name: "DJ Services",
     icon: faMusic,
-    href: '/vendors/dj',
+    href: "/vendors/dj",
   },
   {
-    name: 'Transportation Services',
+    name: "Transportation Services",
     icon: faCar,
-    href: '/vendors/transportation',
+    href: "/vendors/transportation",
   },
   {
-    name: 'Event Planning & Decor',
+    name: "Event Planning & Decor",
     icon: faCalendarCheck,
-    href: '/vendors/event-planning',
+    href: "/vendors/event-planning",
   },
   {
-    name: 'Venue and Location Services',
+    name: "Venue and Location Services",
     icon: faBuilding,
-    href: '/vendors/venues',
+    href: "/vendors/venues",
   },
 ];
 

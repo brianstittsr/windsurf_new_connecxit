@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 interface EventDetailHeroProps {
   title: string;
@@ -9,9 +9,9 @@ interface EventDetailHeroProps {
 }
 
 export default function EventDetailHero({
-  title = 'CHARLOTTE',
-  subtitle = 'career fairs',
-  backgroundImage = 'https://images.unsplash.com/photo-1579546929662-711aa81148cf?w=1600&auto=format&fit=crop'
+  title = "CHARLOTTE",
+  subtitle = "career fairs",
+  backgroundImage = "https://images.unsplash.com/photo-1579546929662-711aa81148cf?w=1600&auto=format&fit=crop",
 }: EventDetailHeroProps) {
   return (
     <div className="relative w-full h-[400px] overflow-hidden rounded-lg">
@@ -30,7 +30,6 @@ export default function EventDetailHero({
 
       {/* Content */}
       <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center text-center">
-
         {/* Title */}
         <h1 className="text-6xl font-bold text-white mb-2 tracking-wider [text-shadow:_2px_2px_8px_rgb(75_85_99_/_0.8)]">
           {title}
@@ -49,9 +48,7 @@ export default function EventDetailHero({
           className="w-full h-[60px] text-white fill-current"
           preserveAspectRatio="none"
         >
-          <path
-            d="M0,0 C480,40 960,40 1440,0 L1440,60 L0,60 Z"
-          />
+          <path d="M0,0 C480,40 960,40 1440,0 L1440,60 L0,60 Z" />
         </svg>
       </div>
     </div>

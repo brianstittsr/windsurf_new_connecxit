@@ -1,8 +1,8 @@
-import { redirect, notFound } from 'next/navigation';
-import EventDetailWrapper from '@/components/EventDetailWrapper';
-import { getEventById, getRelatedEvents } from '@/data/events';
-import { Metadata } from 'next';
-import { getServerUser } from '@/lib/auth-server';
+import { redirect, notFound } from "next/navigation";
+import EventDetailWrapper from "@/components/EventDetailWrapper";
+import { getEventById, getRelatedEvents } from "@/data/events";
+import { Metadata } from "next";
+import { getServerUser } from "@/lib/auth-server";
 
 type PageParams = {
   id: string;
@@ -12,15 +12,13 @@ type Props = {
   params: Promise<PageParams>;
 };
 
-export async function generateMetadata(
-  { params }: Props
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
   const event = await getEventById(resolvedParams.id);
-  
+
   if (!event) {
     return {
-      title: 'Event Not Found',
+      title: "Event Not Found",
     };
   }
 
@@ -35,7 +33,7 @@ export default async function EventDetailPage({ params }: Props) {
   const resolvedParams = await params;
 
   if (!user) {
-    redirect('/signin');
+    redirect("/signin");
   }
 
   const event = await getEventById(resolvedParams.id);
@@ -45,10 +43,5 @@ export default async function EventDetailPage({ params }: Props) {
 
   const relatedEvents = await getRelatedEvents(resolvedParams.id);
 
-  return (
-    <EventDetailWrapper 
-      event={event} 
-      relatedEvents={relatedEvents}
-    />
-  );
+  return <EventDetailWrapper event={event} relatedEvents={relatedEvents} />;
 }

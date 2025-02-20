@@ -1,11 +1,11 @@
-import Hero from '@/components/Hero';
-import VendorSearch from '@/components/VendorSearch';
-import BusinessCTA from '@/components/BusinessCTA';
-import PopularVendorCategories from '@/components/PopularVendorCategories';
-import RecentQuestions from '@/components/RecentQuestions';
-import HotEventPlanners from '@/components/HotEventPlanners';
-import ProjectGuides from '@/components/ProjectGuides';
-import PromoteEventServices from '@/components/PromoteEventServices';
+import Hero from "@/components/Hero";
+import VendorSearch from "@/components/VendorSearch";
+import BusinessCTA from "@/components/BusinessCTA";
+import PopularVendorCategories from "@/components/PopularVendorCategories";
+import RecentQuestions from "@/components/RecentQuestions";
+import HotEventPlanners from "@/components/HotEventPlanners";
+import ProjectGuides from "@/components/ProjectGuides";
+import PromoteEventServices from "@/components/PromoteEventServices";
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">

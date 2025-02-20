@@ -7,9 +7,9 @@ interface DefaultGuideProps {
 
 export default function DefaultGuide({
   title,
-  className = '',
+  className = "",
   width = 400,
-  height = 300
+  height = 300,
 }: DefaultGuideProps) {
   return (
     <div

@@ -1,5 +1,5 @@
-import { executeQuery, type QueryParams } from './dbService';
-import { incrementUnreadMessages } from './userService';
+import { executeQuery, type QueryParams } from "./dbService";
+import { incrementUnreadMessages } from "./userService";
 
 interface CreateMessageData extends QueryParams {
   content: string;
@@ -26,7 +26,9 @@ interface MessageRecord {
   };
 }
 
-async function createMessage(messageData: CreateMessageData): Promise<MessageRecord> {
+async function createMessage(
+  messageData: CreateMessageData,
+): Promise<MessageRecord> {
   try {
     const result = await executeQuery(
       `
@@ -42,11 +44,11 @@ async function createMessage(messageData: CreateMessageData): Promise<MessageRec
       CREATE (m)-[:TO]->(to)
       RETURN m
       `,
-      messageData as QueryParams
+      messageData as QueryParams,
     );
 
     if (!result || !result[0] || !result[0].get(0)?.properties) {
-      throw new Error('Failed to create message');
+      throw new Error("Failed to create message");
     }
 
     // Increment unread message count for recipient
@@ -54,7 +56,7 @@ async function createMessage(messageData: CreateMessageData): Promise<MessageRec
 
     return result[0].get(0).properties as MessageRecord;
   } catch (error) {
-    console.error('Create message error:', error);
+    console.error("Create message error:", error);
     throw error;
   }
 }
@@ -66,12 +68,12 @@ async function getUnreadMessageCount(userId: string): Promise<number> {
       MATCH (u:User {id: $userId})
       RETURN u.unreadMessages as count
       `,
-      { userId }
+      { userId },
     );
 
     return result[0]?.get(0) || 0;
   } catch (error) {
-    console.error('Get unread message count error:', error);
+    console.error("Get unread message count error:", error);
     throw error;
   }
 }
@@ -87,16 +89,16 @@ async function getUserMessages(userId: string): Promise<MessageRecord[]> {
       RETURN m, from, to
       ORDER BY m.createdAt DESC
       `,
-      { userId }
+      { userId },
     );
 
-    return result.map(record => ({
+    return result.map((record) => ({
       ...record.get(0).properties,
       from: record.get(1).properties,
-      to: record.get(2).properties
+      to: record.get(2).properties,
     })) as MessageRecord[];
   } catch (error) {
-    console.error('Get user messages error:', error);
+    console.error("Get user messages error:", error);
     throw error;
   }
 }
@@ -108,10 +110,10 @@ async function markMessageAsRead(messageId: string): Promise<void> {
       MATCH (m:Message {id: $messageId})
       SET m.read = true
       `,
-      { messageId }
+      { messageId },
     );
   } catch (error) {
-    console.error('Mark message as read error:', error);
+    console.error("Mark message as read error:", error);
     throw error;
   }
 }
@@ -122,5 +124,5 @@ export {
   getUserMessages,
   markMessageAsRead,
   type MessageRecord,
-  type CreateMessageData
+  type CreateMessageData,
 };

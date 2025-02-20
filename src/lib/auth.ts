@@ -1,7 +1,6 @@
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import { getSession } from '@/lib/neo4j';
-
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import { getSession } from "@/lib/neo4j";
 
 export interface User {
   id: string;
@@ -30,16 +29,19 @@ export interface AuthToken {
   iat: number;
 }
 
-export async function authenticateUser(email: string, password: string): Promise<{ user: User; token: string }> {
+export async function authenticateUser(
+  email: string,
+  password: string,
+): Promise<{ user: User; token: string }> {
   if (!email || !password) {
-    console.error('Missing credentials');
-    throw new Error('Please provide both email and password');
+    console.error("Missing credentials");
+    throw new Error("Please provide both email and password");
   }
 
   let session = null;
   try {
     session = await getSession();
-    console.log('Attempting to authenticate user:', email);
+    console.log("Attempting to authenticate user:", email);
 
     const result = await session.run(
       `
@@ -66,29 +68,32 @@ export async function authenticateUser(email: string, password: string): Promise
         .updatedAt
       } as user
       `,
-      { email }
+      { email },
     );
 
-    const user = result.records[0]?.get('user');
+    const user = result.records[0]?.get("user");
 
     if (!user) {
-      console.error('User not found:', email);
-      throw new Error('Invalid email or password');
+      console.error("User not found:", email);
+      throw new Error("Invalid email or password");
     }
 
     if (!user.hashedPassword) {
-      console.error('Invalid account configuration for user:', email);
-      throw new Error('Invalid account configuration');
+      console.error("Invalid account configuration for user:", email);
+      throw new Error("Invalid account configuration");
     }
 
-    const isCorrectPassword = await bcrypt.compare(password, user.hashedPassword);
+    const isCorrectPassword = await bcrypt.compare(
+      password,
+      user.hashedPassword,
+    );
 
     if (!isCorrectPassword) {
-      console.error('Invalid password for user:', email);
-      throw new Error('Invalid email or password');
+      console.error("Invalid password for user:", email);
+      throw new Error("Invalid email or password");
     }
 
-    console.log('Successfully authenticated user:', email);
+    console.log("Successfully authenticated user:", email);
 
     // Remove sensitive data before returning
     const userWithoutPassword = { ...user };
@@ -99,7 +104,10 @@ export async function authenticateUser(email: string, password: string): Promise
 
     return { user: userWithoutPassword, token };
   } catch (error) {
-    console.error('Authentication error:', error instanceof Error ? error.message : 'Unknown error occurred');
+    console.error(
+      "Authentication error:",
+      error instanceof Error ? error.message : "Unknown error occurred",
+    );
     throw error;
   } finally {
     if (session) {
@@ -110,35 +118,35 @@ export async function authenticateUser(email: string, password: string): Promise
 
 export function generateToken(user: User): string {
   if (!process.env.JWT_SECRET) {
-    throw new Error('JWT_SECRET is not set');
+    throw new Error("JWT_SECRET is not set");
   }
 
   return jwt.sign({ user }, process.env.JWT_SECRET, {
-    expiresIn: '7d', // Token expires in 7 days
+    expiresIn: "7d", // Token expires in 7 days
   });
 }
 
 export function verifyToken(token: string): AuthToken {
   if (!process.env.JWT_SECRET) {
-    throw new Error('JWT_SECRET is not set');
+    throw new Error("JWT_SECRET is not set");
   }
 
   try {
     return jwt.verify(token, process.env.JWT_SECRET) as AuthToken;
   } catch (error) {
-    throw new Error('Invalid token');
+    throw new Error("Invalid token");
   }
 }
 
 export function getTokenFromHeader(authHeader?: string): string {
   if (!authHeader) {
-    throw new Error('No authorization header');
+    throw new Error("No authorization header");
   }
 
-  const [bearer, token] = authHeader.split(' ');
+  const [bearer, token] = authHeader.split(" ");
 
-  if (bearer !== 'Bearer' || !token) {
-    throw new Error('Invalid authorization header');
+  if (bearer !== "Bearer" || !token) {
+    throw new Error("Invalid authorization header");
   }
 
   return token;

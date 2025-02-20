@@ -1,8 +1,15 @@
-import React from 'react';
-import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faLocationDot, faClock, faPhone, faEnvelope, faCheck } from '@fortawesome/free-solid-svg-icons';
-import VendorActions from '@/components/VendorActions';
+import React from "react";
+import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faStar,
+  faLocationDot,
+  faClock,
+  faPhone,
+  faEnvelope,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
+import VendorActions from "@/components/VendorActions";
 
 export default function RosesCleanTeamPage() {
   return (
@@ -20,7 +27,9 @@ export default function RosesCleanTeamPage() {
               />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Rose&apos;s Clean Team Inc</h1>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Rose&apos;s Clean Team Inc
+              </h1>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-emerald-600 font-medium">Great 4.7</span>
                 <div className="flex items-center gap-1">
@@ -28,7 +37,7 @@ export default function RosesCleanTeamPage() {
                     <FontAwesomeIcon
                       key={i}
                       icon={faStar}
-                      className={`w-4 h-4 ${i < 4 ? 'text-yellow-400' : i < 4.7 ? 'text-yellow-200' : 'text-gray-200'}`}
+                      className={`w-4 h-4 ${i < 4 ? "text-yellow-400" : i < 4.7 ? "text-yellow-200" : "text-gray-200"}`}
                     />
                   ))}
                 </div>
@@ -58,28 +67,36 @@ export default function RosesCleanTeamPage() {
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">About</h2>
               <p className="text-gray-600">
-                Rose&apos;s Clean Team Inc is a professional cleaning service based in Boston, specializing in residential and commercial cleaning. 
-                With over 1,136 successful projects on ConnecXit and 319 similar jobs in your area, we have the experience and expertise to 
-                deliver exceptional cleaning services that exceed your expectations.
+                Rose&apos;s Clean Team Inc is a professional cleaning service
+                based in Boston, specializing in residential and commercial
+                cleaning. With over 1,136 successful projects on ConnecXit and
+                319 similar jobs in your area, we have the experience and
+                expertise to deliver exceptional cleaning services that exceed
+                your expectations.
               </p>
             </section>
 
             {/* Services Section */}
             <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Services</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Services
+              </h2>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  'Regular House Cleaning',
-                  'Deep Cleaning',
-                  'Move-in/Move-out Cleaning',
-                  'Office Cleaning',
-                  'Post-Construction Cleaning',
-                  'Window Cleaning',
-                  'Carpet Cleaning',
-                  'Green Cleaning Options'
+                  "Regular House Cleaning",
+                  "Deep Cleaning",
+                  "Move-in/Move-out Cleaning",
+                  "Office Cleaning",
+                  "Post-Construction Cleaning",
+                  "Window Cleaning",
+                  "Carpet Cleaning",
+                  "Green Cleaning Options",
                 ].map((service) => (
                   <div key={service} className="flex items-center gap-2">
-                    <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-green-500" />
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className="w-4 h-4 text-green-500"
+                    />
                     <span>{service}</span>
                   </div>
                 ))}
@@ -104,8 +121,9 @@ export default function RosesCleanTeamPage() {
                     <span className="font-medium">Tinika M.</span>
                   </div>
                   <p className="text-gray-600">
-                    &quot;I couldn&apos;t be happier with the amazing job these ladies did for our home. 
-                    Our home now looks move in ready thanks to Rose&apos;s Clean Team Inc. They were thorough, 
+                    &quot;I couldn&apos;t be happier with the amazing job these
+                    ladies did for our home. Our home now looks move in ready
+                    thanks to Rose&apos;s Clean Team Inc. They were thorough,
                     professional, and paid attention to every detail.&quot;
                   </p>
                 </div>

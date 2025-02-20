@@ -1,6 +1,6 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import {
   faBook,
   faChartLine,
@@ -10,8 +10,8 @@ import {
   faShieldAlt,
   faTools,
   faUserGraduate,
-} from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
+} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export default function ProResources() {
   const resources = [
@@ -21,20 +21,23 @@ export default function ProResources() {
       items: [
         {
           title: "Complete Guide to ConnecXit",
-          description: "Learn everything you need to know about using ConnecXit as a service provider.",
-          link: "/pro-resources/complete-guide"
+          description:
+            "Learn everything you need to know about using ConnecXit as a service provider.",
+          link: "/pro-resources/complete-guide",
         },
         {
           title: "Setting Up Your Profile",
-          description: "Tips and best practices for creating an attractive professional profile.",
-          link: "/pro-resources/profile-setup"
+          description:
+            "Tips and best practices for creating an attractive professional profile.",
+          link: "/pro-resources/profile-setup",
         },
         {
           title: "Pricing Your Services",
-          description: "Guidelines for setting competitive and profitable rates.",
-          link: "/pro-resources/pricing-guide"
-        }
-      ]
+          description:
+            "Guidelines for setting competitive and profitable rates.",
+          link: "/pro-resources/pricing-guide",
+        },
+      ],
     },
     {
       category: "Business Growth",
@@ -42,20 +45,21 @@ export default function ProResources() {
       items: [
         {
           title: "Marketing Your Services",
-          description: "Strategies to attract more clients and grow your business.",
-          link: "/pro-resources/marketing"
+          description:
+            "Strategies to attract more clients and grow your business.",
+          link: "/pro-resources/marketing",
         },
         {
           title: "Client Retention",
           description: "Tips for building long-term client relationships.",
-          link: "/pro-resources/client-retention"
+          link: "/pro-resources/client-retention",
         },
         {
           title: "Expanding Your Business",
           description: "Guide to scaling your service business effectively.",
-          link: "/pro-resources/expansion"
-        }
-      ]
+          link: "/pro-resources/expansion",
+        },
+      ],
     },
     {
       category: "Best Practices",
@@ -64,43 +68,44 @@ export default function ProResources() {
         {
           title: "Service Excellence",
           description: "Guidelines for delivering outstanding service quality.",
-          link: "/pro-resources/service-excellence"
+          link: "/pro-resources/service-excellence",
         },
         {
           title: "Client Communication",
-          description: "Effective communication strategies for service professionals.",
-          link: "/pro-resources/communication"
+          description:
+            "Effective communication strategies for service professionals.",
+          link: "/pro-resources/communication",
         },
         {
           title: "Time Management",
           description: "Tips for optimizing your schedule and productivity.",
-          link: "/pro-resources/time-management"
-        }
-      ]
-    }
+          link: "/pro-resources/time-management",
+        },
+      ],
+    },
   ];
 
   const tools = [
     {
       icon: faClock,
       title: "Scheduling Tools",
-      description: "Manage your availability and bookings efficiently"
+      description: "Manage your availability and bookings efficiently",
     },
     {
       icon: faTools,
       title: "Business Tools",
-      description: "Essential tools for running your service business"
+      description: "Essential tools for running your service business",
     },
     {
       icon: faShieldAlt,
       title: "Safety Resources",
-      description: "Guidelines and tools for maintaining safety"
+      description: "Guidelines and tools for maintaining safety",
     },
     {
       icon: faHandshake,
       title: "Client Management",
-      description: "Tools for managing client relationships"
-    }
+      description: "Tools for managing client relationships",
+    },
   ];
 
   return (
@@ -108,9 +113,7 @@ export default function ProResources() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-20">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Pro Resources
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Pro Resources</h1>
           <p className="text-xl mb-8">
             Everything you need to succeed as a service provider on ConnecXit
           </p>
@@ -152,7 +155,9 @@ export default function ProResources() {
                     icon={category.icon}
                     className="text-orange-500 w-8 h-8 mb-4"
                   />
-                  <h3 className="text-xl font-semibold mb-2">{category.category}</h3>
+                  <h3 className="text-xl font-semibold mb-2">
+                    {category.category}
+                  </h3>
                 </div>
                 <div className="p-6">
                   <ul className="space-y-4">
@@ -163,7 +168,9 @@ export default function ProResources() {
                           className="block hover:bg-gray-50 -mx-6 px-6 py-3 transition-colors"
                         >
                           <h4 className="font-medium mb-1">{item.title}</h4>
-                          <p className="text-sm text-gray-600">{item.description}</p>
+                          <p className="text-sm text-gray-600">
+                            {item.description}
+                          </p>
                         </Link>
                       </li>
                     ))}
@@ -217,7 +224,9 @@ export default function ProResources() {
                   Professional Development
                 </h2>
                 <p className="text-gray-300 mb-6">
-                  Take your skills to the next level with our professional development resources, training programs, and certification courses.
+                  Take your skills to the next level with our professional
+                  development resources, training programs, and certification
+                  courses.
                 </p>
                 <Link
                   href="/pro-resources/training"

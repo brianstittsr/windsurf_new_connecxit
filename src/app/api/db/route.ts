@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { getSession } from '@/lib/neo4j';
+import { NextResponse } from "next/server";
+import { getSession } from "@/lib/neo4j";
 
 export async function POST(req: Request) {
   let session = null;
@@ -11,17 +11,17 @@ export async function POST(req: Request) {
       const result = await session.run(query, params);
       return NextResponse.json({ success: true, data: result.records });
     } catch (error) {
-      console.error('Database query error:', error);
+      console.error("Database query error:", error);
       return NextResponse.json(
-        { success: false, error: 'Database query failed' },
-        { status: 500 }
+        { success: false, error: "Database query failed" },
+        { status: 500 },
       );
     }
   } catch (error) {
-    console.error('Database error:', error);
+    console.error("Database error:", error);
     return NextResponse.json(
-      { success: false, error: 'Database operation failed' },
-      { status: 500 }
+      { success: false, error: "Database operation failed" },
+      { status: 500 },
     );
   } finally {
     if (session) {

@@ -1,46 +1,49 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarAlt,
   faSearch,
   faTags,
   faUser,
-} from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
-import Image from 'next/image';
+} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Blog() {
   const featuredPosts = [
     {
       id: 1,
       title: "10 Tips for Growing Your Service Business in 2025",
-      excerpt: "Learn the latest strategies and best practices for expanding your service business in the current market.",
+      excerpt:
+        "Learn the latest strategies and best practices for expanding your service business in the current market.",
       image: "/images/blog/growing-business.jpg",
       author: "Sarah Johnson",
       date: "January 15, 2025",
       category: "Business Growth",
-      readTime: "8 min read"
+      readTime: "8 min read",
     },
     {
       id: 2,
       title: "The Future of Home Services: AI and Automation",
-      excerpt: "Discover how artificial intelligence and automation are transforming the home services industry.",
+      excerpt:
+        "Discover how artificial intelligence and automation are transforming the home services industry.",
       image: "/images/blog/ai-automation.jpg",
       author: "Michael Chen",
       date: "January 12, 2025",
       category: "Technology",
-      readTime: "6 min read"
+      readTime: "6 min read",
     },
     {
       id: 3,
       title: "Building Trust with Clients: A Complete Guide",
-      excerpt: "Essential strategies for building and maintaining trust with your service clients.",
+      excerpt:
+        "Essential strategies for building and maintaining trust with your service clients.",
       image: "/images/blog/client-trust.jpg",
       author: "David Wilson",
       date: "January 10, 2025",
       category: "Client Relations",
-      readTime: "10 min read"
-    }
+      readTime: "10 min read",
+    },
   ];
 
   const categories = [
@@ -51,7 +54,7 @@ export default function Blog() {
     "Industry News",
     "Tips & Tricks",
     "Success Stories",
-    "Professional Development"
+    "Professional Development",
   ];
 
   const recentPosts = [
@@ -59,20 +62,20 @@ export default function Blog() {
       id: 4,
       title: "5 Essential Tools for Service Professionals",
       date: "January 8, 2025",
-      category: "Tools"
+      category: "Tools",
     },
     {
       id: 5,
       title: "Marketing Your Services on Social Media",
       date: "January 5, 2025",
-      category: "Marketing"
+      category: "Marketing",
     },
     {
       id: 6,
       title: "Understanding Client Needs: A Deep Dive",
       date: "January 3, 2025",
-      category: "Client Relations"
-    }
+      category: "Client Relations",
+    },
   ];
 
   return (
@@ -135,7 +138,10 @@ export default function Blog() {
                   <div className="flex items-center text-sm text-gray-500">
                     <FontAwesomeIcon icon={faUser} className="w-4 h-4 mr-2" />
                     <span className="mr-4">{post.author}</span>
-                    <FontAwesomeIcon icon={faCalendarAlt} className="w-4 h-4 mr-2" />
+                    <FontAwesomeIcon
+                      icon={faCalendarAlt}
+                      className="w-4 h-4 mr-2"
+                    />
                     <span>{post.date}</span>
                   </div>
                 </div>
@@ -156,10 +162,13 @@ export default function Blog() {
                 {categories.map((category) => (
                   <Link
                     key={category}
-                    href={`/blog/category/${category.toLowerCase().replace(' ', '-')}`}
+                    href={`/blog/category/${category.toLowerCase().replace(" ", "-")}`}
                     className="bg-gray-50 hover:bg-gray-100 px-4 py-3 rounded-lg text-center transition-colors"
                   >
-                    <FontAwesomeIcon icon={faTags} className="mr-2 text-purple-600" />
+                    <FontAwesomeIcon
+                      icon={faTags}
+                      className="mr-2 text-purple-600"
+                    />
                     <span className="font-medium">{category}</span>
                   </Link>
                 ))}
@@ -171,7 +180,10 @@ export default function Blog() {
               <h2 className="text-2xl font-bold mb-8">Recent Posts</h2>
               <div className="space-y-6">
                 {recentPosts.map((post) => (
-                  <article key={post.id} className="border-b border-gray-100 pb-6 last:border-0">
+                  <article
+                    key={post.id}
+                    className="border-b border-gray-100 pb-6 last:border-0"
+                  >
                     <Link href={`/blog/${post.id}`} className="group">
                       <h3 className="font-medium mb-2 group-hover:text-purple-600 transition-colors">
                         {post.title}
@@ -180,7 +192,10 @@ export default function Blog() {
                         <span className="bg-purple-100 text-purple-600 px-2 py-1 rounded text-xs font-medium mr-2">
                           {post.category}
                         </span>
-                        <FontAwesomeIcon icon={faCalendarAlt} className="w-4 h-4 mr-2" />
+                        <FontAwesomeIcon
+                          icon={faCalendarAlt}
+                          className="w-4 h-4 mr-2"
+                        />
                         <span>{post.date}</span>
                       </div>
                     </Link>
@@ -196,9 +211,7 @@ export default function Blog() {
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4">
           <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl p-8 md:p-12 text-white text-center">
-            <h2 className="text-3xl font-bold mb-4">
-              Stay Updated
-            </h2>
+            <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
             <p className="text-purple-100 mb-8">
               Get the latest insights and tips delivered straight to your inbox
             </p>

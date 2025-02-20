@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function JamesWilsonBlog() {
   return (
@@ -23,7 +23,9 @@ export default function JamesWilsonBlog() {
       {/* Article Content */}
       <div className="prose prose-lg max-w-none">
         <div className="bg-gray-50 p-6 rounded-lg mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">At a Glance</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            At a Glance
+          </h2>
           <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <dt className="font-medium text-gray-500">Location</dt>
@@ -46,16 +48,28 @@ export default function JamesWilsonBlog() {
 
         <h2>From Music to Festival Management</h2>
         <p>
-          James Wilson&apos;s path to festival planning began on stage, not behind the scenes. As a former musician who toured with several indie bands, James gained firsthand experience of what makes festivals successful – and what makes them fail. This unique perspective would later become the foundation of his approach to festival planning.
+          James Wilson&apos;s path to festival planning began on stage, not
+          behind the scenes. As a former musician who toured with several indie
+          bands, James gained firsthand experience of what makes festivals
+          successful – and what makes them fail. This unique perspective would
+          later become the foundation of his approach to festival planning.
         </p>
 
         <p>
-          &quot;After years of performing at festivals across the country, I realized there was an opportunity to create better experiences for both artists and attendees,&quot; James recalls. In 2009, he founded Wilson Festival Productions in Cary, bringing a performer&apos;s insight to event organization.
+          &quot;After years of performing at festivals across the country, I
+          realized there was an opportunity to create better experiences for
+          both artists and attendees,&quot; James recalls. In 2009, he founded
+          Wilson Festival Productions in Cary, bringing a performer&apos;s
+          insight to event organization.
         </p>
 
         <h2>A Revolutionary Approach</h2>
         <p>
-          James&apos;s background as a performer influences every festival he plans. He&apos;s known for creating events that balance the needs of performers, vendors, and attendees while maintaining a smooth operational flow. His festivals are recognized for their exceptional organization and attention to the attendee experience.
+          James&apos;s background as a performer influences every festival he
+          plans. He&apos;s known for creating events that balance the needs of
+          performers, vendors, and attendees while maintaining a smooth
+          operational flow. His festivals are recognized for their exceptional
+          organization and attention to the attendee experience.
         </p>
 
         <h2>Signature Festivals</h2>
@@ -67,7 +81,9 @@ export default function JamesWilsonBlog() {
         </ul>
 
         <div className="bg-blue-50 p-6 rounded-lg my-8">
-          <h3 className="text-xl font-semibold text-blue-900 mb-4">Festival Planning Essentials</h3>
+          <h3 className="text-xl font-semibold text-blue-900 mb-4">
+            Festival Planning Essentials
+          </h3>
           <ul className="list-disc pl-6 space-y-2">
             <li>Create multiple engagement points throughout the venue</li>
             <li>Design intuitive traffic flow patterns</li>
@@ -78,16 +94,28 @@ export default function JamesWilsonBlog() {
 
         <h2>The Future of Festivals in North Carolina</h2>
         <p>
-          James sees exciting developments ahead for North Carolina&apos;s festival scene. &quot;Our state&apos;s diverse culture and growing population are creating opportunities for more specialized and unique festival concepts,&quot; he notes. &quot;We&apos;re moving beyond traditional music and food festivals to create more immersive, themed experiences.&quot;
+          James sees exciting developments ahead for North Carolina&apos;s
+          festival scene. &quot;Our state&apos;s diverse culture and growing
+          population are creating opportunities for more specialized and unique
+          festival concepts,&quot; he notes. &quot;We&apos;re moving beyond
+          traditional music and food festivals to create more immersive, themed
+          experiences.&quot;
         </p>
 
         <p>
-          He predicts a trend toward more sustainable, technology-enhanced festivals that maintain a strong community focus. &quot;The future of festivals lies in creating experiences that are both locally relevant and globally inspired,&quot; he explains.
+          He predicts a trend toward more sustainable, technology-enhanced
+          festivals that maintain a strong community focus. &quot;The future of
+          festivals lies in creating experiences that are both locally relevant
+          and globally inspired,&quot; he explains.
         </p>
 
         <h2>Innovation in Festival Planning</h2>
         <p>
-          James has pioneered several innovations in festival management, including a mobile app for real-time crowd flow monitoring and a vendor management system that's become an industry standard. His team also developed sustainable practices that have reduced festival waste by over 60%.
+          James has pioneered several innovations in festival management,
+          including a mobile app for real-time crowd flow monitoring and a
+          vendor management system that's become an industry standard. His team
+          also developed sustainable practices that have reduced festival waste
+          by over 60%.
         </p>
 
         <h2>Notable Achievements</h2>
@@ -100,7 +128,10 @@ export default function JamesWilsonBlog() {
 
         <h2>Connect with James</h2>
         <p>
-          For festival planning consultation or to discuss event opportunities, contact James and his team at their Cary office. They specialize in music festivals, cultural celebrations, food and beverage events, and artisan markets.
+          For festival planning consultation or to discuss event opportunities,
+          contact James and his team at their Cary office. They specialize in
+          music festivals, cultural celebrations, food and beverage events, and
+          artisan markets.
         </p>
       </div>
     </article>

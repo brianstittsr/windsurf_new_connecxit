@@ -1,4 +1,4 @@
-import neo4j, { Driver } from 'neo4j-driver';
+import neo4j, { Driver } from "neo4j-driver";
 
 let driver: Driver;
 
@@ -8,27 +8,29 @@ export function getDriver() {
     const user = process.env.NEO4J_USER;
     const password = process.env.NEO4J_PASSWORD;
 
-    console.log('Neo4j Connection Attempt:', {
+    console.log("Neo4j Connection Attempt:", {
       hasUri: !!uri,
       hasUser: !!user,
       hasPassword: !!password,
-      nodeEnv: process.env.NODE_ENV
+      nodeEnv: process.env.NODE_ENV,
     });
 
     if (!uri || !user || !password) {
       const missingVars = [
-        !uri && 'NEO4J_URI',
-        !user && 'NEO4J_USER',
-        !password && 'NEO4J_PASSWORD'
+        !uri && "NEO4J_URI",
+        !user && "NEO4J_USER",
+        !password && "NEO4J_PASSWORD",
       ].filter(Boolean);
-      throw new Error(`Neo4j environment variables not set: ${missingVars.join(', ')}`);
+      throw new Error(
+        `Neo4j environment variables not set: ${missingVars.join(", ")}`,
+      );
     }
 
     try {
       driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
-      console.log('Neo4j driver created successfully');
+      console.log("Neo4j driver created successfully");
     } catch (error) {
-      console.error('Failed to create Neo4j driver:', error);
+      console.error("Failed to create Neo4j driver:", error);
       throw error;
     }
   }
@@ -47,5 +49,5 @@ export async function closeDriver() {
 }
 
 // Cleanup on process termination
-process.on('SIGTERM', closeDriver);
-process.on('SIGINT', closeDriver);
+process.on("SIGTERM", closeDriver);
+process.on("SIGINT", closeDriver);

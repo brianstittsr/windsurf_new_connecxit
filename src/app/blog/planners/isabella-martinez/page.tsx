@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function IsabellaMartinezBlog() {
   return (
@@ -23,7 +23,9 @@ export default function IsabellaMartinezBlog() {
       {/* Article Content */}
       <div className="prose prose-lg max-w-none">
         <div className="bg-gray-50 p-6 rounded-lg mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">At a Glance</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            At a Glance
+          </h2>
           <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <dt className="font-medium text-gray-500">Location</dt>
@@ -46,16 +48,30 @@ export default function IsabellaMartinezBlog() {
 
         <h2>Bridging Cultures Through Celebration</h2>
         <p>
-          Isabella Martinez&apos;s journey into cultural event planning began with her own rich heritage and experience growing up in a multicultural family. Born to a Mexican father and Brazilian mother, Isabella developed a deep appreciation for how celebrations can bridge cultural divides and bring communities together.
+          Isabella Martinez&apos;s journey into cultural event planning began
+          with her own rich heritage and experience growing up in a
+          multicultural family. Born to a Mexican father and Brazilian mother,
+          Isabella developed a deep appreciation for how celebrations can bridge
+          cultural divides and bring communities together.
         </p>
 
         <p>
-          After completing her Master&apos;s in Cultural Studies at Wake Forest University, Isabella worked with various cultural organizations before founding Martinez Cultural Events in 2014. &quot;I saw a need for event planners who could authentically represent and celebrate different cultural traditions while creating inclusive experiences,&quot; she explains.
+          After completing her Master&apos;s in Cultural Studies at Wake Forest
+          University, Isabella worked with various cultural organizations before
+          founding Martinez Cultural Events in 2014. &quot;I saw a need for
+          event planners who could authentically represent and celebrate
+          different cultural traditions while creating inclusive
+          experiences,&quot; she explains.
         </p>
 
         <h2>Cultural Expertise</h2>
         <p>
-          Isabella&apos;s strength lies in her ability to blend traditional cultural elements with contemporary event planning techniques. She&apos;s known for creating celebrations that honor cultural authenticity while ensuring accessibility for diverse audiences. Her multilingual capabilities and deep understanding of various cultural protocols make her uniquely qualified to handle multicultural events.
+          Isabella&apos;s strength lies in her ability to blend traditional
+          cultural elements with contemporary event planning techniques.
+          She&apos;s known for creating celebrations that honor cultural
+          authenticity while ensuring accessibility for diverse audiences. Her
+          multilingual capabilities and deep understanding of various cultural
+          protocols make her uniquely qualified to handle multicultural events.
         </p>
 
         <h2>Signature Events</h2>
@@ -67,7 +83,9 @@ export default function IsabellaMartinezBlog() {
         </ul>
 
         <div className="bg-blue-50 p-6 rounded-lg my-8">
-          <h3 className="text-xl font-semibold text-blue-900 mb-4">Cultural Celebration Tips</h3>
+          <h3 className="text-xl font-semibold text-blue-900 mb-4">
+            Cultural Celebration Tips
+          </h3>
           <ul className="list-disc pl-6 space-y-2">
             <li>Research and respect cultural traditions</li>
             <li>Include authentic cultural elements</li>
@@ -78,21 +96,34 @@ export default function IsabellaMartinezBlog() {
 
         <h2>The Future of Cultural Events in North Carolina</h2>
         <p>
-          Isabella sees North Carolina becoming a hub for multicultural celebrations. &quot;Our state&apos;s growing diversity is creating beautiful opportunities for cultural exchange and celebration,&quot; she notes. &quot;We&apos;re seeing increased interest in events that celebrate multiple cultural traditions simultaneously.&quot;
+          Isabella sees North Carolina becoming a hub for multicultural
+          celebrations. &quot;Our state&apos;s growing diversity is creating
+          beautiful opportunities for cultural exchange and celebration,&quot;
+          she notes. &quot;We&apos;re seeing increased interest in events that
+          celebrate multiple cultural traditions simultaneously.&quot;
         </p>
 
         <p>
-          She predicts a trend toward more fusion events that honor multiple cultural traditions while creating new, shared experiences. &quot;The future of cultural celebrations is about finding common ground while respecting individual traditions,&quot; she explains.
+          She predicts a trend toward more fusion events that honor multiple
+          cultural traditions while creating new, shared experiences. &quot;The
+          future of cultural celebrations is about finding common ground while
+          respecting individual traditions,&quot; she explains.
         </p>
 
         <h2>Community Impact</h2>
         <p>
-          Beyond event planning, Isabella is actively involved in cultural education and community building. She regularly conducts workshops on cultural sensitivity and celebration planning for other event professionals and community organizations.
+          Beyond event planning, Isabella is actively involved in cultural
+          education and community building. She regularly conducts workshops on
+          cultural sensitivity and celebration planning for other event
+          professionals and community organizations.
         </p>
 
         <h2>Connect with Isabella</h2>
         <p>
-          For cultural event planning or consulting services, contact Isabella&apos;s team at their Winston-Salem office or through their multilingual website. They specialize in cultural celebrations, cross-cultural weddings, and diversity events.
+          For cultural event planning or consulting services, contact
+          Isabella&apos;s team at their Winston-Salem office or through their
+          multilingual website. They specialize in cultural celebrations,
+          cross-cultural weddings, and diversity events.
         </p>
       </div>
     </article>

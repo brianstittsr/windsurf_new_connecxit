@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useState } from 'react';
+import Image from "next/image";
+import { useState } from "react";
 
 interface EventDetailOrganizedByProps {
   organizer: {
@@ -17,15 +17,17 @@ interface EventDetailOrganizedByProps {
 
 export default function EventDetailOrganizedBy({
   organizer,
-  onFollow
+  onFollow,
 }: EventDetailOrganizedByProps) {
-  const [isFollowing, setIsFollowing] = useState(organizer.isFollowing || false);
+  const [isFollowing, setIsFollowing] = useState(
+    organizer.isFollowing || false,
+  );
   const [followerCount, setFollowerCount] = useState(organizer.followers);
 
   const handleFollow = () => {
     const newFollowingState = !isFollowing;
     setIsFollowing(newFollowingState);
-    setFollowerCount(prev => newFollowingState ? prev + 1 : prev - 1);
+    setFollowerCount((prev) => (newFollowingState ? prev + 1 : prev - 1));
     onFollow?.(newFollowingState);
   };
 
@@ -43,7 +45,7 @@ export default function EventDetailOrganizedBy({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-2xl font-bold text-gray-900 mb-8">Organized by</h2>
-        
+
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <div className="flex items-start space-x-6">
             {/* Organizer Image */}
@@ -82,11 +84,11 @@ export default function EventDetailOrganizedBy({
                   onClick={handleFollow}
                   className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
                     isFollowing
-                      ? 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                      ? "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                      : "bg-blue-600 text-white hover:bg-blue-700"
                   }`}
                 >
-                  {isFollowing ? 'Following' : 'Follow'}
+                  {isFollowing ? "Following" : "Follow"}
                 </button>
               </div>
 

@@ -1,8 +1,15 @@
-import React from 'react';
-import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faLocationDot, faClock, faPhone, faEnvelope, faCheck } from '@fortawesome/free-solid-svg-icons';
-import VendorActions from '@/components/VendorActions';
+import React from "react";
+import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faStar,
+  faLocationDot,
+  faClock,
+  faPhone,
+  faEnvelope,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
+import VendorActions from "@/components/VendorActions";
 
 export default function FixAndGoPage() {
   return (
@@ -58,29 +65,36 @@ export default function FixAndGoPage() {
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">About</h2>
               <p className="text-gray-600">
-                Fix&Go is your one-stop solution for cleaning and maintenance services in Raleigh. We combine 
-                professional cleaning services with basic maintenance and repair work, offering a comprehensive 
-                service that keeps your home both clean and well-maintained. With 78 successful projects and 
-                growing, we pride ourselves on our quick response time and quality work.
+                Fix&Go is your one-stop solution for cleaning and maintenance
+                services in Raleigh. We combine professional cleaning services
+                with basic maintenance and repair work, offering a comprehensive
+                service that keeps your home both clean and well-maintained.
+                With 78 successful projects and growing, we pride ourselves on
+                our quick response time and quality work.
               </p>
             </section>
 
             {/* Services Section */}
             <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Services</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Services
+              </h2>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  'House Cleaning',
-                  'Basic Home Repairs',
-                  'Plumbing Maintenance',
-                  'Deep Cleaning',
-                  'Fixture Installation',
-                  'Appliance Maintenance',
-                  'Emergency Cleaning',
-                  'Post-Repair Cleanup'
+                  "House Cleaning",
+                  "Basic Home Repairs",
+                  "Plumbing Maintenance",
+                  "Deep Cleaning",
+                  "Fixture Installation",
+                  "Appliance Maintenance",
+                  "Emergency Cleaning",
+                  "Post-Repair Cleanup",
                 ].map((service) => (
                   <div key={service} className="flex items-center gap-2">
-                    <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-green-500" />
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className="w-4 h-4 text-green-500"
+                    />
                     <span>{service}</span>
                   </div>
                 ))}
@@ -105,9 +119,10 @@ export default function FixAndGoPage() {
                     <span className="font-medium">Anna S.</span>
                   </div>
                   <p className="text-gray-600">
-                    &quot;Roma did a great job, was punctual and left a clean job behind. Helped me with a shower 
-                    head that was leaking after. Very professional and efficient service. Would definitely 
-                    use again!&quot;
+                    &quot;Roma did a great job, was punctual and left a clean
+                    job behind. Helped me with a shower head that was leaking
+                    after. Very professional and efficient service. Would
+                    definitely use again!&quot;
                   </p>
                 </div>
               </div>

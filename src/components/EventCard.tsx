@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 
 interface EventCardProps {
   id: string;
@@ -10,7 +10,14 @@ interface EventCardProps {
   price?: string;
 }
 
-export default function EventCard({ id, title, date, location, imageUrl, price }: EventCardProps) {
+export default function EventCard({
+  id,
+  title,
+  date,
+  location,
+  imageUrl,
+  price,
+}: EventCardProps) {
   return (
     <Link href={`/events/${id}`} className="group">
       <div className="relative overflow-hidden rounded-lg">

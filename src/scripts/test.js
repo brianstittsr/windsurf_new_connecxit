@@ -1,7 +1,7 @@
-import neo4j from 'neo4j-driver';
-import dotenv from 'dotenv';
-import bcrypt from 'bcryptjs';
-import { v4 as uuidv4 } from 'uuid';
+import neo4j from "neo4j-driver";
+import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from "uuid";
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ async function createTestUser() {
 
   try {
     // Hash password
-    const hashedPassword = await bcrypt.hash('Test123!@#', 12);
+    const hashedPassword = await bcrypt.hash("Test123!@#", 12);
 
     // Create user
     const result = await session.run(
@@ -33,17 +33,17 @@ async function createTestUser() {
       `,
       {
         id: uuidv4(),
-        email: 'test@example.com',
+        email: "test@example.com",
         hashedPassword,
-        name: 'Test User',
-        role: 'USER'
-      }
+        name: "Test User",
+        role: "USER",
+      },
     );
 
-    const user = result.records[0].get('u').properties;
-    console.log('Test user created successfully:', user);
+    const user = result.records[0].get("u").properties;
+    console.log("Test user created successfully:", user);
   } catch (error) {
-    console.error('Failed to create test user:', error);
+    console.error("Failed to create test user:", error);
   } finally {
     await session.close();
     await driver.close();

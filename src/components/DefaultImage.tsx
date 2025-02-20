@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import { useState } from 'react';
+import Image from "next/image";
+import { useState } from "react";
 
 interface DefaultImageProps {
   src?: string;
@@ -18,7 +18,7 @@ interface DefaultImageProps {
 export default function DefaultImage({
   src,
   alt,
-  className = '',
+  className = "",
   width,
   height,
   fill = false,
@@ -26,14 +26,15 @@ export default function DefaultImage({
   priority = false,
   firstName,
   lastName,
-  size
+  size,
 }: DefaultImageProps) {
   const [error, setError] = useState(false);
 
   // If firstName and lastName are provided, show initials
   if (firstName || lastName) {
-    const initials = `${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase();
-    
+    const initials =
+      `${firstName?.[0] || ""}${lastName?.[0] || ""}`.toUpperCase();
+
     return (
       <div
         className={`flex items-center justify-center bg-[#ff5722] text-white rounded-full ${className}`}
@@ -44,10 +45,10 @@ export default function DefaultImage({
     );
   }
 
-  const defaultImage = '/images/avatars/default-avatar.jpg';
+  const defaultImage = "/images/avatars/default-avatar.jpg";
   const imageProps = {
-    src: error ? defaultImage : (src || defaultImage),
-    alt: alt || 'Default image',
+    src: error ? defaultImage : src || defaultImage,
+    alt: alt || "Default image",
     className: `${className} transition-opacity duration-300`,
     onError: () => setError(true),
     priority,
@@ -59,9 +60,9 @@ export default function DefaultImage({
       <div className="relative w-full h-full">
         <Image
           src={imageProps.src}
-          alt={alt || 'Default image'}
+          alt={alt || "Default image"}
           fill
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: "cover" }}
           className={imageProps.className}
           onError={imageProps.onError}
           priority={imageProps.priority}

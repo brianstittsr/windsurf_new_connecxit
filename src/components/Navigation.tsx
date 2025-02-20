@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { BellIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-import { useState, useRef, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { BellIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { useState, useRef, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navigation = () => {
   const pathname = usePathname();
@@ -21,25 +21,28 @@ const Navigation = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const menuItems = [
-    { name: 'Messages', href: '/messages', requiresAuth: true },
-    { name: 'Performance', href: '/performance', requiresAuth: true },
-    { name: 'New', href: '/new', requiresAuth: true },
-    { name: 'Services', href: '/services', requiresAuth: true },
-    { name: 'Calendar', href: '/calendar', requiresAuth: true },
+    { name: "Messages", href: "/messages", requiresAuth: true },
+    { name: "Performance", href: "/performance", requiresAuth: true },
+    { name: "New", href: "/new", requiresAuth: true },
+    { name: "Services", href: "/services", requiresAuth: true },
+    { name: "Calendar", href: "/calendar", requiresAuth: true },
   ];
 
   const filteredMenuItems = menuItems.filter(
-    (item) => !item.requiresAuth || user !== null
+    (item) => !item.requiresAuth || user !== null,
   );
 
   // Prevent hydration mismatch by not rendering until mounted
@@ -73,8 +76,8 @@ const Navigation = () => {
                   href={item.href}
                   className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
                     pathname === item.href
-                      ? 'border-indigo-500 text-gray-900'
-                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                      ? "border-indigo-500 text-gray-900"
+                      : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
                   }`}
                 >
                   {item.name}
@@ -103,7 +106,7 @@ const Navigation = () => {
                   >
                     <div className="h-8 w-8 rounded-full overflow-hidden">
                       <div className="h-full w-full flex items-center justify-center bg-orange-100 text-orange-600 text-sm font-bold">
-                        {user.firstName?.[0]?.toUpperCase() || '?'}
+                        {user.firstName?.[0]?.toUpperCase() || "?"}
                       </div>
                     </div>
                     <span className="text-sm font-medium text-gray-700">
@@ -115,7 +118,11 @@ const Navigation = () => {
                   {/* Dropdown Menu */}
                   {isDropdownOpen && (
                     <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-                      <div className="py-1" role="menu" aria-orientation="vertical">
+                      <div
+                        className="py-1"
+                        role="menu"
+                        aria-orientation="vertical"
+                      >
                         <Link
                           href="/profile"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

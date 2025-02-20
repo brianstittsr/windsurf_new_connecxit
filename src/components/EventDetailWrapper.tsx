@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import EventDetail from './EventDetail';
+import EventDetail from "./EventDetail";
 
 interface Event {
   title: string;
@@ -53,6 +53,9 @@ interface EventDetailWrapperProps {
   relatedEvents: RelatedEvent[];
 }
 
-export default function EventDetailWrapper({ event, relatedEvents }: EventDetailWrapperProps) {
+export default function EventDetailWrapper({
+  event,
+  relatedEvents,
+}: EventDetailWrapperProps) {
   return <EventDetail event={event} relatedEvents={relatedEvents} />;
 }

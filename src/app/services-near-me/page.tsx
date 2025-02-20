@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import PageLayout from '@/components/PageLayout';
-import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from "react";
+import PageLayout from "@/components/PageLayout";
+import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
   faLocationDot,
   faStar,
   faCheck,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Vendor {
   id: number;
@@ -24,8 +24,8 @@ interface Vendor {
 }
 
 export default function ServicesNearMePage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [location, setLocation] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [location, setLocation] = useState("");
 
   const vendors: Vendor[] = [
     {
@@ -79,12 +79,14 @@ export default function ServicesNearMePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Search Section */}
         <div className="bg-orange-50 rounded-xl p-8 mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">Find Services Near You</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-8">
+            Find Services Near You
+          </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
-              <FontAwesomeIcon 
-                icon={faSearch} 
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" 
+              <FontAwesomeIcon
+                icon={faSearch}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
               />
               <input
                 type="text"
@@ -95,9 +97,9 @@ export default function ServicesNearMePage() {
               />
             </div>
             <div className="relative">
-              <FontAwesomeIcon 
-                icon={faLocationDot} 
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" 
+              <FontAwesomeIcon
+                icon={faLocationDot}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
               />
               <input
                 type="text"
@@ -113,7 +115,10 @@ export default function ServicesNearMePage() {
         {/* Results Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {vendors.map((vendor) => (
-            <div key={vendor.id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div
+              key={vendor.id}
+              className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+            >
               <div className="relative h-48">
                 <Image
                   src={vendor.image}
@@ -124,22 +129,39 @@ export default function ServicesNearMePage() {
               </div>
               <div className="p-6">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-orange-500">{vendor.category}</span>
+                  <span className="text-sm font-medium text-orange-500">
+                    {vendor.category}
+                  </span>
                   {vendor.verified && (
                     <span className="flex items-center text-green-600 text-sm">
-                      <FontAwesomeIcon icon={faCheck} className="w-4 h-4 mr-1" />
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        className="w-4 h-4 mr-1"
+                      />
                       Verified
                     </span>
                   )}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{vendor.name}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {vendor.name}
+                </h3>
                 <div className="flex items-center mb-2">
-                  <FontAwesomeIcon icon={faStar} className="w-5 h-5 text-yellow-400 mr-1" />
-                  <span className="font-medium text-gray-900">{vendor.rating}</span>
-                  <span className="text-gray-500 ml-1">({vendor.reviews} reviews)</span>
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    className="w-5 h-5 text-yellow-400 mr-1"
+                  />
+                  <span className="font-medium text-gray-900">
+                    {vendor.rating}
+                  </span>
+                  <span className="text-gray-500 ml-1">
+                    ({vendor.reviews} reviews)
+                  </span>
                 </div>
                 <div className="flex items-center text-gray-600 mb-4">
-                  <FontAwesomeIcon icon={faLocationDot} className="w-4 h-4 mr-2" />
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    className="w-4 h-4 mr-2"
+                  />
                   {vendor.location}
                 </div>
                 <div className="flex flex-wrap gap-2">

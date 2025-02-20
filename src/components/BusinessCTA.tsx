@@ -7,8 +7,8 @@ const BusinessCTA = () => {
             Grow Your Event Business with ConnecXit
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-orange-100">
-            Join thousands of successful event professionals who trust ConnecXit to grow their business.
-            Get more leads, bookings, and revenue.
+            Join thousands of successful event professionals who trust ConnecXit
+            to grow their business. Get more leads, bookings, and revenue.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <a
@@ -17,7 +17,10 @@ const BusinessCTA = () => {
             >
               Get Started
             </a>
-            <a href="/partner" className="text-sm font-semibold leading-6 text-white">
+            <a
+              href="/partner"
+              className="text-sm font-semibold leading-6 text-white"
+            >
               Learn more <span aria-hidden="true">→</span>
             </a>
           </div>

@@ -1,41 +1,43 @@
-import { getServerUser } from '@/lib/auth-server';
-import { getSession } from '@/lib/neo4j';
-import { NextRequest, NextResponse } from 'next/server';
-
+import { getServerUser } from "@/lib/auth-server";
+import { getSession } from "@/lib/neo4j";
+import { NextRequest } from "next/server";
 
 export async function GET() {
   try {
     const user = await getServerUser();
-    
+
     if (!user) {
-      return new Response(
-        JSON.stringify({ error: 'Not authenticated' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "Not authenticated" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     return new Response(JSON.stringify(user), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error('Profile fetch error:', error instanceof Error ? error.message : 'Unknown error occurred');
-    return new Response(
-      JSON.stringify({ error: 'Failed to fetch profile' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    console.error(
+      "Profile fetch error:",
+      error instanceof Error ? error.message : "Unknown error occurred",
     );
+    return new Response(JSON.stringify({ error: "Failed to fetch profile" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
 
-export async function PUT(request: NextRequest) {
+export async function PUT(_request: NextRequest) {
   try {
     const user = await getServerUser();
-    
+
     if (!user) {
-      return new Response(
-        JSON.stringify({ error: 'Not authenticated' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "Not authenticated" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     const updates = await req.json();
@@ -72,20 +74,20 @@ export async function PUT(request: NextRequest) {
           id: user.id,
           updates: {
             ...updates,
-            updatedAt: new Date().toISOString()
-          }
-        }
+            updatedAt: new Date().toISOString(),
+          },
+        },
       );
 
-      const updatedUser = result.records[0]?.get('user');
+      const updatedUser = result.records[0]?.get("user");
 
       if (!updatedUser) {
-        throw new Error('Failed to update user');
+        throw new Error("Failed to update user");
       }
 
       return new Response(JSON.stringify(updatedUser), {
         status: 200,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { "Content-Type": "application/json" },
       });
     } finally {
       if (session) {
@@ -93,10 +95,13 @@ export async function PUT(request: NextRequest) {
       }
     }
   } catch (error) {
-    console.error('Profile update error:', error instanceof Error ? error.message : 'Unknown error occurred');
-    return new Response(
-      JSON.stringify({ error: 'Failed to update profile' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    console.error(
+      "Profile update error:",
+      error instanceof Error ? error.message : "Unknown error occurred",
     );
+    return new Response(JSON.stringify({ error: "Failed to update profile" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

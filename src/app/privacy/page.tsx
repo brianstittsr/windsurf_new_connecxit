@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function PrivacyPolicy() {
   return (
@@ -11,16 +11,21 @@ export default function PrivacyPolicy() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
           <p className="text-gray-700 mb-4">
-            We’re committed to protecting your privacy. Please read this policy carefully to understand how we collect and use your information.
+            We’re committed to protecting your privacy. Please read this policy
+            carefully to understand how we collect and use your information.
           </p>
           <p className="text-gray-700 mb-4">
-            “Personal Information” means information that identifies, relates to, describes, is reasonably capable of being associated with, or could reasonably be linked with a particular consumer or household.
+            “Personal Information” means information that identifies, relates
+            to, describes, is reasonably capable of being associated with, or
+            could reasonably be linked with a particular consumer or household.
           </p>
         </section>
 
         {/* Information We Collect */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">2. Information We Collect</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            2. Information We Collect
+          </h2>
           <div className="space-y-4">
             <h3 className="text-xl font-medium mb-2">Personal Information</h3>
             <ul className="list-disc pl-6 text-gray-700">
@@ -43,7 +48,9 @@ export default function PrivacyPolicy() {
 
         {/* How We Use Your Information */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">3. How We Use Your Information</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            3. How We Use Your Information
+          </h2>
           <div className="space-y-4">
             <p className="text-gray-700">We use your information to:</p>
             <ul className="list-disc pl-6 text-gray-700">
@@ -59,7 +66,9 @@ export default function PrivacyPolicy() {
 
         {/* Information Sharing */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">4. Information Sharing</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            4. Information Sharing
+          </h2>
           <p className="text-gray-700 mb-4">
             We may share your information with:
           </p>
@@ -75,7 +84,10 @@ export default function PrivacyPolicy() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">5. Data Security</h2>
           <p className="text-gray-700 mb-4">
-            We implement appropriate technical and organizational security measures to protect your information. However, no system is completely secure, and we cannot guarantee the absolute security of your information.
+            We implement appropriate technical and organizational security
+            measures to protect your information. However, no system is
+            completely secure, and we cannot guarantee the absolute security of
+            your information.
           </p>
         </section>
 
@@ -99,29 +111,40 @@ export default function PrivacyPolicy() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">7. Children’s Privacy</h2>
           <p className="text-gray-700 mb-4">
-            Our services are not intended for users under the age of 18. We do not knowingly collect information from children under 18.
+            Our services are not intended for users under the age of 18. We do
+            not knowingly collect information from children under 18.
           </p>
         </section>
 
         {/* International Data Transfers */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">8. International Data Transfers</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            8. International Data Transfers
+          </h2>
           <p className="text-gray-700 mb-4">
-            Your information may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place for such transfers.
+            Your information may be transferred to and processed in countries
+            other than your own. We ensure appropriate safeguards are in place
+            for such transfers.
           </p>
         </section>
 
         {/* Changes to Privacy Policy */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">9. Changes to Privacy Policy</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            9. Changes to Privacy Policy
+          </h2>
           <p className="text-gray-700 mb-4">
-            We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on this page and updating the “Last Updated” date.
+            We may update this Privacy Policy from time to time. We will notify
+            you of any material changes by posting the new Privacy Policy on
+            this page and updating the “Last Updated” date.
           </p>
         </section>
 
         {/* Contact Information */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">10. Contact Information</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            10. Contact Information
+          </h2>
           <p className="text-gray-700 mb-4">
             For questions about this Privacy Policy, please contact us at:
           </p>

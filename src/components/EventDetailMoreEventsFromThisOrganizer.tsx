@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { useState } from 'react';
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 
 interface Event {
   id: string;
@@ -31,7 +31,7 @@ interface EventDetailMoreEventsFromThisOrganizerProps {
 export default function EventDetailMoreEventsFromThisOrganizer({
   events,
   onLike,
-  onShare
+  onShare,
 }: EventDetailMoreEventsFromThisOrganizerProps) {
   const [likedEvents, setLikedEvents] = useState<Set<string>>(new Set());
 
@@ -114,8 +114,8 @@ export default function EventDetailMoreEventsFromThisOrganizer({
                     <svg
                       className={`w-6 h-6 ${
                         likedEvents.has(event.id)
-                          ? 'text-red-500 fill-current'
-                          : 'text-gray-400'
+                          ? "text-red-500 fill-current"
+                          : "text-gray-400"
                       }`}
                       viewBox="0 0 24 24"
                       stroke="currentColor"

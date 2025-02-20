@@ -1,8 +1,15 @@
-import React from 'react';
-import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faLocationDot, faClock, faPhone, faEnvelope, faCheck } from '@fortawesome/free-solid-svg-icons';
-import VendorActions from '@/components/VendorActions';
+import React from "react";
+import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faStar,
+  faLocationDot,
+  faClock,
+  faPhone,
+  faEnvelope,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
+import VendorActions from "@/components/VendorActions";
 
 export default function JudithCleaningServicesPage() {
   return (
@@ -20,7 +27,9 @@ export default function JudithCleaningServicesPage() {
               />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Judith Cleaning Services</h1>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Judith Cleaning Services
+              </h1>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-emerald-600 font-medium">Great 5.0</span>
                 <div className="flex items-center gap-1">
@@ -58,29 +67,36 @@ export default function JudithCleaningServicesPage() {
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">About</h2>
               <p className="text-gray-600">
-                Judith Cleaning Services provides professional and reliable cleaning services in the Raleigh area. 
-                With attention to detail and a commitment to customer satisfaction, we ensure your space is 
-                spotlessly clean and welcoming. Our personalized approach means we tailor our services to meet 
-                your specific needs and preferences.
+                Judith Cleaning Services provides professional and reliable
+                cleaning services in the Raleigh area. With attention to detail
+                and a commitment to customer satisfaction, we ensure your space
+                is spotlessly clean and welcoming. Our personalized approach
+                means we tailor our services to meet your specific needs and
+                preferences.
               </p>
             </section>
 
             {/* Services Section */}
             <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Services</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Services
+              </h2>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  'Residential Cleaning',
-                  'Deep Cleaning',
-                  'Move-in/Move-out Cleaning',
-                  'Recurring Cleaning Services',
-                  'Bathroom Deep Cleaning',
-                  'Kitchen Deep Cleaning',
-                  'Customized Cleaning Plans',
-                  'Eco-friendly Options'
+                  "Residential Cleaning",
+                  "Deep Cleaning",
+                  "Move-in/Move-out Cleaning",
+                  "Recurring Cleaning Services",
+                  "Bathroom Deep Cleaning",
+                  "Kitchen Deep Cleaning",
+                  "Customized Cleaning Plans",
+                  "Eco-friendly Options",
                 ].map((service) => (
                   <div key={service} className="flex items-center gap-2">
-                    <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-green-500" />
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className="w-4 h-4 text-green-500"
+                    />
                     <span>{service}</span>
                   </div>
                 ))}
@@ -105,8 +121,10 @@ export default function JudithCleaningServicesPage() {
                     <span className="font-medium">Carmen F.</span>
                   </div>
                   <p className="text-gray-600">
-                    &quot;She was on time, left my house really clean, I couldn&apos;t even recognize it! 
-                    Very professional and thorough in her work. Would definitely recommend and hire again.&quot;
+                    &quot;She was on time, left my house really clean, I
+                    couldn&apos;t even recognize it! Very professional and
+                    thorough in her work. Would definitely recommend and hire
+                    again.&quot;
                   </p>
                 </div>
               </div>
@@ -117,7 +135,9 @@ export default function JudithCleaningServicesPage() {
           <div className="col-span-1">
             <div className="bg-gray-50 p-6 rounded-lg sticky top-6">
               <div className="text-center mb-6">
-                <div className="text-3xl font-bold text-gray-900">Contact for price</div>
+                <div className="text-3xl font-bold text-gray-900">
+                  Contact for price
+                </div>
                 <div className="text-gray-500">Customized quotes available</div>
               </div>
               <div className="space-y-4">

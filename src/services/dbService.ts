@@ -1,5 +1,5 @@
-import { getSession } from '@/lib/neo4j';
-import { Record } from 'neo4j-driver';
+import { getSession } from "@/lib/neo4j";
+import { Record } from "neo4j-driver";
 
 interface QueryParams {
   [key: string]: unknown;
@@ -7,7 +7,7 @@ interface QueryParams {
 
 async function executeQuery(
   query: string,
-  params: QueryParams
+  params: QueryParams,
 ): Promise<Record[]> {
   let session = null;
   try {
@@ -15,7 +15,7 @@ async function executeQuery(
     const result = await session.run(query, params);
     return result.records;
   } catch (error) {
-    console.error('Database query error:', error);
+    console.error("Database query error:", error);
     throw error;
   } finally {
     if (session) {
@@ -24,7 +24,4 @@ async function executeQuery(
   }
 }
 
-export {
-  executeQuery,
-  type QueryParams
-};
+export { executeQuery, type QueryParams };

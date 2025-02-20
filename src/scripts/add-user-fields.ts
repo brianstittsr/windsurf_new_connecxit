@@ -1,4 +1,4 @@
-import { getSession, closeDriver } from '../lib/neo4j';
+import { getSession, closeDriver } from "../lib/neo4j";
 
 async function addUserFields() {
   const session = getSession();
@@ -45,10 +45,10 @@ async function addUserFields() {
       RETURN count(u) as updatedUsers
     `);
 
-    const updatedUsers = result.records[0].get('updatedUsers').toNumber();
+    const updatedUsers = result.records[0].get("updatedUsers").toNumber();
     console.log(`Fields added successfully. Updated ${updatedUsers} users.`);
   } catch (error) {
-    console.error('Failed to add user fields:', error);
+    console.error("Failed to add user fields:", error);
     throw error;
   } finally {
     await session.close();
@@ -59,7 +59,7 @@ async function addUserFields() {
 // Run the migration
 addUserFields()
   .then(() => process.exit(0))
-  .catch(error => {
+  .catch((error) => {
     console.error(error);
     process.exit(1);
   });

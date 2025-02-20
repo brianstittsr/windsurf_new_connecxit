@@ -1,8 +1,8 @@
 import { getSession } from "./neo4j";
 
 import { verifyEnvironmentVariables } from "@/utils/verifyEnv";
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 export type User = {
   id: string;
@@ -26,15 +26,18 @@ export type User = {
 };
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-const TOKEN_EXPIRY = '24h';
+const TOKEN_EXPIRY = "24h";
 
-export async function authenticate(email: string, password: string): Promise<{ user: User; token: string } | null> {
+export async function authenticate(
+  email: string,
+  password: string,
+): Promise<{ user: User; token: string } | null> {
   verifyEnvironmentVariables();
-  
+
   let session = null;
   try {
     session = await getSession();
-    
+
     const result = await session.run(
       `
       MATCH (u:User {email: $email})
@@ -60,18 +63,18 @@ export async function authenticate(email: string, password: string): Promise<{ u
         .updatedAt
       } as user
       `,
-      { email }
+      { email },
     );
 
-    const user = result.records[0]?.get('user');
+    const user = result.records[0]?.get("user");
     if (!user) {
-      console.error('User not found:', email);
+      console.error("User not found:", email);
       return null;
     }
 
     const isValidPassword = await bcrypt.compare(password, user.hashedPassword);
     if (!isValidPassword) {
-      console.error('Invalid password for user:', email);
+      console.error("Invalid password for user:", email);
       return null;
     }
 
@@ -80,21 +83,24 @@ export async function authenticate(email: string, password: string): Promise<{ u
 
     // Create JWT token
     const token = jwt.sign(
-      { 
+      {
         userId: user.id,
         email: user.email,
-        role: user.role 
+        role: user.role,
       },
       JWT_SECRET,
-      { expiresIn: TOKEN_EXPIRY }
+      { expiresIn: TOKEN_EXPIRY },
     );
 
-    return { 
+    return {
       user: userWithoutPassword as User,
-      token
+      token,
     };
   } catch (error) {
-    console.error('Authentication error:', error instanceof Error ? error.message : 'Unknown error occurred');
+    console.error(
+      "Authentication error:",
+      error instanceof Error ? error.message : "Unknown error occurred",
+    );
     return null;
   } finally {
     if (session) {
@@ -107,7 +113,7 @@ export async function verifyToken(token: string): Promise<User | null> {
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
     let session = null;
-    
+
     try {
       session = await getSession();
       const result = await session.run(
@@ -134,34 +140,41 @@ export async function verifyToken(token: string): Promise<User | null> {
           .updatedAt
         } as user
         `,
-        { userId: decoded.userId }
+        { userId: decoded.userId },
       );
 
-      const user = result.records[0]?.get('user');
-      return user as User || null;
+      const user = result.records[0]?.get("user");
+      return (user as User) || null;
     } finally {
       if (session) {
         await session.close();
       }
     }
   } catch (error) {
-    console.error('Token verification error:', error instanceof Error ? error.message : 'Unknown error occurred');
+    console.error(
+      "Token verification error:",
+      error instanceof Error ? error.message : "Unknown error occurred",
+    );
     return null;
   }
 }
 
 export function createAuthMiddleware() {
   return async function authMiddleware(req: Request) {
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader?.startsWith("Bearer ")) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+      });
     }
 
-    const token = authHeader.split(' ')[1];
+    const token = authHeader.split(" ")[1];
     const user = await verifyToken(token);
 
     if (!user) {
-      return new Response(JSON.stringify({ error: 'Invalid token' }), { status: 401 });
+      return new Response(JSON.stringify({ error: "Invalid token" }), {
+        status: 401,
+      });
     }
 
     return null; // Continue to next middleware/handler

@@ -1,20 +1,16 @@
-import { getServerUser } from '@/lib/auth-server';
-import { getSession } from '@/lib/neo4j';
-import { NextRequest, NextResponse } from 'next/server';
-
+import { getServerUser } from "@/lib/auth-server";
+import { getSession } from "@/lib/neo4j";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const user = await getServerUser();
-    
+
     if (!user) {
-      return NextResponse.json(
-        { error: 'Not authenticated' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
     let session = null;
@@ -47,16 +43,16 @@ export async function POST(
         `,
         {
           userId: user.id,
-          messageId: params.id
-        }
+          messageId: params.id,
+        },
       );
 
-      const message = result.records[0]?.get('message');
+      const message = result.records[0]?.get("message");
 
       if (!message) {
         return NextResponse.json(
-          { error: 'Message not found or already read' },
-          { status: 404 }
+          { error: "Message not found or already read" },
+          { status: 404 },
         );
       }
 
@@ -67,10 +63,13 @@ export async function POST(
       }
     }
   } catch (error) {
-    console.error('Message read error:', error instanceof Error ? error.message : 'Unknown error occurred');
+    console.error(
+      "Message read error:",
+      error instanceof Error ? error.message : "Unknown error occurred",
+    );
     return NextResponse.json(
-      { error: 'Failed to mark message as read' },
-      { status: 500 }
+      { error: "Failed to mark message as read" },
+      { status: 500 },
     );
   }
 }

@@ -1,57 +1,68 @@
-import React from 'react';
-import PlannerCard from '@/components/PlannerCard';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import React from "react";
+import PlannerCard from "@/components/PlannerCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 // Sample data - in a real app, this would come from an API
 const planners = [
   {
-    id: '1',
+    id: "1",
     name: "Elegant Events by Sarah",
     rating: 5.0,
     reviewCount: 48,
     hireCount: 150,
     similarJobsCount: 85,
-    responseTime: '2 hrs',
+    responseTime: "2 hrs",
     testimonial: {
-      author: 'Emily & James',
-      text: 'Sarah made our dream wedding come true! Her attention to detail and creative vision transformed our venue into a magical space.',
+      author: "Emily & James",
+      text: "Sarah made our dream wedding come true! Her attention to detail and creative vision transformed our venue into a magical space.",
     },
-    logoUrl: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=500&auto=format&fit=crop',
+    logoUrl:
+      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=500&auto=format&fit=crop",
     startingPrice: 2900,
-    specialties: ['Full-Service Planning', 'Day-of Coordination', 'Destination Weddings'],
+    specialties: [
+      "Full-Service Planning",
+      "Day-of Coordination",
+      "Destination Weddings",
+    ],
   },
   {
-    id: '2',
-    name: 'Perfect Day Planning',
+    id: "2",
+    name: "Perfect Day Planning",
     rating: 5.0,
     reviewCount: 32,
     hireCount: 120,
     similarJobsCount: 65,
-    responseTime: '16 min',
+    responseTime: "16 min",
     testimonial: {
-      author: 'Rachel & Michael',
-      text: 'Working with Perfect Day was the best decision we made. They handled everything flawlessly and made our day stress-free!',
+      author: "Rachel & Michael",
+      text: "Working with Perfect Day was the best decision we made. They handled everything flawlessly and made our day stress-free!",
     },
-    logoUrl: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=500&auto=format&fit=crop',
+    logoUrl:
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=500&auto=format&fit=crop",
     startingPrice: 3500,
-    specialties: ['Custom Design', 'Vendor Coordination', 'Budget Management'],
+    specialties: ["Custom Design", "Vendor Coordination", "Budget Management"],
   },
   {
-    id: '3',
-    name: 'Luxe Celebrations',
+    id: "3",
+    name: "Luxe Celebrations",
     rating: 5.0,
     reviewCount: 28,
     hireCount: 85,
     similarJobsCount: 42,
-    responseTime: '5 min',
+    responseTime: "5 min",
     testimonial: {
-      author: 'Sophie & David',
-      text: 'The Luxe team went above and beyond to create our perfect wedding. Their vendor connections and expertise are unmatched!',
+      author: "Sophie & David",
+      text: "The Luxe team went above and beyond to create our perfect wedding. Their vendor connections and expertise are unmatched!",
     },
-    logoUrl: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=500&auto=format&fit=crop',
+    logoUrl:
+      "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=500&auto=format&fit=crop",
     startingPrice: 4200,
-    specialties: ['Luxury Weddings', 'Cultural Ceremonies', 'Entertainment Planning'],
+    specialties: [
+      "Luxury Weddings",
+      "Cultural Ceremonies",
+      "Entertainment Planning",
+    ],
   },
 ];
 
@@ -62,10 +73,15 @@ export default function SearchResultsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Search Results Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Top 3 matching wedding planners</h1>
+            <h1 className="text-2xl font-bold text-gray-900">
+              Top 3 matching wedding planners
+            </h1>
             <div className="flex items-center gap-2 mt-2">
               <span className="text-gray-600">Our criteria</span>
-              <FontAwesomeIcon icon={faCircleInfo} className="w-4 h-4 text-gray-400" />
+              <FontAwesomeIcon
+                icon={faCircleInfo}
+                className="w-4 h-4 text-gray-400"
+              />
             </div>
           </div>
 

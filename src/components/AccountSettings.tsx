@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface AccountSettingsProps {
   firstName: string;
@@ -38,17 +38,17 @@ const AccountSettings = ({
   email,
   phone,
   timezone,
-  bio = '',
-  location = '',
-  website = '',
-  company = '',
-  title = '',
+  bio = "",
+  location = "",
+  website = "",
+  company = "",
+  title = "",
   skills = [],
   interests = [],
   onSave,
-  onCancel
+  onCancel,
 }: AccountSettingsProps) => {
-  console.log('AccountSettings - Initial props:', {
+  console.log("AccountSettings - Initial props:", {
     firstName,
     lastName,
     email,
@@ -60,7 +60,7 @@ const AccountSettings = ({
     company,
     title,
     skills,
-    interests
+    interests,
   });
 
   const [formData, setFormData] = useState({
@@ -75,11 +75,11 @@ const AccountSettings = ({
     company,
     title,
     skills,
-    interests
+    interests,
   });
 
   useEffect(() => {
-    console.log('AccountSettings - Props changed, updating form data');
+    console.log("AccountSettings - Props changed, updating form data");
     setFormData({
       firstName,
       lastName,
@@ -92,33 +92,51 @@ const AccountSettings = ({
       company,
       title,
       skills,
-      interests
+      interests,
     });
-  }, [firstName, lastName, email, phone, timezone, bio, location, website, company, title, skills, interests]);
+  }, [
+    firstName,
+    lastName,
+    email,
+    phone,
+    timezone,
+    bio,
+    location,
+    website,
+    company,
+    title,
+    skills,
+    interests,
+  ]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleArrayChange = (name: 'skills' | 'interests', value: string) => {
-    const array = value.split(',').map(item => item.trim()).filter(item => item);
-    setFormData(prev => ({
+  const handleArrayChange = (name: "skills" | "interests", value: string) => {
+    const array = value
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => item);
+    setFormData((prev) => ({
       ...prev,
-      [name]: array
+      [name]: array,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('AccountSettings - Submitting form data:', formData);
+    console.log("AccountSettings - Submitting form data:", formData);
     onSave(formData);
   };
 
-  console.log('AccountSettings - Current form data:', formData);
+  console.log("AccountSettings - Current form data:", formData);
 
   return (
     <div className="bg-white rounded-lg shadow p-6 max-w-3xl mx-auto">
@@ -126,7 +144,10 @@ const AccountSettings = ({
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="firstName"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               First Name
             </label>
             <input
@@ -141,7 +162,10 @@ const AccountSettings = ({
           </div>
 
           <div>
-            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="lastName"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Last Name
             </label>
             <input
@@ -156,7 +180,10 @@ const AccountSettings = ({
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Email
             </label>
             <input
@@ -171,7 +198,10 @@ const AccountSettings = ({
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Phone
             </label>
             <input
@@ -185,7 +215,10 @@ const AccountSettings = ({
           </div>
 
           <div>
-            <label htmlFor="timezone" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="timezone"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Timezone
             </label>
             <input
@@ -199,7 +232,10 @@ const AccountSettings = ({
           </div>
 
           <div>
-            <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="company"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Company
             </label>
             <input
@@ -213,7 +249,10 @@ const AccountSettings = ({
           </div>
 
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Title
             </label>
             <input
@@ -227,7 +266,10 @@ const AccountSettings = ({
           </div>
 
           <div>
-            <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="website"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Website
             </label>
             <input
@@ -241,7 +283,10 @@ const AccountSettings = ({
           </div>
 
           <div className="col-span-2">
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="location"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Location
             </label>
             <input
@@ -255,7 +300,10 @@ const AccountSettings = ({
           </div>
 
           <div className="col-span-2">
-            <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="bio"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Bio
             </label>
             <textarea
@@ -269,29 +317,35 @@ const AccountSettings = ({
           </div>
 
           <div className="col-span-2">
-            <label htmlFor="skills" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="skills"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Skills (comma-separated)
             </label>
             <input
               type="text"
               id="skills"
               name="skills"
-              value={formData.skills.join(', ')}
-              onChange={(e) => handleArrayChange('skills', e.target.value)}
+              value={formData.skills.join(", ")}
+              onChange={(e) => handleArrayChange("skills", e.target.value)}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             />
           </div>
 
           <div className="col-span-2">
-            <label htmlFor="interests" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="interests"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Interests (comma-separated)
             </label>
             <input
               type="text"
               id="interests"
               name="interests"
-              value={formData.interests.join(', ')}
-              onChange={(e) => handleArrayChange('interests', e.target.value)}
+              value={formData.interests.join(", ")}
+              onChange={(e) => handleArrayChange("interests", e.target.value)}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
             />
           </div>

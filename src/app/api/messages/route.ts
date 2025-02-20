@@ -1,17 +1,16 @@
-import { getServerUser } from '@/lib/auth-server';
-import { getSession } from '@/lib/neo4j';
-import { NextRequest, NextResponse } from 'next/server';
-
+import { getServerUser } from "@/lib/auth-server";
+import { getSession } from "@/lib/neo4j";
+import { NextRequest } from "next/server";
 
 export async function GET() {
   try {
     const user = await getServerUser();
-    
+
     if (!user) {
-      return new Response(
-        JSON.stringify({ error: 'Not authenticated' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "Not authenticated" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     let session = null;
@@ -34,14 +33,14 @@ export async function GET() {
         } as message
         ORDER BY m.createdAt DESC
         `,
-        { userId: user.id }
+        { userId: user.id },
       );
 
-      const messages = result.records.map(record => record.get('message'));
+      const messages = result.records.map((record) => record.get("message"));
 
       return new Response(JSON.stringify(messages), {
         status: 200,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { "Content-Type": "application/json" },
       });
     } finally {
       if (session) {
@@ -49,31 +48,34 @@ export async function GET() {
       }
     }
   } catch (error) {
-    console.error('Messages fetch error:', error instanceof Error ? error.message : 'Unknown error occurred');
-    return new Response(
-      JSON.stringify({ error: 'Failed to fetch messages' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    console.error(
+      "Messages fetch error:",
+      error instanceof Error ? error.message : "Unknown error occurred",
     );
+    return new Response(JSON.stringify({ error: "Failed to fetch messages" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const user = await getServerUser();
-    
+
     if (!user) {
-      return new Response(
-        JSON.stringify({ error: 'Not authenticated' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "Not authenticated" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     const { recipientId, content } = await req.json();
 
     if (!recipientId || !content) {
       return new Response(
-        JSON.stringify({ error: 'Recipient and content are required' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: "Recipient and content are required" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -113,19 +115,19 @@ export async function POST(request: NextRequest) {
         {
           senderId: user.id,
           recipientId,
-          content
-        }
+          content,
+        },
       );
 
-      const message = result.records[0]?.get('message');
+      const message = result.records[0]?.get("message");
 
       if (!message) {
-        throw new Error('Failed to create message');
+        throw new Error("Failed to create message");
       }
 
       return new Response(JSON.stringify(message), {
         status: 201,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { "Content-Type": "application/json" },
       });
     } finally {
       if (session) {
@@ -133,10 +135,13 @@ export async function POST(request: NextRequest) {
       }
     }
   } catch (error) {
-    console.error('Message send error:', error instanceof Error ? error.message : 'Unknown error occurred');
-    return new Response(
-      JSON.stringify({ error: 'Failed to send message' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    console.error(
+      "Message send error:",
+      error instanceof Error ? error.message : "Unknown error occurred",
     );
+    return new Response(JSON.stringify({ error: "Failed to send message" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

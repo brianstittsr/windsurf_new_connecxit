@@ -1,38 +1,39 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import {
   faCalendarAlt,
   faMapMarkerAlt,
   faDollarSign,
   faInfoCircle,
   faUpload,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function NewJobPage() {
   const [step, setStep] = useState(1);
-  const [jobType, setJobType] = useState('');
+  const [jobType, setJobType] = useState("");
 
   const jobTypes = [
     {
-      id: 'photography',
-      title: 'Photography',
-      description: 'Professional photography services for events, portraits, or products',
-      icon: '/images/icons/photography.svg',
+      id: "photography",
+      title: "Photography",
+      description:
+        "Professional photography services for events, portraits, or products",
+      icon: "/images/icons/photography.svg",
     },
     {
-      id: 'event-planning',
-      title: 'Event Planning',
-      description: 'Full-service event planning and coordination',
-      icon: '/images/icons/event-planning.svg',
+      id: "event-planning",
+      title: "Event Planning",
+      description: "Full-service event planning and coordination",
+      icon: "/images/icons/event-planning.svg",
     },
     {
-      id: 'catering',
-      title: 'Catering',
-      description: 'Food and beverage services for events',
-      icon: '/images/icons/catering.svg',
+      id: "catering",
+      title: "Catering",
+      description: "Food and beverage services for events",
+      icon: "/images/icons/catering.svg",
     },
   ];
 
@@ -47,8 +48,8 @@ export default function NewJobPage() {
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center ${
                     step >= number
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-gray-200 text-gray-500'
+                      ? "bg-indigo-600 text-white"
+                      : "bg-gray-200 text-gray-500"
                   }`}
                 >
                   {number}
@@ -56,7 +57,7 @@ export default function NewJobPage() {
                 {number < 3 && (
                   <div
                     className={`w-24 h-1 mx-2 ${
-                      step > number ? 'bg-indigo-600' : 'bg-gray-200'
+                      step > number ? "bg-indigo-600" : "bg-gray-200"
                     }`}
                   />
                 )}
@@ -83,8 +84,8 @@ export default function NewJobPage() {
                   onClick={() => setJobType(type.id)}
                   className={`flex items-start p-4 rounded-lg border-2 transition-colors ${
                     jobType === type.id
-                      ? 'border-indigo-600 bg-indigo-50'
-                      : 'border-gray-200 hover:border-indigo-200'
+                      ? "border-indigo-600 bg-indigo-50"
+                      : "border-gray-200 hover:border-indigo-200"
                   }`}
                 >
                   <div className="relative w-12 h-12">
@@ -96,7 +97,9 @@ export default function NewJobPage() {
                     />
                   </div>
                   <div className="ml-4 text-left">
-                    <h3 className="font-semibold text-gray-900">{type.title}</h3>
+                    <h3 className="font-semibold text-gray-900">
+                      {type.title}
+                    </h3>
                     <p className="text-gray-500 text-sm mt-1">
                       {type.description}
                     </p>
@@ -200,7 +203,7 @@ export default function NewJobPage() {
                     className="w-8 h-8 text-gray-400 mb-2"
                   />
                   <p className="text-gray-500">
-                    Drag and drop files here, or{' '}
+                    Drag and drop files here, or{" "}
                     <span className="text-indigo-600 font-medium">browse</span>
                   </p>
                   <p className="text-sm text-gray-400 mt-1">
@@ -229,7 +232,8 @@ export default function NewJobPage() {
                     <span className="font-medium">Type:</span> Photography
                   </p>
                   <p className="text-gray-600">
-                    <span className="font-medium">Title:</span> Wedding Photography for 100 Guests
+                    <span className="font-medium">Title:</span> Wedding
+                    Photography for 100 Guests
                   </p>
                   <p className="text-gray-600">
                     <span className="font-medium">Date:</span> June 15, 2025
@@ -263,7 +267,9 @@ export default function NewJobPage() {
                       Before you post
                     </h3>
                     <p className="text-sm text-yellow-700 mt-1">
-                      Make sure all the details are correct. Once posted, professionals will start submitting their proposals based on this information.
+                      Make sure all the details are correct. Once posted,
+                      professionals will start submitting their proposals based
+                      on this information.
                     </p>
                   </div>
                 </div>
@@ -288,12 +294,12 @@ export default function NewJobPage() {
                 setStep(step + 1);
               } else {
                 // Handle job submission
-                console.log('Submit job');
+                console.log("Submit job");
               }
             }}
             className="ml-auto px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
           >
-            {step === 3 ? 'Post Job' : 'Continue'}
+            {step === 3 ? "Post Job" : "Continue"}
           </button>
         </div>
       </div>

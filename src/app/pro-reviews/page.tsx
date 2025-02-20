@@ -1,6 +1,6 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import {
   faStar,
   faStarHalf,
@@ -8,7 +8,7 @@ import {
   faComment,
   faSearch,
   faFilter,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function ProReviews() {
   const reviews = [
@@ -25,19 +25,21 @@ export default function ProReviews() {
           author: "Sarah M.",
           date: "January 15, 2025",
           rating: 5,
-          content: "John was professional, punctual, and fixed our leaky faucet quickly. Highly recommend!",
+          content:
+            "John was professional, punctual, and fixed our leaky faucet quickly. Highly recommend!",
           helpful: 24,
-          replies: 1
+          replies: 1,
         },
         {
           author: "Mike R.",
           date: "January 12, 2025",
           rating: 5,
-          content: "Great service! Fixed our water heater issue and explained everything clearly.",
+          content:
+            "Great service! Fixed our water heater issue and explained everything clearly.",
           helpful: 18,
-          replies: 2
-        }
-      ]
+          replies: 2,
+        },
+      ],
     },
     {
       id: 2,
@@ -52,20 +54,22 @@ export default function ProReviews() {
           author: "David L.",
           date: "January 16, 2025",
           rating: 5,
-          content: "Emily does an amazing job every time. Very detail-oriented and thorough.",
+          content:
+            "Emily does an amazing job every time. Very detail-oriented and thorough.",
           helpful: 15,
-          replies: 1
+          replies: 1,
         },
         {
           author: "Lisa K.",
           date: "January 14, 2025",
           rating: 4,
-          content: "Reliable and professional service. Would recommend for regular cleaning.",
+          content:
+            "Reliable and professional service. Would recommend for regular cleaning.",
           helpful: 12,
-          replies: 0
-        }
-      ]
-    }
+          replies: 0,
+        },
+      ],
+    },
   ];
 
   const renderStars = (rating: number) => {
@@ -79,7 +83,7 @@ export default function ProReviews() {
           key={`full-${i}`}
           icon={faStar}
           className="text-yellow-400"
-        />
+        />,
       );
     }
 
@@ -89,7 +93,7 @@ export default function ProReviews() {
           key="half"
           icon={faStarHalf}
           className="text-yellow-400"
-        />
+        />,
       );
     }
 
@@ -100,7 +104,7 @@ export default function ProReviews() {
           key={`empty-${i}`}
           icon={faStar}
           className="text-gray-300"
-        />
+        />,
       );
     }
 
@@ -143,7 +147,10 @@ export default function ProReviews() {
       {/* Reviews List */}
       <div className="space-y-8">
         {reviews.map((provider) => (
-          <div key={provider.id} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+          <div
+            key={provider.id}
+            className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+          >
             {/* Provider Header */}
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-start gap-4">
@@ -156,11 +163,15 @@ export default function ProReviews() {
                   />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-xl font-semibold mb-1">{provider.providerName}</h2>
+                  <h2 className="text-xl font-semibold mb-1">
+                    {provider.providerName}
+                  </h2>
                   <p className="text-gray-600 mb-2">{provider.service}</p>
                   <div className="flex items-center gap-2">
                     <div className="flex">{renderStars(provider.rating)}</div>
-                    <span className="text-gray-600">({provider.reviewCount} reviews)</span>
+                    <span className="text-gray-600">
+                      ({provider.reviewCount} reviews)
+                    </span>
                   </div>
                   <p className="text-sm text-gray-500 mt-1">
                     {provider.verifiedBookings} verified bookings
@@ -177,11 +188,16 @@ export default function ProReviews() {
               <h3 className="text-lg font-medium mb-4">Top Reviews</h3>
               <div className="space-y-6">
                 {provider.topReviews.map((review, idx) => (
-                  <div key={idx} className="border-b border-gray-100 pb-6 last:border-0 last:pb-0">
+                  <div
+                    key={idx}
+                    className="border-b border-gray-100 pb-6 last:border-0 last:pb-0"
+                  >
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <span className="font-medium">{review.author}</span>
-                        <span className="text-gray-500 text-sm ml-2">{review.date}</span>
+                        <span className="text-gray-500 text-sm ml-2">
+                          {review.date}
+                        </span>
                       </div>
                       <div className="flex">{renderStars(review.rating)}</div>
                     </div>

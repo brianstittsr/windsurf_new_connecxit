@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
@@ -9,17 +9,17 @@ import {
   faClock,
   faMapMarkerAlt,
   faUser,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Event {
   id: number;
   title: string;
-  type: 'job' | 'meeting' | 'personal';
+  type: "job" | "meeting" | "personal";
   startTime: string;
   endTime: string;
   location: string;
   client?: string;
-  status: 'upcoming' | 'in-progress' | 'completed';
+  status: "upcoming" | "in-progress" | "completed";
 }
 
 export default function CalendarPage() {
@@ -33,7 +33,7 @@ export default function CalendarPage() {
       endTime: "6:00 PM",
       location: "Grand Plaza Hotel",
       client: "Sarah Johnson",
-      status: "upcoming"
+      status: "upcoming",
     },
     {
       id: 2,
@@ -43,8 +43,8 @@ export default function CalendarPage() {
       endTime: "3:00 PM",
       location: "Virtual Meeting",
       client: "Michael Chen",
-      status: "upcoming"
-    }
+      status: "upcoming",
+    },
   ];
 
   // Generate calendar grid
@@ -54,7 +54,7 @@ export default function CalendarPage() {
     lastDay.setMonth(lastDay.getMonth() + 1);
     lastDay.setDate(0);
     const days = [];
-    
+
     // Add previous month's days
     const firstDayOfWeek = firstDay.getDay();
     for (let i = firstDayOfWeek - 1; i >= 0; i--) {
@@ -62,15 +62,15 @@ export default function CalendarPage() {
       day.setDate(day.getDate() - i - 1);
       days.push({ date: day, isCurrentMonth: false });
     }
-    
+
     // Add current month's days
     for (let i = 1; i <= lastDay.getDate(); i++) {
       days.push({
         date: new Date(firstDay.getFullYear(), firstDay.getMonth(), i),
-        isCurrentMonth: true
+        isCurrentMonth: true,
       });
     }
-    
+
     // Add next month's days to complete the grid
     const remainingDays = 42 - days.length; // 6 rows × 7 days
     for (let i = 1; i <= remainingDays; i++) {
@@ -78,11 +78,11 @@ export default function CalendarPage() {
       day.setDate(day.getDate() + i);
       days.push({ date: day, isCurrentMonth: false });
     }
-    
+
     return days;
   };
 
-  const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const calendarDays = generateCalendarDays();
 
   return (
@@ -121,7 +121,10 @@ export default function CalendarPage() {
                   <FontAwesomeIcon icon={faChevronLeft} />
                 </button>
                 <button className="px-4 py-2 font-medium text-gray-900">
-                  {new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}
+                  {new Date().toLocaleString("default", {
+                    month: "long",
+                    year: "numeric",
+                  })}
                 </button>
                 <button className="p-2 text-gray-400 hover:text-gray-600">
                   <FontAwesomeIcon icon={faChevronRight} />
@@ -140,11 +143,14 @@ export default function CalendarPage() {
             <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
               <div className="text-center mb-4">
                 <h3 className="font-medium text-gray-900">
-                  {new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}
+                  {new Date().toLocaleString("default", {
+                    month: "long",
+                    year: "numeric",
+                  })}
                 </h3>
               </div>
               <div className="grid grid-cols-7 gap-1">
-                {weekDays.map(day => (
+                {weekDays.map((day) => (
                   <div key={day} className="text-center text-xs text-gray-500">
                     {day}
                   </div>
@@ -154,8 +160,8 @@ export default function CalendarPage() {
                     key={index}
                     className={`text-center text-sm p-1 rounded-full ${
                       day.isCurrentMonth
-                        ? 'text-gray-900 hover:bg-gray-100'
-                        : 'text-gray-400'
+                        ? "text-gray-900 hover:bg-gray-100"
+                        : "text-gray-400"
                     }`}
                   >
                     {day.date.getDate()}
@@ -166,9 +172,11 @@ export default function CalendarPage() {
 
             {/* Upcoming Events */}
             <div className="bg-white rounded-lg shadow-sm p-4">
-              <h3 className="font-medium text-gray-900 mb-4">Upcoming Events</h3>
+              <h3 className="font-medium text-gray-900 mb-4">
+                Upcoming Events
+              </h3>
               <div className="space-y-4">
-                {events.map(event => (
+                {events.map((event) => (
                   <div
                     key={event.id}
                     className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
@@ -180,7 +188,10 @@ export default function CalendarPage() {
                         {event.startTime} - {event.endTime}
                       </div>
                       <div className="flex items-center">
-                        <FontAwesomeIcon icon={faMapMarkerAlt} className="w-4 mr-2" />
+                        <FontAwesomeIcon
+                          icon={faMapMarkerAlt}
+                          className="w-4 mr-2"
+                        />
                         {event.location}
                       </div>
                       {event.client && (
@@ -200,7 +211,7 @@ export default function CalendarPage() {
           <div className="flex-1 bg-white rounded-lg shadow-sm">
             {/* Week days header */}
             <div className="grid grid-cols-7 border-b">
-              {weekDays.map(day => (
+              {weekDays.map((day) => (
                 <div
                   key={day}
                   className="px-2 py-3 text-sm font-medium text-gray-900 text-center"
@@ -216,13 +227,13 @@ export default function CalendarPage() {
                 <div
                   key={index}
                   className={`min-h-[120px] p-2 border-b border-r ${
-                    day.isCurrentMonth ? 'bg-white' : 'bg-gray-50'
+                    day.isCurrentMonth ? "bg-white" : "bg-gray-50"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span
                       className={`text-sm ${
-                        day.isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
+                        day.isCurrentMonth ? "text-gray-900" : "text-gray-400"
                       }`}
                     >
                       {day.date.getDate()}
@@ -235,7 +246,7 @@ export default function CalendarPage() {
                   </div>
                   {/* Event indicators would go here */}
                   <div className="space-y-1">
-                    {events.map(event => (
+                    {events.map((event) => (
                       <div
                         key={event.id}
                         className="px-2 py-1 text-xs rounded bg-indigo-100 text-indigo-700 truncate"

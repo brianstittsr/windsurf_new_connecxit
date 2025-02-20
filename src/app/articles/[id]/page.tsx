@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useParams } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar, faUser, faTag } from '@fortawesome/free-solid-svg-icons';
+import { useParams } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar, faUser, faTag } from "@fortawesome/free-solid-svg-icons";
 
 interface Article {
   id: number;
@@ -23,7 +23,7 @@ interface Article {
 const articles: Article[] = [
   {
     id: 1,
-    title: 'How do I get started with event planning?',
+    title: "How do I get started with event planning?",
     content: `
       Event planning can be an exciting and rewarding career path that combines creativity, organization, and people skills. For those looking to enter this dynamic field, there are several key areas to focus on as you begin your journey.
 
@@ -39,18 +39,20 @@ const articles: Article[] = [
 
       Remember that building a successful event planning career takes time and patience. Each event you plan is an opportunity to learn and grow, developing your skills and expanding your network. Stay curious, remain open to feedback, and continuously seek ways to improve your craft. With dedication and persistence, you can build a fulfilling career in this dynamic and rewarding field.
     `,
-    imageUrl: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=1200&auto=format&fit=crop',
-    category: 'Event Planning',
+    imageUrl:
+      "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=1200&auto=format&fit=crop",
+    category: "Event Planning",
     author: {
-      name: 'Sarah Johnson',
-      imageUrl: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=200&auto=format&fit=crop',
-      bio: 'Professional event planner with over 10 years of experience in corporate and social events.'
+      name: "Sarah Johnson",
+      imageUrl:
+        "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=200&auto=format&fit=crop",
+      bio: "Professional event planner with over 10 years of experience in corporate and social events.",
     },
-    publishedAt: '2025-02-01'
+    publishedAt: "2025-02-01",
   },
   {
     id: 2,
-    title: 'What are the best venues in the area?',
+    title: "What are the best venues in the area?",
     content: `
       Selecting the perfect venue is one of the most critical decisions in event planning, as it sets the foundation for the entire event experience. The right venue not only provides the physical space for your event but also contributes significantly to its atmosphere and success. Understanding the different types of venues available and their unique characteristics can help you make an informed decision that aligns with your event's goals and requirements.
 
@@ -68,18 +70,20 @@ const articles: Article[] = [
 
       Remember that the perfect venue is one that not only meets your practical requirements but also aligns with your event's vision and atmosphere. Take the time to visit multiple venues in person, ask detailed questions, and imagine how your event would flow in each space. Your choice of venue will play a crucial role in creating memorable experiences for your guests.
     `,
-    imageUrl: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200&auto=format&fit=crop',
-    category: 'Venues',
+    imageUrl:
+      "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200&auto=format&fit=crop",
+    category: "Venues",
     author: {
-      name: 'Michael Chen',
-      imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop',
-      bio: 'Venue coordinator specializing in luxury events and corporate functions.'
+      name: "Michael Chen",
+      imageUrl:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop",
+      bio: "Venue coordinator specializing in luxury events and corporate functions.",
     },
-    publishedAt: '2025-02-02'
+    publishedAt: "2025-02-02",
   },
   {
     id: 3,
-    title: 'How to market your event effectively?',
+    title: "How to market your event effectively?",
     content: `
       In today's digital age, effective event marketing requires a sophisticated blend of both digital and traditional marketing strategies. A well-planned marketing campaign can significantly boost attendance, engagement, and overall event success. Understanding how to leverage various marketing channels and create compelling content is key to reaching and attracting your target audience.
 
@@ -97,26 +101,30 @@ const articles: Article[] = [
 
       Remember that successful event marketing is not just about promoting the event itself, but about creating a compelling narrative that resonates with your target audience. Focus on communicating the value and unique aspects of your event that set it apart from others. By combining various marketing channels and consistently measuring and adjusting your efforts, you can create an effective marketing campaign that drives attendance and engagement for your event.
     `,
-    imageUrl: 'https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop',
-    category: 'Marketing',
+    imageUrl:
+      "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+    category: "Marketing",
     author: {
-      name: 'Emily Davis',
-      imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop',
-      bio: 'Digital marketing specialist with expertise in event promotion and social media strategy.'
+      name: "Emily Davis",
+      imageUrl:
+        "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop",
+      bio: "Digital marketing specialist with expertise in event promotion and social media strategy.",
     },
-    publishedAt: '2025-02-03'
-  }
+    publishedAt: "2025-02-03",
+  },
 ];
 
 export default function ArticlePage() {
   const params = useParams();
-  const article = articles.find(a => a.id === Number(params.id));
+  const article = articles.find((a) => a.id === Number(params.id));
 
   if (!article) {
     return (
       <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900">Article not found</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Article not found
+          </h1>
           <Link href="/" className="text-blue-600 hover:text-blue-800">
             Return to home
           </Link>
@@ -139,8 +147,10 @@ export default function ArticlePage() {
         </div>
 
         <header className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">{article.title}</h1>
-          
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            {article.title}
+          </h1>
+
           <div className="flex items-center space-x-6 text-gray-600">
             <div className="flex items-center">
               <FontAwesomeIcon icon={faCalendar} className="w-4 h-4 mr-2" />
@@ -154,7 +164,7 @@ export default function ArticlePage() {
         </header>
 
         <div className="prose prose-lg max-w-none">
-          {article.content.split('\n').map((paragraph, index) => (
+          {article.content.split("\n").map((paragraph, index) => (
             <p key={index} className="mb-4">
               {paragraph}
             </p>
@@ -173,8 +183,13 @@ export default function ArticlePage() {
             </div>
             <div className="ml-4">
               <div className="flex items-center">
-                <FontAwesomeIcon icon={faUser} className="w-4 h-4 mr-2 text-gray-600" />
-                <h3 className="text-lg font-semibold text-gray-900">{article.author.name}</h3>
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="w-4 h-4 mr-2 text-gray-600"
+                />
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {article.author.name}
+                </h3>
               </div>
               <p className="text-gray-600">{article.author.bio}</p>
             </div>

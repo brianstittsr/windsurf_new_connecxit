@@ -1,33 +1,36 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useCallback } from 'react';
-import Image from 'next/image';
+import { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 
 const Hero = () => {
   const words = [
-    'Event Planning',
-    'Event Photographers',
-    'Event Transportation',
-    'Event Flowers',
+    "Event Planning",
+    "Event Photographers",
+    "Event Transportation",
+    "Event Flowers",
     "Event DJ's",
-    'Event Caterers',
-    'Event Entertainment'
+    "Event Caterers",
+    "Event Entertainment",
   ];
-  
+
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const getRandomIndex = useCallback((currentIndex: number): number => {
-    const newIndex = Math.floor(Math.random() * (words.length - 1));
-    // If we randomly got the same index, shift by 1 to avoid repetition
-    return newIndex >= currentIndex ? newIndex + 1 : newIndex;
-  }, [words.length]);
+  const getRandomIndex = useCallback(
+    (currentIndex: number): number => {
+      const newIndex = Math.floor(Math.random() * (words.length - 1));
+      // If we randomly got the same index, shift by 1 to avoid repetition
+      return newIndex >= currentIndex ? newIndex + 1 : newIndex;
+    },
+    [words.length],
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
       setIsAnimating(true);
       setTimeout(() => {
-        setCurrentWordIndex(prevIndex => getRandomIndex(prevIndex));
+        setCurrentWordIndex((prevIndex) => getRandomIndex(prevIndex));
         setIsAnimating(false);
       }, 500); // Half of the transition time
     }, 3000); // Change word every 3 seconds
@@ -56,16 +59,18 @@ const Hero = () => {
               priority
             />
           </div>
-          
+
           {/* Heading with animated text */}
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             <span className="relative inline-block">
               <span
                 className={`inline-block transition-transform duration-500 ${
-                  isAnimating ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'
+                  isAnimating
+                    ? "-translate-y-full opacity-0"
+                    : "translate-y-0 opacity-100"
                 }`}
                 style={{
-                  transformOrigin: 'center bottom'
+                  transformOrigin: "center bottom",
                 }}
               >
                 {words[currentWordIndex]}
@@ -101,7 +106,8 @@ const Hero = () => {
           }
         }
         @keyframes floatCircle1 {
-          0%, 100% {
+          0%,
+          100% {
             transform: translate(0, 0);
           }
           50% {
@@ -109,7 +115,8 @@ const Hero = () => {
           }
         }
         @keyframes floatCircle2 {
-          0%, 100% {
+          0%,
+          100% {
             transform: translate(0, 0);
           }
           50% {
@@ -117,7 +124,8 @@ const Hero = () => {
           }
         }
         @keyframes floatCircle3 {
-          0%, 100% {
+          0%,
+          100% {
             transform: translate(0, 0);
           }
           50% {

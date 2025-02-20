@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { tagCategories } from '@/utils/eventTags';
+import { useState } from "react";
+import { tagCategories } from "@/utils/eventTags";
 
 interface EventDetailEventTagsProps {
   initialTags?: string[];
@@ -10,32 +10,35 @@ interface EventDetailEventTagsProps {
 
 export default function EventDetailEventTags({
   initialTags = [],
-  onTagsChange
+  onTagsChange,
 }: EventDetailEventTagsProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>(initialTags);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [customTag, setCustomTag] = useState('');
+  const [customTag, setCustomTag] = useState("");
 
   const handleTagClick = (tag: string) => {
     const newTags = selectedTags.includes(tag)
-      ? selectedTags.filter(t => t !== tag)
+      ? selectedTags.filter((t) => t !== tag)
       : [...selectedTags, tag];
-    
+
     setSelectedTags(newTags);
     onTagsChange?.(newTags);
   };
 
   const handleAddCustomTag = () => {
     if (customTag && !selectedTags.includes(customTag)) {
-      const newTags = [...selectedTags, customTag.startsWith('#') ? customTag : `#${customTag}`];
+      const newTags = [
+        ...selectedTags,
+        customTag.startsWith("#") ? customTag : `#${customTag}`,
+      ];
       setSelectedTags(newTags);
       onTagsChange?.(newTags);
-      setCustomTag('');
+      setCustomTag("");
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleAddCustomTag();
     }
   };
@@ -44,7 +47,7 @@ export default function EventDetailEventTags({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Tags</h2>
-        
+
         {/* Selected Tags */}
         <div className="mb-8 flex flex-wrap gap-2">
           {selectedTags.map((tag) => (
@@ -84,17 +87,21 @@ export default function EventDetailEventTags({
           {tagCategories.map((category) => (
             <div key={category.id} className="space-y-2">
               <button
-                onClick={() => setSelectedCategory(
-                  selectedCategory === category.id ? null : category.id
-                )}
+                onClick={() =>
+                  setSelectedCategory(
+                    selectedCategory === category.id ? null : category.id,
+                  )
+                }
                 className="flex items-center justify-between w-full text-left"
               >
-                <h3 className="text-lg font-medium text-gray-900">{category.name}</h3>
+                <h3 className="text-lg font-medium text-gray-900">
+                  {category.name}
+                </h3>
                 <span className="ml-2 text-gray-500">
-                  {selectedCategory === category.id ? '−' : '+'}
+                  {selectedCategory === category.id ? "−" : "+"}
                 </span>
               </button>
-              
+
               {selectedCategory === category.id && (
                 <div className="flex flex-wrap gap-2 pt-2">
                   {category.tags.map((tag) => (
@@ -103,8 +110,8 @@ export default function EventDetailEventTags({
                       onClick={() => handleTagClick(tag)}
                       className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${
                         selectedTags.includes(tag)
-                          ? 'bg-purple-100 text-purple-800 hover:bg-purple-200'
-                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                          ? "bg-purple-100 text-purple-800 hover:bg-purple-200"
+                          : "bg-gray-100 text-gray-800 hover:bg-gray-200"
                       }`}
                     >
                       {tag}

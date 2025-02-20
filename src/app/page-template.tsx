@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import PageLayout from '@/components/PageLayout';
+import PageLayout from "@/components/PageLayout";
 
 interface PageProps {
   title: string;
@@ -14,7 +14,7 @@ const PageTemplate = ({ title, description }: PageProps) => {
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">{title}</h1>
           <p className="text-lg text-gray-600">{description}</p>
-          
+
           {/* Add more content specific to each page here */}
           <div className="mt-8">
             <p className="text-gray-600">Content coming soon...</p>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBuilding,
   faChartPie,
@@ -9,8 +9,8 @@ import {
   faStore,
   faUserTie,
   faUsers,
-} from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
+} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export default function VendorResourceCenter() {
   const resources = [
@@ -19,20 +19,35 @@ export default function VendorResourceCenter() {
       icon: faLightbulb,
       description: "Learn how to maximize your success on ConnecXit",
       links: [
-        { text: "Getting Started Guide", url: "/vendor-resource-center/getting-started" },
-        { text: "Best Practices", url: "/vendor-resource-center/best-practices" },
-        { text: "Success Stories", url: "/vendor-resource-center/success-stories" }
-      ]
+        {
+          text: "Getting Started Guide",
+          url: "/vendor-resource-center/getting-started",
+        },
+        {
+          text: "Best Practices",
+          url: "/vendor-resource-center/best-practices",
+        },
+        {
+          text: "Success Stories",
+          url: "/vendor-resource-center/success-stories",
+        },
+      ],
     },
     {
       title: "Business Tools",
       icon: faStore,
       description: "Essential tools for managing your vendor business",
       links: [
-        { text: "Inventory Management", url: "/vendor-resource-center/inventory" },
+        {
+          text: "Inventory Management",
+          url: "/vendor-resource-center/inventory",
+        },
         { text: "Order Processing", url: "/vendor-resource-center/orders" },
-        { text: "Analytics Dashboard", url: "/vendor-resource-center/analytics" }
-      ]
+        {
+          text: "Analytics Dashboard",
+          url: "/vendor-resource-center/analytics",
+        },
+      ],
     },
     {
       title: "Partner Network",
@@ -40,9 +55,12 @@ export default function VendorResourceCenter() {
       description: "Connect with service providers and grow your network",
       links: [
         { text: "Find Partners", url: "/vendor-resource-center/find-partners" },
-        { text: "Partnership Programs", url: "/vendor-resource-center/programs" },
-        { text: "Networking Events", url: "/vendor-resource-center/events" }
-      ]
+        {
+          text: "Partnership Programs",
+          url: "/vendor-resource-center/programs",
+        },
+        { text: "Networking Events", url: "/vendor-resource-center/events" },
+      ],
     },
     {
       title: "Support & Safety",
@@ -51,32 +69,32 @@ export default function VendorResourceCenter() {
       links: [
         { text: "Safety Guidelines", url: "/vendor-resource-center/safety" },
         { text: "Compliance Guide", url: "/vendor-resource-center/compliance" },
-        { text: "Support Center", url: "/vendor-resource-center/support" }
-      ]
-    }
+        { text: "Support Center", url: "/vendor-resource-center/support" },
+      ],
+    },
   ];
 
   const features = [
     {
       icon: faChartPie,
       title: "Market Insights",
-      description: "Access detailed market analysis and trends"
+      description: "Access detailed market analysis and trends",
     },
     {
       icon: faUsers,
       title: "Customer Management",
-      description: "Tools to manage and grow your customer base"
+      description: "Tools to manage and grow your customer base",
     },
     {
       icon: faBuilding,
       title: "Business Operations",
-      description: "Streamline your business operations"
+      description: "Streamline your business operations",
     },
     {
       icon: faUserTie,
       title: "Professional Services",
-      description: "Access professional services and support"
-    }
+      description: "Access professional services and support",
+    },
   ];
 
   return (
@@ -88,7 +106,8 @@ export default function VendorResourceCenter() {
             Vendor Resource Center
           </h1>
           <p className="text-xl mb-8">
-            Everything you need to grow and manage your vendor business on ConnecXit
+            Everything you need to grow and manage your vendor business on
+            ConnecXit
           </p>
           <div className="flex gap-4">
             <Link
@@ -128,7 +147,9 @@ export default function VendorResourceCenter() {
                     icon={resource.icon}
                     className="text-blue-600 w-8 h-8 mb-4"
                   />
-                  <h3 className="text-xl font-semibold mb-2">{resource.title}</h3>
+                  <h3 className="text-xl font-semibold mb-2">
+                    {resource.title}
+                  </h3>
                   <p className="text-gray-600">{resource.description}</p>
                 </div>
                 <div className="p-6">
@@ -189,7 +210,9 @@ export default function VendorResourceCenter() {
                 Ready to Grow Your Business?
               </h2>
               <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-                Join thousands of successful vendors who are growing their business with ConnecXit. Get access to our full suite of tools and resources.
+                Join thousands of successful vendors who are growing their
+                business with ConnecXit. Get access to our full suite of tools
+                and resources.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link

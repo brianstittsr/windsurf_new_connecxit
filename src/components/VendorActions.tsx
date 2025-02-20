@@ -1,7 +1,7 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMessage, faPhone, faLock } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMessage, faPhone, faLock } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 interface VendorActionsProps {
   onMessage?: () => void;
@@ -10,9 +10,16 @@ interface VendorActionsProps {
   isLoggedIn?: boolean;
 }
 
-export default function VendorActions({ onMessage, onCall, className = '', isLoggedIn = false }: VendorActionsProps) {
+export default function VendorActions({
+  onMessage,
+  onCall,
+  className = "",
+  isLoggedIn = false,
+}: VendorActionsProps) {
   return (
-    <div className={`grid grid-cols-2 gap-4 max-w-3xl mx-auto px-4 ${className}`}>
+    <div
+      className={`grid grid-cols-2 gap-4 max-w-3xl mx-auto px-4 ${className}`}
+    >
       {isLoggedIn ? (
         <>
           <button

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState } from "react";
+import Link from "next/link";
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,9 +14,9 @@ export default function ForgotPasswordPage() {
 
     try {
       // Add your password reset logic here
-      setMessage('Password reset email sent. Check your inbox.');
+      setMessage("Password reset email sent. Check your inbox.");
     } catch {
-      setMessage('Error sending reset email. Please try again.');
+      setMessage("Error sending reset email. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -37,7 +37,10 @@ export default function ForgotPasswordPage() {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email address
               </label>
               <div className="mt-1">
@@ -60,7 +63,7 @@ export default function ForgotPasswordPage() {
                 disabled={isSubmitting}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#ff5722] hover:bg-[#f4511e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ff5722]"
               >
-                {isSubmitting ? 'Sending...' : 'Send recovery email'}
+                {isSubmitting ? "Sending..." : "Send recovery email"}
               </button>
             </div>
 
@@ -82,7 +85,10 @@ export default function ForgotPasswordPage() {
             </div>
 
             <div className="mt-6 text-center">
-              <Link href="/signin" className="text-[#ff5722] hover:text-[#f4511e]">
+              <Link
+                href="/signin"
+                className="text-[#ff5722] hover:text-[#f4511e]"
+              >
                 Return to sign in
               </Link>
             </div>

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function SophiaLeeBlog() {
   return (
@@ -23,7 +23,9 @@ export default function SophiaLeeBlog() {
       {/* Article Content */}
       <div className="prose prose-lg max-w-none">
         <div className="bg-gray-50 p-6 rounded-lg mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">At a Glance</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            At a Glance
+          </h2>
           <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <dt className="font-medium text-gray-500">Location</dt>
@@ -46,16 +48,27 @@ export default function SophiaLeeBlog() {
 
         <h2>From Software Engineer to Tech Event Maven</h2>
         <p>
-          Sophia Lee's journey to becoming a leading tech conference organizer began in the trenches of software development. With a Computer Science degree from NC State and five years of experience as a software engineer at major tech companies, Sophia understood firsthand the importance of well-organized tech conferences.
+          Sophia Lee's journey to becoming a leading tech conference organizer
+          began in the trenches of software development. With a Computer Science
+          degree from NC State and five years of experience as a software
+          engineer at major tech companies, Sophia understood firsthand the
+          importance of well-organized tech conferences.
         </p>
 
         <p>
-          "I attended countless tech conferences that were either too technical or not technical enough," Sophia explains. "I saw an opportunity to create events that could truly bridge the gap between different tech communities." This insight led to the founding of Lee Tech Events in 2016.
+          "I attended countless tech conferences that were either too technical
+          or not technical enough," Sophia explains. "I saw an opportunity to
+          create events that could truly bridge the gap between different tech
+          communities." This insight led to the founding of Lee Tech Events in
+          2016.
         </p>
 
         <h2>Tech-Forward Event Planning</h2>
         <p>
-          Sophia's technical background gives her a unique advantage in planning tech conferences. She understands the needs of both developers and business stakeholders, creating events that facilitate meaningful knowledge exchange and networking opportunities.
+          Sophia's technical background gives her a unique advantage in planning
+          tech conferences. She understands the needs of both developers and
+          business stakeholders, creating events that facilitate meaningful
+          knowledge exchange and networking opportunities.
         </p>
 
         <h2>Signature Events</h2>
@@ -67,7 +80,9 @@ export default function SophiaLeeBlog() {
         </ul>
 
         <div className="bg-blue-50 p-6 rounded-lg my-8">
-          <h3 className="text-xl font-semibold text-blue-900 mb-4">Tech Conference Best Practices</h3>
+          <h3 className="text-xl font-semibold text-blue-900 mb-4">
+            Tech Conference Best Practices
+          </h3>
           <ul className="list-disc pl-6 space-y-2">
             <li>Balance technical and business content</li>
             <li>Incorporate hands-on workshops</li>
@@ -78,16 +93,27 @@ export default function SophiaLeeBlog() {
 
         <h2>The Future of Tech Conferences in North Carolina</h2>
         <p>
-          Sophia sees North Carolina emerging as a major tech conference destination. "With our growing tech hubs and beautiful coastal location, we're perfectly positioned to host world-class tech events," she notes. "The rise of hybrid events has also opened new possibilities for reaching global audiences while maintaining local impact."
+          Sophia sees North Carolina emerging as a major tech conference
+          destination. "With our growing tech hubs and beautiful coastal
+          location, we're perfectly positioned to host world-class tech events,"
+          she notes. "The rise of hybrid events has also opened new
+          possibilities for reaching global audiences while maintaining local
+          impact."
         </p>
 
         <p>
-          She predicts a trend toward more specialized, focused tech conferences. "The future isn't just about big general tech conferences, but targeted events that dive deep into specific technologies or industries," she explains.
+          She predicts a trend toward more specialized, focused tech
+          conferences. "The future isn't just about big general tech
+          conferences, but targeted events that dive deep into specific
+          technologies or industries," she explains.
         </p>
 
         <h2>Innovation in Conference Planning</h2>
         <p>
-          Sophia has pioneered several innovative conference features, including an AI-powered networking system that matches attendees based on their interests and goals. She's also developed a hybrid event platform that creates seamless experiences for both in-person and virtual attendees.
+          Sophia has pioneered several innovative conference features, including
+          an AI-powered networking system that matches attendees based on their
+          interests and goals. She's also developed a hybrid event platform that
+          creates seamless experiences for both in-person and virtual attendees.
         </p>
 
         <h2>Notable Achievements</h2>
@@ -100,7 +126,10 @@ export default function SophiaLeeBlog() {
 
         <h2>Connect with Sophia</h2>
         <p>
-          For tech conference planning or consulting services, reach out to Sophia's team at their Wilmington office or through their online platform. They specialize in technical conferences, developer events, and startup showcases.
+          For tech conference planning or consulting services, reach out to
+          Sophia's team at their Wilmington office or through their online
+          platform. They specialize in technical conferences, developer events,
+          and startup showcases.
         </p>
       </div>
     </article>

@@ -1,37 +1,37 @@
-import { useState, useEffect } from 'react';
-import { User } from '@/lib/auth';
+import { useState, useEffect } from "react";
+import { User } from "@/lib/auth";
 
 interface AuthState {
   user: User | null;
-  status: 'loading' | 'authenticated' | 'unauthenticated';
+  status: "loading" | "authenticated" | "unauthenticated";
 }
 
 export function useAuth() {
   const [authState, setAuthState] = useState<AuthState>({
     user: null,
-    status: 'loading',
+    status: "loading",
   });
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('/api/auth/me');
+        const response = await fetch("/api/auth/me");
         if (response.ok) {
           const data = await response.json();
           setAuthState({
             user: data.user,
-            status: 'authenticated',
+            status: "authenticated",
           });
         } else {
           setAuthState({
             user: null,
-            status: 'unauthenticated',
+            status: "unauthenticated",
           });
         }
       } catch (error) {
         setAuthState({
           user: null,
-          status: 'unauthenticated',
+          status: "unauthenticated",
         });
       }
     };
@@ -40,12 +40,12 @@ export function useAuth() {
   }, []);
 
   const update = async () => {
-    const response = await fetch('/api/auth/me');
+    const response = await fetch("/api/auth/me");
     if (response.ok) {
       const data = await response.json();
       setAuthState({
         user: data.user,
-        status: 'authenticated',
+        status: "authenticated",
       });
     }
   };

@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useState } from 'react';
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect, useState } from "react";
 
 export default function TestAuth() {
   const { user, token } = useAuth();
-  const [apiResponse, setApiResponse] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [apiResponse, setApiResponse] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const testAuth = async () => {
       try {
-        const response = await fetch('/api/auth/test', {
+        const response = await fetch("/api/auth/test", {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
-        
+
         const data = await response.json();
         setApiResponse(JSON.stringify(data, null, 2));
       } catch (error) {
-        setError('Failed to test authentication');
-        console.error('Auth test error:', error);
+        setError("Failed to test authentication");
+        console.error("Auth test error:", error);
       }
     };
 
@@ -38,25 +38,35 @@ export default function TestAuth() {
             <h1 className="text-lg font-medium leading-6 text-gray-900 mb-4">
               Authentication Test Page
             </h1>
-            
+
             <div className="space-y-4">
               <div>
-                <h2 className="text-sm font-medium text-gray-500">User Status</h2>
+                <h2 className="text-sm font-medium text-gray-500">
+                  User Status
+                </h2>
                 <pre className="mt-1 bg-gray-50 p-4 rounded-md overflow-auto">
-                  {JSON.stringify({ 
-                    isAuthenticated: !!user,
-                    user: user ? {
-                      email: user.email,
-                      firstName: user.firstName,
-                      lastName: user.lastName,
-                      role: user.role
-                    } : null
-                  }, null, 2)}
+                  {JSON.stringify(
+                    {
+                      isAuthenticated: !!user,
+                      user: user
+                        ? {
+                            email: user.email,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            role: user.role,
+                          }
+                        : null,
+                    },
+                    null,
+                    2,
+                  )}
                 </pre>
               </div>
 
               <div>
-                <h2 className="text-sm font-medium text-gray-500">JWT Token Status</h2>
+                <h2 className="text-sm font-medium text-gray-500">
+                  JWT Token Status
+                </h2>
                 <div className="mt-1 bg-gray-50 p-4 rounded-md">
                   {token ? (
                     <span className="text-green-600">✓ Token present</span>
@@ -68,7 +78,9 @@ export default function TestAuth() {
 
               {apiResponse && (
                 <div>
-                  <h2 className="text-sm font-medium text-gray-500">API Test Response</h2>
+                  <h2 className="text-sm font-medium text-gray-500">
+                    API Test Response
+                  </h2>
                   <pre className="mt-1 bg-gray-50 p-4 rounded-md overflow-auto">
                     {apiResponse}
                   </pre>
