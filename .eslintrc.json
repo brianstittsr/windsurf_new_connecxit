@@ -35,7 +35,8 @@
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "import/no-named-as-default-member": "off"
   },
   "ignorePatterns": [
     ".next/*",
