@@ -1,14 +1,18 @@
 const fs = require('fs');
 const path = require('path');
-const dotenv = require('dotenv');
+
+function loadEnv() {
+  try {
+    require('dotenv').config();
+  } catch (error) {
+    console.log('Note: dotenv module not found, using process.env directly');
+  }
+}
 
 function checkEnvVars() {
-  // Load .env file if it exists and we're not in production
+  // Load environment variables if not in production
   if (process.env.NODE_ENV !== 'production') {
-    const envPath = path.resolve(process.cwd(), '.env');
-    if (fs.existsSync(envPath)) {
-      dotenv.config({ path: envPath });
-    }
+    loadEnv();
   }
 
   // Required environment variables

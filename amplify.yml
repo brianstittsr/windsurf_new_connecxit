@@ -3,7 +3,11 @@ frontend:
   phases:
     preBuild:
       commands:
-        # Install dependencies
+        # Install production dependencies first
+        - npm install -g yarn
+        - yarn install --production --frozen-lockfile
+        
+        # Install remaining dependencies
         - yarn install --frozen-lockfile
         
         # Create production env file
