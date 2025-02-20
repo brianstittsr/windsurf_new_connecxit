@@ -1,9 +1,7 @@
 import { getSession } from "@/lib/neo4j";
 import type { Record as Neo4jRecord } from "neo4j-driver";
 
-interface QueryParams {
-  [key: string]: unknown;
-}
+type QueryParams = Record<string, unknown>;
 
 async function executeQuery(
   query: string,
