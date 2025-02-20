@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyToken } from "@/lib/auth";
+import * as jose from "jose";
 
 // Add paths that should be protected by authentication
 const protectedPaths = [
@@ -18,7 +18,7 @@ const authPaths = ["/signin", "/signup"];
 // Add paths that should be excluded from authentication check
 const publicPaths = ["/_next", "/static", "/api/auth", "/favicon.ico"];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Skip authentication for public paths
@@ -26,12 +26,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const token = request.cookies.get("auth_token")?.value;
+  const token = request.cookies.get("token")?.value;
   let isValidToken = false;
 
   if (token) {
     try {
-      verifyToken(token);
+      const secret = new TextEncoder().encode(
+        process.env.JWT_SECRET || "default-secret-key-change-in-production"
+      );
+      await jose.jwtVerify(token, secret);
       isValidToken = true;
     } catch (error) {
       // Token is invalid or expired
