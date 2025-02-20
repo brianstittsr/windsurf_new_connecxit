@@ -24,8 +24,8 @@ frontend:
         # Clean dependencies but preserve lock file
         - rm -rf node_modules .yarn/cache .yarn/install-state.gz
         
-        # Install dependencies and update lock file if needed
-        - yarn install
+        # Install dependencies and allow lockfile updates
+        - YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
         
         # Verify environment
         - node scripts/check-env.js
