@@ -9,14 +9,21 @@ frontend:
         - corepack prepare yarn@1.22.22 --activate
         - yarn set version 4.1.0
         
+        # Initialize Yarn state
+        - |
+          echo "Initializing Yarn state..."
+          mkdir -p .yarn
+          touch .yarn/install-state.gz
+          
         # Configure Yarn
         - yarn config set nodeLinker node-modules
         - yarn config set enableGlobalCache false
+        - yarn config set enableMirror false
+        - yarn config set checksumBehavior update
         
         # Clean and install dependencies
-        - yarn clean:all || true
-        - yarn cache clean
-        - yarn install --mode update-lockfile --no-immutable
+        - rm -rf node_modules .yarn/cache .yarn/install-state.gz yarn.lock
+        - yarn install --mode update-lockfile --no-immutable --prefer-dedupe
         
         # Verify environment
         - node scripts/check-env.js
@@ -53,9 +60,12 @@ frontend:
     paths:
       - node_modules/**/*
       - .next/cache/**/*
-      - .yarn/cache
-      - .yarn/unplugged
-      - .pnp.*
+      - .yarn/cache/**/*
+      - .yarn/unplugged/**/*
+      # Exclude state files
+      - '!.yarn/install-state.gz'
+      - '!.yarn/*.yml'
+      - '!.yarn/build-state.yml'
   
   customHeaders:
     - pattern: '**/*'
