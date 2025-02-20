@@ -3,7 +3,7 @@ import { getSession } from '@/lib/neo4j';
 import { logger } from '@/utils/logger';
 
 export async function POST(
-  req: Request,
+  _req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -69,7 +69,7 @@ export async function POST(
       }
     }
   } catch (error) {
-    logger.error('Message read error:', error);
+    logger.error('Message read error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return new Response(
       JSON.stringify({ error: 'Failed to mark message as read' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
