@@ -48,7 +48,7 @@ export async function GET() {
       }
     }
   } catch (error) {
-    logger.error('Messages fetch error:', error);
+    logger.error('Messages fetch error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return new Response(
       JSON.stringify({ error: 'Failed to fetch messages' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
@@ -132,7 +132,7 @@ export async function POST(req: Request) {
       }
     }
   } catch (error) {
-    logger.error('Message send error:', error);
+    logger.error('Message send error:', error instanceof Error ? error.message : 'Unknown error occurred');
     return new Response(
       JSON.stringify({ error: 'Failed to send message' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
