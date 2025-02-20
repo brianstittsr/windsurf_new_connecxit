@@ -1,9 +1,10 @@
 import { getServerUser } from '@/lib/auth-server';
 import { getSession } from '@/lib/neo4j';
+import { NextRequest, NextResponse } from 'next/server';
 
 
 export async function POST(
-  _req: Request,
+  _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
