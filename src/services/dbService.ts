@@ -1,12 +1,14 @@
 import { getSession } from "@/lib/neo4j";
-import type { Record } from "neo4j-driver";
+import type { Record as Neo4jRecord } from "neo4j-driver";
 
-type QueryParams = Record<string, unknown>;
+interface QueryParams {
+  [key: string]: unknown;
+}
 
 async function executeQuery(
   query: string,
   params: QueryParams,
-): Promise<Record[]> {
+): Promise<Neo4jRecord[]> {
   let session = null;
   try {
     session = await getSession();
