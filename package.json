@@ -2,6 +2,9 @@
   "name": "connecxit",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "check-env": "node scripts/check-env.js",
     "dev": "yarn check-env && next dev",

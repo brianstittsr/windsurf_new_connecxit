@@ -3,29 +3,12 @@ frontend:
   phases:
     preBuild:
       commands:
-        # Set up Node.js and Yarn
-        - nvm use 18
-        - corepack enable
-        - corepack prepare yarn@1.22.22 --activate
-        - yarn set version 4.1.0
+        # Install dependencies
+        - npm install -g yarn
+        - yarn install --frozen-lockfile
         
-        # Initialize Yarn state
-        - |
-          echo "Initializing Yarn state..."
-          mkdir -p .yarn
-          touch .yarn/install-state.gz
-          
-        # Configure Yarn
-        - yarn config set nodeLinker node-modules
-        - yarn config set enableGlobalCache false
-        - yarn config set enableMirror false
-        - yarn config set checksumBehavior update
-        
-        # Clean dependencies but preserve lock file
-        - rm -rf node_modules .yarn/cache .yarn/install-state.gz
-        
-        # Install dependencies and allow lockfile updates
-        - YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
+        # Verify environment variables
+        - node scripts/check-env.js
         
         # Verify environment
         - node scripts/check-env.js

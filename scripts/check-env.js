@@ -3,10 +3,12 @@ const path = require('path');
 const dotenv = require('dotenv');
 
 function checkEnvVars() {
-  // Load .env file if it exists
-  const envPath = path.resolve(process.cwd(), '.env');
-  if (fs.existsSync(envPath)) {
-    dotenv.config({ path: envPath });
+  // Load .env file if it exists and we're not in production
+  if (process.env.NODE_ENV !== 'production') {
+    const envPath = path.resolve(process.cwd(), '.env');
+    if (fs.existsSync(envPath)) {
+      dotenv.config({ path: envPath });
+    }
   }
 
   // Required environment variables
