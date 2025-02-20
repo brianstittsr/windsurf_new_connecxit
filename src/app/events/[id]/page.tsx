@@ -1,9 +1,8 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
 import { redirect, notFound } from 'next/navigation';
 import EventDetailWrapper from '@/components/EventDetailWrapper';
 import { getEventById, getRelatedEvents } from '@/data/events';
 import { Metadata } from 'next';
+import { getServerUser } from '@/lib/auth-server';
 
 type PageParams = {
   id: string;
@@ -32,11 +31,11 @@ export async function generateMetadata(
 }
 
 export default async function EventDetailPage({ params }: Props) {
-  const session = await getServerSession(authOptions);
+  const user = await getServerUser();
   const resolvedParams = await params;
 
-  if (!session) {
-    redirect('/api/auth/signin');
+  if (!user) {
+    redirect('/signin');
   }
 
   const event = await getEventById(resolvedParams.id);
@@ -46,14 +45,10 @@ export default async function EventDetailPage({ params }: Props) {
 
   const relatedEvents = await getRelatedEvents(resolvedParams.id);
 
-
-
   return (
-    <div className="min-h-screen bg-white">
-      <EventDetailWrapper 
-        event={event}
-        relatedEvents={relatedEvents}
-      />
-    </div>
+    <EventDetailWrapper 
+      event={event} 
+      relatedEvents={relatedEvents}
+    />
   );
 }
