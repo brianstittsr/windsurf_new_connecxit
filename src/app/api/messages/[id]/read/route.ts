@@ -11,9 +11,9 @@ export async function POST(
     const user = await getServerUser();
     
     if (!user) {
-      return new Response(
-        JSON.stringify({ error: 'Not authenticated' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { error: 'Not authenticated' },
+        { status: 401 }
       );
     }
 
@@ -54,16 +54,13 @@ export async function POST(
       const message = result.records[0]?.get('message');
 
       if (!message) {
-        return new Response(
-          JSON.stringify({ error: 'Message not found or already read' }),
-          { status: 404, headers: { 'Content-Type': 'application/json' } }
+        return NextResponse.json(
+          { error: 'Message not found or already read' },
+          { status: 404 }
         );
       }
 
-      return new Response(JSON.stringify(message), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
+      return NextResponse.json(message);
     } finally {
       if (session) {
         await session.close();
@@ -71,9 +68,9 @@ export async function POST(
     }
   } catch (error) {
     console.error('Message read error:', error instanceof Error ? error.message : 'Unknown error occurred');
-    return new Response(
-      JSON.stringify({ error: 'Failed to mark message as read' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    return NextResponse.json(
+      { error: 'Failed to mark message as read' },
+      { status: 500 }
     );
   }
 }
