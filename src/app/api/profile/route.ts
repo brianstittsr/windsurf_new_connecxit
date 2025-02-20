@@ -1,58 +1,101 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { getUserByEmail, updateUser } from '@/services/userService';
+import { getServerUser } from '@/lib/auth-server';
+import { getSession } from '@/lib/neo4j';
+import { logger } from '@/utils/logger';
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session?.user?.email) {
-      return NextResponse.json(
-        { error: 'Not authenticated' },
-        { status: 401 }
-      );
-    }
-
-    const user = await getUserByEmail(session.user.email);
+    const user = await getServerUser();
     
     if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
+      return new Response(
+        JSON.stringify({ error: 'Not authenticated' }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    return NextResponse.json(user);
+    return new Response(JSON.stringify(user), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
   } catch (error) {
-    console.error('Error in GET /api/profile:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+    logger.error('Profile fetch error:', error);
+    return new Response(
+      JSON.stringify({ error: 'Failed to fetch profile' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
 }
 
-export async function PUT(request: NextRequest) {
+export async function PUT(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session?.user?.email) {
-      return NextResponse.json(
-        { error: 'Not authenticated' },
-        { status: 401 }
+    const user = await getServerUser();
+    
+    if (!user) {
+      return new Response(
+        JSON.stringify({ error: 'Not authenticated' }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    const data = await request.json();
-    const updatedUser = await updateUser(session.user.email, data);
+    const updates = await req.json();
+    let session = null;
 
-    return NextResponse.json(updatedUser);
+    try {
+      session = await getSession();
+      const result = await session.run(
+        `
+        MATCH (u:User {id: $id})
+        SET u += $updates
+        RETURN u {
+          .id,
+          .email,
+          .firstName,
+          .lastName,
+          .phone,
+          .timezone,
+          .role,
+          .image,
+          .bio,
+          .location,
+          .website,
+          .company,
+          .title,
+          .skills,
+          .interests,
+          .unreadMessages,
+          .createdAt,
+          .updatedAt
+        } as user
+        `,
+        {
+          id: user.id,
+          updates: {
+            ...updates,
+            updatedAt: new Date().toISOString()
+          }
+        }
+      );
+
+      const updatedUser = result.records[0]?.get('user');
+
+      if (!updatedUser) {
+        throw new Error('Failed to update user');
+      }
+
+      return new Response(JSON.stringify(updatedUser), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } finally {
+      if (session) {
+        await session.close();
+      }
+    }
   } catch (error) {
-    console.error('Error in PUT /api/profile:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+    logger.error('Profile update error:', error);
+    return new Response(
+      JSON.stringify({ error: 'Failed to update profile' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
 }
