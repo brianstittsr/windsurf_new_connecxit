@@ -7,9 +7,9 @@ export async function POST(request: NextRequest) {
     const { email, password } = await request.json();
 
     if (!email || !password) {
-      return new Response(
-        JSON.stringify({ error: 'Email and password are required' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { error: 'Email and password are required' },
+        { status: 400 }
       );
     }
 
@@ -24,23 +24,20 @@ export async function POST(request: NextRequest) {
       path: '/',
     });
 
-    return new Response(JSON.stringify({ user }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return NextResponse.json({ user });
   } catch (error) {
     console.error('Login error:', error instanceof Error ? error.message : 'Unknown error occurred');
     
     if (error instanceof Error && error.message.includes('Invalid')) {
-      return new Response(
-        JSON.stringify({ error: error.message }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { error: error.message },
+        { status: 401 }
       );
     }
     
-    return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
     );
   }
 }
