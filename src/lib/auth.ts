@@ -29,9 +29,9 @@ export interface AuthToken {
 
 export async function generateToken(user: User): Promise<string> {
   const secret = new TextEncoder().encode(
-    process.env.JWT_SECRET || "default-secret-key-change-in-production"
+    process.env.JWT_SECRET || "default-secret-key-change-in-production",
   );
-  
+
   return await new jose.SignJWT({ user })
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("24h")
@@ -42,11 +42,18 @@ export async function generateToken(user: User): Promise<string> {
 export async function verifyToken(token: string): Promise<AuthToken> {
   try {
     const secret = new TextEncoder().encode(
-      process.env.JWT_SECRET || "default-secret-key-change-in-production"
+      process.env.JWT_SECRET || "default-secret-key-change-in-production",
     );
-    
+
     const { payload } = await jose.jwtVerify(token, secret);
-    return payload as AuthToken;
+    if (!payload.user) {
+      throw new Error("Invalid token format: missing user data");
+    }
+    return {
+      user: payload.user as User,
+      exp: payload.exp as number,
+      iat: payload.iat as number,
+    };
   } catch (error) {
     console.error("Token verification error:", error);
     throw error;
@@ -66,5 +73,3 @@ export function getTokenFromHeader(authHeader?: string): string {
 
   return parts[1];
 }
-
-

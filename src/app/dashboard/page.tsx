@@ -44,13 +44,17 @@ export default function Dashboard() {
               Sign Out
             </button>
           </div>
-          
+
           <div className="bg-gray-50 p-4 rounded-md mb-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-2">User Profile</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-2">
+              User Profile
+            </h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm font-medium text-gray-500">Name</p>
-                <p className="mt-1">{user.firstName} {user.lastName}</p>
+                <p className="mt-1">
+                  {user.firstName} {user.lastName}
+                </p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500">Email</p>
@@ -61,21 +65,29 @@ export default function Dashboard() {
                 <p className="mt-1">{user.role}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Member Since</p>
-                <p className="mt-1">{new Date(user.createdAt || "").toLocaleDateString()}</p>
+                <p className="text-sm font-medium text-gray-500">
+                  Member Since
+                </p>
+                <p className="mt-1">
+                  {new Date(user.createdAt || "").toLocaleDateString()}
+                </p>
               </div>
             </div>
           </div>
 
           <div className="bg-gray-50 p-4 rounded-md">
-            <h2 className="text-lg font-medium text-gray-900 mb-2">Account Status</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-2">
+              Account Status
+            </h2>
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center">
                   <span className="h-2 w-2 rounded-full bg-green-600"></span>
                 </span>
               </div>
-              <p className="ml-3 text-sm text-gray-500">Your account is active and in good standing</p>
+              <p className="ml-3 text-sm text-gray-500">
+                Your account is active and in good standing
+              </p>
             </div>
           </div>
         </div>

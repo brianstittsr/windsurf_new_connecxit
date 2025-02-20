@@ -4,19 +4,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 
 export default function TestAuth() {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const [apiResponse, setApiResponse] = useState<string>("");
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const testAuth = async () => {
       try {
-        const response = await fetch("/api/auth/test", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
+        const response = await fetch("/api/auth/session");
         const data = await response.json();
         setApiResponse(JSON.stringify(data, null, 2));
       } catch (error) {
@@ -25,10 +20,10 @@ export default function TestAuth() {
       }
     };
 
-    if (token) {
+    if (user) {
       testAuth();
     }
-  }, [token]);
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -65,13 +60,13 @@ export default function TestAuth() {
 
               <div>
                 <h2 className="text-sm font-medium text-gray-500">
-                  JWT Token Status
+                  Authentication Status
                 </h2>
                 <div className="mt-1 bg-gray-50 p-4 rounded-md">
-                  {token ? (
-                    <span className="text-green-600">✓ Token present</span>
+                  {user ? (
+                    <span className="text-green-600">✓ Authenticated</span>
                   ) : (
-                    <span className="text-red-600">✗ No token</span>
+                    <span className="text-red-600">✗ Not authenticated</span>
                   )}
                 </div>
               </div>

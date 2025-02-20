@@ -12,7 +12,7 @@ export async function GET() {
       });
     }
 
-    const decoded = verifyToken(token);
+    const decoded = await verifyToken(token);
 
     return new Response(JSON.stringify({ user: decoded.user }), {
       status: 200,

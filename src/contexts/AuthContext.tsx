@@ -5,7 +5,10 @@ import { User } from "@/lib/auth";
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  login: (
+    email: string,
+    password: string,
+  ) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   isLoading: boolean;
 }
@@ -23,7 +26,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const response = await fetch("/api/auth/session", {
           credentials: "include",
         });
-        
+
         if (response.ok) {
           const data = await response.json();
           setUser(data.user);

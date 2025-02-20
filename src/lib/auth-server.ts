@@ -10,7 +10,7 @@ export async function getServerUser(): Promise<User | null> {
       return null;
     }
 
-    const decoded = verifyToken(token);
+    const decoded = await verifyToken(token);
     return decoded.user;
   } catch (error) {
     return null;

@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
   if (token) {
     try {
       const secret = new TextEncoder().encode(
-        process.env.JWT_SECRET || "default-secret-key-change-in-production"
+        process.env.JWT_SECRET || "default-secret-key-change-in-production",
       );
       await jose.jwtVerify(token, secret);
       isValidToken = true;

@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   if (!email || !password) {
     return NextResponse.json(
       { error: "Please provide both email and password" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         .updatedAt
       } as user
       `,
-      { email }
+      { email },
     );
 
     const user = result.records[0]?.get("user");
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       console.error("User not found:", email);
       return NextResponse.json(
         { error: "Invalid email or password" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -61,20 +61,20 @@ export async function POST(request: NextRequest) {
       console.error("Invalid account configuration for user:", email);
       return NextResponse.json(
         { error: "Invalid account configuration" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
     const isCorrectPassword = await bcrypt.compare(
       password,
-      user.hashedPassword
+      user.hashedPassword,
     );
 
     if (!isCorrectPassword) {
       console.error("Invalid password for user:", email);
       return NextResponse.json(
         { error: "Invalid email or password" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -90,9 +90,9 @@ export async function POST(request: NextRequest) {
     // Set the token in an HTTP-only cookie
     const response = NextResponse.json(
       { user: userWithoutPassword },
-      { status: 200 }
+      { status: 200 },
     );
-    
+
     response.cookies.set({
       name: "token",
       value: token,
@@ -106,11 +106,11 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(
       "Authentication error:",
-      error instanceof Error ? error.message : "Unknown error occurred"
+      error instanceof Error ? error.message : "Unknown error occurred",
     );
     return NextResponse.json(
       { error: "An error occurred during authentication" },
-      { status: 500 }
+      { status: 500 },
     );
   } finally {
     if (session) {
@@ -125,7 +125,7 @@ export async function PUT(request: NextRequest) {
   if (!email || !currentPassword || !newPassword) {
     return NextResponse.json(
       { error: "Please provide email, current password, and new password" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -139,27 +139,24 @@ export async function PUT(request: NextRequest) {
       MATCH (u:User {email: $email})
       RETURN u.hashedPassword as hashedPassword
       `,
-      { email }
+      { email },
     );
 
     const hashedPassword = result.records[0]?.get("hashedPassword");
 
     if (!hashedPassword) {
-      return NextResponse.json(
-        { error: "User not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const isCorrectPassword = await bcrypt.compare(
       currentPassword,
-      hashedPassword
+      hashedPassword,
     );
 
     if (!isCorrectPassword) {
       return NextResponse.json(
         { error: "Current password is incorrect" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -174,21 +171,21 @@ export async function PUT(request: NextRequest) {
       SET u.hashedPassword = $hashedPassword,
           u.updatedAt = datetime()
       `,
-      { email, hashedPassword: newHashedPassword }
+      { email, hashedPassword: newHashedPassword },
     );
 
     return NextResponse.json(
       { message: "Password updated successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error(
       "Password update error:",
-      error instanceof Error ? error.message : "Unknown error occurred"
+      error instanceof Error ? error.message : "Unknown error occurred",
     );
     return NextResponse.json(
       { error: "An error occurred while updating the password" },
-      { status: 500 }
+      { status: 500 },
     );
   } finally {
     if (session) {

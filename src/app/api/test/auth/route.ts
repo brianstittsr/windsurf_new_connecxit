@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   if (!email || !password || !firstName || !lastName) {
     return NextResponse.json(
       { error: "Please provide all required fields" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -24,13 +24,13 @@ export async function POST(request: NextRequest) {
       MATCH (u:User {email: $email})
       RETURN u
       `,
-      { email }
+      { email },
     );
 
     if (existingUser.records.length > 0) {
       return NextResponse.json(
         { error: "User already exists" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -66,20 +66,20 @@ export async function POST(request: NextRequest) {
         firstName,
         lastName,
         hashedPassword,
-      }
+      },
     );
 
     const user = result.records[0]?.get("user") as User;
 
     return NextResponse.json(
       { message: "Test user created successfully", user },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Test user creation error:", error);
     return NextResponse.json(
       { error: "An error occurred while creating test user" },
-      { status: 500 }
+      { status: 500 },
     );
   } finally {
     if (session) {
@@ -95,7 +95,7 @@ export async function DELETE(request: NextRequest) {
   if (!email) {
     return NextResponse.json(
       { error: "Please provide email" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -108,18 +108,18 @@ export async function DELETE(request: NextRequest) {
       MATCH (u:User {email: $email})
       DELETE u
       `,
-      { email }
+      { email },
     );
 
     return NextResponse.json(
       { message: "Test user deleted successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Test user deletion error:", error);
     return NextResponse.json(
       { error: "An error occurred while deleting test user" },
-      { status: 500 }
+      { status: 500 },
     );
   } finally {
     if (session) {

@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { getSession } from "@/lib/neo4j";
-import type { User, AuthToken } from "@/lib/auth";
+import { generateToken } from "@/lib/auth";
+import type { User } from "@/lib/auth";
 
 export async function authenticateUser(
   email: string,
@@ -59,7 +59,7 @@ export async function authenticateUser(
     delete userData.hashedPassword;
 
     const user: User = userData;
-    const token = generateToken(user);
+    const token = await generateToken(user);
 
     return { user, token };
   } catch (error) {
@@ -70,11 +70,6 @@ export async function authenticateUser(
       await session.close();
     }
   }
-}
-
-export function generateToken(user: User): string {
-  const secret = process.env.JWT_SECRET || "default-secret-key-change-in-production";
-  return jwt.sign({ user }, secret, { expiresIn: "24h" });
 }
 
 export function hashPassword(password: string): Promise<string> {
