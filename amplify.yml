@@ -23,16 +23,17 @@ frontend:
         # Build the application
         - NODE_ENV=production yarn build
   artifacts:
-    baseDirectory: .next
+    baseDirectory: .
     files:
-      - '**/*'
+      - .next/**/*
+      - public/**/*
+      - package.json
+      - next.config.js
+      - .env.production
   cache:
     paths:
       - node_modules/**/*
       - .next/cache/**/*
-  
-  artifacts:
-    baseDirectory: .next
     files:
       - '**/*'
   

@@ -10,6 +10,7 @@
     "check-env": "node scripts/check-env.js",
     "dev": "yarn check-env && next dev",
     "build": "yarn check-env && next build",
+    "postbuild": "cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/",
     "start": "next start",
     "lint": "next lint --fix",
     "clean": "rimraf .next node_modules && yarn cache clean",
