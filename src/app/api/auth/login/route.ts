@@ -1,5 +1,6 @@
-import { signIn } from '@/lib/auth-simple';
+import { authenticateUser } from '@/lib/auth';
 import { logger } from '@/utils/logger';
+import { cookies } from 'next/headers';
 
 export async function POST(req: Request) {
   try {
@@ -12,21 +13,31 @@ export async function POST(req: Request) {
       );
     }
 
-    const result = await signIn(email, password);
+    const { user, token } = await authenticateUser(email, password);
     
-    if (!result) {
-      return new Response(
-        JSON.stringify({ error: 'Invalid credentials' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
+    // Set the auth token in an HTTP-only cookie
+    cookies().set('auth_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60, // 7 days
+      path: '/',
+    });
 
-    return new Response(JSON.stringify(result), {
+    return new Response(JSON.stringify({ user }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (error) {
     logger.error('Login error:', error);
+    
+    if (error instanceof Error && error.message.includes('Invalid')) {
+      return new Response(
+        JSON.stringify({ error: error.message }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+    
     return new Response(
       JSON.stringify({ error: 'Internal server error' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }

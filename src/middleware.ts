@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { verifyToken } from '@/lib/auth';
 
 // Add paths that should be protected by authentication
 const protectedPaths = [
   '/dashboard',
   '/profile',
+  '/messages',
+  '/connections',
+  '/settings',
   // Add other protected paths here
 ];
 
@@ -14,9 +18,34 @@ const authPaths = [
   '/signup',
 ];
 
+// Add paths that should be excluded from authentication check
+const publicPaths = [
+  '/_next',
+  '/static',
+  '/api/auth',
+  '/favicon.ico',
+];
+
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('auth_token')?.value;
   const path = request.nextUrl.pathname;
+
+  // Skip authentication for public paths
+  if (publicPaths.some(publicPath => path.startsWith(publicPath))) {
+    return NextResponse.next();
+  }
+
+  const token = request.cookies.get('auth_token')?.value;
+  let isValidToken = false;
+
+  if (token) {
+    try {
+      verifyToken(token);
+      isValidToken = true;
+    } catch (error) {
+      // Token is invalid or expired
+      isValidToken = false;
+    }
+  }
 
   // Check if the path should be protected
   const isProtectedPath = protectedPaths.some(protectedPath => 
@@ -29,14 +58,14 @@ export function middleware(request: NextRequest) {
   );
 
   // If the path is protected and user is not authenticated
-  if (isProtectedPath && !token) {
+  if (isProtectedPath && !isValidToken) {
     const redirectUrl = new URL('/signin', request.url);
     redirectUrl.searchParams.set('callbackUrl', path);
     return NextResponse.redirect(redirectUrl);
   }
 
   // If the path is for non-authenticated users and user is authenticated
-  if (isAuthPath && token) {
+  if (isAuthPath && isValidToken) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
@@ -47,12 +76,10 @@ export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
-     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - public folder
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };

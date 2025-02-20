@@ -1,140 +1,145 @@
-import { NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { getSession } from '@/lib/neo4j';
 import { logger } from '@/utils/logger';
 
-export const authOptions: NextAuthOptions = {
-  providers: [
-    CredentialsProvider({
-      name: 'credentials',
-      credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' }
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          logger.error('Missing credentials');
-          throw new Error('Please provide both email and password');
-        }
+export interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  timezone: string;
+  role: string;
+  image?: string;
+  bio?: string;
+  location?: string;
+  website?: string;
+  company?: string;
+  title?: string;
+  skills?: string[];
+  interests?: string[];
+  unreadMessages?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
 
-        let session = null;
-        try {
-          session = await getSession();
-          logger.log('Attempting to authenticate user:', credentials.email);
+export interface AuthToken {
+  user: User;
+  exp: number;
+  iat: number;
+}
 
-          const result = await session.run(
-            `
-            MATCH (u:User {email: $email})
-            RETURN u {
-              .id,
-              .email,
-              .firstName,
-              .lastName,
-              .phone,
-              .timezone,
-              .role,
-              .name,
-              .image,
-              .bio,
-              .location,
-              .website,
-              .company,
-              .title,
-              .skills,
-              .interests,
-              .hashedPassword,
-              .unreadMessages,
-              .createdAt,
-              .updatedAt
-            } as user
-            `,
-            { email: credentials.email }
-          );
-
-          const user = result.records[0]?.get('user');
-
-          if (!user) {
-            console.error('User not found:', credentials.email);
-            throw new Error('Invalid email or password');
-          }
-
-          if (!user.hashedPassword) {
-            console.error('Invalid account configuration for user:', credentials.email);
-            throw new Error('Invalid account configuration');
-          }
-
-          const isCorrectPassword = await bcrypt.compare(
-            credentials.password,
-            user.hashedPassword
-          );
-
-          if (!isCorrectPassword) {
-            console.error('Invalid password for user:', credentials.email);
-            throw new Error('Invalid email or password');
-          }
-
-          console.log('Successfully authenticated user:', credentials.email);
-
-          // Remove sensitive data before returning
-          const userWithoutPassword = { ...user };
-          delete userWithoutPassword.hashedPassword;
-          return userWithoutPassword;
-        } catch (error) {
-          console.error('Authentication error:', error);
-          throw error;
-        } finally {
-          if (session) {
-            await session.close();
-          }
-        }
-      }
-    })
-  ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        // Include all user fields in the token
-        token.id = user.id;
-        token.role = user.role;
-        token.firstName = user.firstName;
-        token.lastName = user.lastName;
-        token.phone = user.phone;
-        token.timezone = user.timezone;
-        token.bio = user.bio;
-        token.location = user.location;
-        token.website = user.website;
-        token.company = user.company;
-        token.title = user.title;
-        token.skills = user.skills;
-        token.interests = user.interests;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token && session.user) {
-        // Include all user fields in the session
-        session.user.id = token.id as string;
-        session.user.role = token.role as string;
-        session.user.firstName = token.firstName as string;
-        session.user.lastName = token.lastName as string;
-        session.user.phone = token.phone as string;
-        session.user.timezone = token.timezone as string;
-        session.user.bio = token.bio as string;
-        session.user.location = token.location as string;
-        session.user.website = token.website as string;
-        session.user.company = token.company as string;
-        session.user.title = token.title as string;
-        session.user.skills = token.skills as string[];
-        session.user.interests = token.interests as string[];
-      }
-      return session;
-    }
-  },
-  pages: {
-    signIn: '/signin',
-  },
-  session: {
-    strategy: 'jwt',
+export async function authenticateUser(email: string, password: string): Promise<{ user: User; token: string }> {
+  if (!email || !password) {
+    logger.error('Missing credentials');
+    throw new Error('Please provide both email and password');
   }
-};
+
+  let session = null;
+  try {
+    session = await getSession();
+    logger.log('Attempting to authenticate user:', email);
+
+    const result = await session.run(
+      `
+      MATCH (u:User {email: $email})
+      RETURN u {
+        .id,
+        .email,
+        .firstName,
+        .lastName,
+        .phone,
+        .timezone,
+        .role,
+        .image,
+        .bio,
+        .location,
+        .website,
+        .company,
+        .title,
+        .skills,
+        .interests,
+        .hashedPassword,
+        .unreadMessages,
+        .createdAt,
+        .updatedAt
+      } as user
+      `,
+      { email }
+    );
+
+    const user = result.records[0]?.get('user');
+
+    if (!user) {
+      logger.error('User not found:', email);
+      throw new Error('Invalid email or password');
+    }
+
+    if (!user.hashedPassword) {
+      logger.error('Invalid account configuration for user:', email);
+      throw new Error('Invalid account configuration');
+    }
+
+    const isCorrectPassword = await bcrypt.compare(password, user.hashedPassword);
+
+    if (!isCorrectPassword) {
+      logger.error('Invalid password for user:', email);
+      throw new Error('Invalid email or password');
+    }
+
+    logger.log('Successfully authenticated user:', email);
+
+    // Remove sensitive data before returning
+    const userWithoutPassword = { ...user };
+    delete userWithoutPassword.hashedPassword;
+
+    // Generate JWT token
+    const token = generateToken(userWithoutPassword);
+
+    return { user: userWithoutPassword, token };
+  } catch (error) {
+    logger.error('Authentication error:', error);
+    throw error;
+  } finally {
+    if (session) {
+      await session.close();
+    }
+  }
+}
+
+export function generateToken(user: User): string {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is not set');
+  }
+
+  return jwt.sign({ user }, process.env.JWT_SECRET, {
+    expiresIn: '7d', // Token expires in 7 days
+  });
+}
+
+export function verifyToken(token: string): AuthToken {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is not set');
+  }
+
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET) as AuthToken;
+  } catch (error) {
+    throw new Error('Invalid token');
+  }
+}
+
+export function getTokenFromHeader(authHeader?: string): string {
+  if (!authHeader) {
+    throw new Error('No authorization header');
+  }
+
+  const [bearer, token] = authHeader.split(' ');
+
+  if (bearer !== 'Bearer' || !token) {
+    throw new Error('Invalid authorization header');
+  }
+
+  return token;
+}
