@@ -25,7 +25,7 @@ export type User = {
   updatedAt?: string;
 };
 
-const JWT_SECRET = process.env.JWT_SECRET!;
+const JWT_SECRET = process.env.JWT_SECRET || "default-secret-key-change-in-production";
 const TOKEN_EXPIRY = "24h";
 
 export async function authenticate(
