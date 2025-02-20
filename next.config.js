@@ -12,10 +12,6 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  // Environment variables configuration
-  env: {
-    NODE_ENV: process.env.NODE_ENV || 'development',
-  },
   // Server-side environment variables (secrets)
   serverRuntimeConfig: {
     JWT_SECRET: process.env.JWT_SECRET,
@@ -25,7 +21,7 @@ const nextConfig = {
   },
   // Public runtime config (non-secrets)
   publicRuntimeConfig: {
-    NODE_ENV: process.env.NODE_ENV || 'development',
+    isProduction: process.env.NODE_ENV === 'production',
   },
   // Disable experimental features
   swcMinify: true,
