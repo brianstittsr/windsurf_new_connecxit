@@ -1,18 +1,19 @@
 import { getServerUser } from '@/lib/auth-server';
 import { getSession } from '@/lib/neo4j';
+import { NextRequest, NextResponse } from 'next/server';
 
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
     const user = await getServerUser();
     
     if (!user) {
-      return new Response(
-        JSON.stringify({ error: 'Not authenticated' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { error: 'Not authenticated' },
+        { status: 401 }
       );
     }
 
@@ -53,16 +54,13 @@ export async function GET(
       const targetUser = result.records[0]?.get('user');
 
       if (!targetUser) {
-        return new Response(
-          JSON.stringify({ error: 'User not found' }),
-          { status: 404, headers: { 'Content-Type': 'application/json' } }
+        return NextResponse.json(
+          { error: 'User not found' },
+          { status: 404 }
         );
       }
 
-      return new Response(JSON.stringify(targetUser), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
+      return NextResponse.json(targetUser);
     } finally {
       if (session) {
         await session.close();
@@ -70,9 +68,9 @@ export async function GET(
     }
   } catch (error) {
     console.error('User fetch error:', error instanceof Error ? error.message : 'Unknown error occurred');
-    return new Response(
-      JSON.stringify({ error: 'Failed to fetch user' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    return NextResponse.json(
+      { error: 'Failed to fetch user' },
+      { status: 500 }
     );
   }
 }
@@ -92,23 +90,23 @@ interface UserUpdates {
 }
 
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
     const user = await getServerUser();
     
     if (!user) {
-      return new Response(
-        JSON.stringify({ error: 'Not authenticated' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { error: 'Not authenticated' },
+        { status: 401 }
       );
     }
 
     if (user.id !== params.id) {
-      return new Response(
-        JSON.stringify({ error: 'Not authorized to update this user' }),
-        { status: 403, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { error: 'Not authorized to update this user' },
+        { status: 403 }
       );
     }
 
@@ -168,16 +166,13 @@ export async function PUT(
       const updatedUser = result.records[0]?.get('user');
 
       if (!updatedUser) {
-        return new Response(
-          JSON.stringify({ error: 'User not found' }),
-          { status: 404, headers: { 'Content-Type': 'application/json' } }
+        return NextResponse.json(
+          { error: 'User not found' },
+          { status: 404 }
         );
       }
 
-      return new Response(JSON.stringify(updatedUser), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
+      return NextResponse.json(updatedUser);
     } finally {
       if (session) {
         await session.close();
@@ -185,9 +180,9 @@ export async function PUT(
     }
   } catch (error) {
     console.error('User update error:', error instanceof Error ? error.message : 'Unknown error occurred');
-    return new Response(
-      JSON.stringify({ error: 'Failed to update user' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    return NextResponse.json(
+      { error: 'Failed to update user' },
+      { status: 500 }
     );
   }
 }
